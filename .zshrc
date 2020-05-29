@@ -17,6 +17,12 @@ alias mp="make paste"
 alias mc="make clip"
 alias mte="make test"
 
+# oj
+alias ote='oj t -c main/main.o'
+
+# prevent ^S
+stty stop undef
+
 # cxx
 export CXX='g++'
 
@@ -42,7 +48,7 @@ eval "$(starship init zsh)"
 
 # renv
 eval "$(rbenv init -)"
-
+export PATH="$HOME/.rbenv/bin:$PATH"
 
 # <C-w>
 WORDCHARS="*?_-.[]~=&!#$%^(){}<>"

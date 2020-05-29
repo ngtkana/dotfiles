@@ -6,9 +6,7 @@ snippet stemp
     // Kana's kitchen {{{
     #include<bits/stdc++.h>
     #define ALL(v) std::begin(v),std::end(v)
-    #define LOOP(k) for(lint ngtkana_is_a_genius=0; ngtkana_is_a_genius<(lint)k; ngtkana_is_a_genius++)
-    using lint=long long;
-    using ld=long double;
+    #define LOOP(k) for(i64 ngtkana_is_a_genius=0; ngtkana_is_a_genius<(i64)k; ngtkana_is_a_genius++)
 
     using i32 = std::int_least32_t;
     using i64 = std::int_least64_t;
@@ -16,14 +14,9 @@ snippet stemp
     using u64 = std::uint_least64_t;
     using usize = std::size_t;
 
-    template<class T> using numr=std::numeric_limits<T>;
-    struct input_t {
-        template<class T> operator T() {
-            T t;
-            std::cin>>t;
-            return t;
-        }
-    } input;
+    template <class T> using vec = std::vector<T>;
+    template <class T> using numr = std::numeric_limits<T>;
+
     #ifdef NGTKANA
     #include<debug.hpp>
     #else
@@ -60,9 +53,14 @@ snippet debug
 #!#}}}
 # meta{{{
 snippet mkvec
-    template<std::size_t N,class T,class...Args>auto mkvec(std::size_t sz,Args...args){
-        if constexpr(N==1)return std::vector<T>(sz,args...);
-        else return std::vector(sz,mkvec<N-1,T>(args...));
+    template <usize N, class T, class... Args, std::enable_if_t<N==0, int> = 0>
+    auto mkvec(Args... args) {
+        return T(args...);
+    }
+    template <usize N, class T, class... Args, std::enable_if_t<N!=0, int> = 0>
+    auto mkvec(usize sz, Args... args) {
+        using value_type = std::decay_t<decltype(mkvec<N-1, T>(args...))>;
+        return vec<value_type>(sz, value_type(args...));
     }
 snippet project
     template<std::size_t Idx, class Container, class Value = std::tuple_element_t<Idx, typename Container::value_type>>
@@ -73,21 +71,31 @@ snippet project
         return ans;
     }
 snippet span
-    template<class Begin,class End>
-    struct span{
+    template <class Begin, class End>
+    struct span {
         using value_type=typename Begin::value_type;
+
         Begin begin_;
         End end_;
-        span(Begin begin__, End end__):begin_(begin__),end_(end__){}
-        template<class T>span(T const&v,lint l,lint r):span(std::begin(v)+l,std::begin(v)+r){}
-        auto begin(){return begin_;}
-        auto end(){return end_;}
-        auto begin()const{return begin_;}
-        auto end()const{return end_;}
-    };
-    template<class T>span(T const&,lint,lint)->span<typename T::const_iterator,typename T::const_iterator>;
 
-#!#}}}
+        span(Begin begin__, End end__)
+            :begin_(begin__), end_(end__) {}
+
+        template<class T>
+        span(T const&v,i64 l,i64 r)
+            : span(std::begin(v) + l, std::begin(v) + r) {}
+
+        auto begin() { return begin_; }
+        auto end() { return end_; }
+        auto begin() const { return begin_; }
+        auto end() const { return end_; }
+    };
+    template <class T>
+    auto make_span(T const& v, usize l, usize r) {
+        using iterator_type = std::decay_t<decltype(v.begin())>;
+        return span<iterator_type, iterator_type>(v, l, r);
+    }
+!#}}}
 # short ones{{{
 snippet cmn
     auto cmn=[](auto&x,auto y){if(x>y){x=y;return true;}return false;};
@@ -120,12 +128,14 @@ snippet array_sub_assign
 #}}}
 # mints {{{
 snippet mint
-    // mint {{{
     template <class ModType> struct modint {
         using value_type = typename ModType::value_type;
         using mint = modint<ModType>;
+        using mod_type = ModType;
+
         static value_type mod() { return ModType::value; }
 
+    private:
         static value_type inverse(value_type x) {
             value_type y=1,u=mod(),v=0;
             while(x){
@@ -137,6 +147,7 @@ snippet mint
             return v<0?v+mod():v;
         }
 
+    public:
         // the member variable
         value_type value;
 
@@ -181,21 +192,8 @@ snippet mint
         mint  operator++(int) { mint this_=*this; ++*this; return this_; }
         mint  operator--(int) { mint this_=*this; --*this; return this_; }
 
-        // member functions
-        mint& add(mint y) { return *this+=y; }
-        mint& sub(mint y) { return *this-=y; }
-        mint& mul(mint y) { return *this*=y; }
-        mint& div(mint y) { return *this/=y; }
-        mint& inv() {
-            value = inverse(value);
-            return *this;
-        }
-
-        mint added(mint y) { mint ans=*this; return ans.add(y); }
-        mint subed(mint y) { mint ans=*this; return ans.sub(y); }
-        mint muled(mint y) { mint ans=*this; return ans.mul(y); }
-        mint dived(mint y) { mint ans=*this; return ans.div(y); }
-        mint inved()       { mint ans=*this; return ans.inv(); }
+        // static member functions
+        static mint inv(mint x) { return inverse(x.value); }
 
         static mint m1pow(long long y) { return y%2?-1:1; }
 
@@ -208,9 +206,20 @@ snippet mint
             return ans;
         }
 
-        mint& powed(unsigned long long y){
-            return *this=pow(*this, y);
-        }
+        // non-member functions
+        mint& add_assign(mint y) { return *this+=y; }
+        mint& sub_assign(mint y) { return *this-=y; }
+        mint& mul_assign(mint y) { return *this*=y; }
+        mint& div_assign(mint y) { return *this/=y; }
+        mint& inv_assign()       { return *this = inv(*this); }
+        mint& pow_assign(unsigned long long y){ return *this = pow(*this, y); }
+
+        mint add(mint y) { mint ans=*this; return ans.add_assign(y); }
+        mint sub(mint y) { mint ans=*this; return ans.sub_assign(y); }
+        mint mul(mint y) { mint ans=*this; return ans.mul_assign(y); }
+        mint div(mint y) { mint ans=*this; return ans.div_assign(y); }
+        mint inv()       { mint ans=*this; return ans.inv_assign(); }
+        mint pow(unsigned long long y) { return pow(*this, y); }
 
         template <class F> mint map(F const& f){
             value=f(value);
@@ -218,7 +227,19 @@ snippet mint
         }
     };
 
-    template <class T> std::ostream& operator<<(std::ostream& os, modint<T> x) { return os << x.value; }
+    template <class T> std::istream&
+    operator>>(std::istream& is, modint<T>& x)
+    {
+        typename modint<T>::value_type y;
+        is >> y;
+        x = modint<T>{ y };
+        return is;
+    }
+    template <class T> std::ostream&
+    operator<<(std::ostream& os, modint<T> x)
+    {
+        return os << x.value;
+    }
 
     template <class T> modint<T> operator+(modint<T> x, modint<T> y) { return x+=y; }
     template <class T> modint<T> operator-(modint<T> x, modint<T> y) { return x-=y; }
@@ -241,58 +262,55 @@ snippet mint
     template <class T, class U> bool operator==(U x, modint<T> y) { return modint<T>(x)==y; }
     template <class T, class U> bool operator!=(U x, modint<T> y) { return modint<T>(x)!=y; }
 
-    using mod_type = int;
-    constexpr mod_type mod = 99244535;
-    using mint = modint< std::integral_constant<mod_type, mod> >;
-    //}}}
 snippet fact
-    // factorials{{{
     struct factorials {
         std::vector<mint> fact, finv;
 
-        factorials(std::size_t n) : fact(n, 1), finv(n)
-            {
-                for(std::size_t i=1;i<n;i++){
-                    fact.at(i) = fact.at(i-1) * i;
-                }
-
-                finv.at(n-1) = fact.at(n-1).inved();
-                for(std::size_t i=n-1;i;i--){
-                    finv.at(i-1) = finv.at(i) * i;
-                }
+        factorials(usize n)
+            : fact(n, 1), finv(n)
+        {
+            for(usize i=1;i<n;i++){
+                fact.at(i) = fact.at(i-1) * i;
             }
 
-        // member functions
+            finv.at(n-1) = fact.at(n-1).inv();
+            for(usize i=n-1; i; i--){
+                finv.at(i-1) = finv.at(i) * i;
+            }
+        }
+
         std::size_t size() const { return fact.size(); }
         std::size_t max() const { return fact.size() - 1; }
 
         mint at(std::size_t i) const { return fact.at(i); }
         mint inv(std::size_t i) const { return finv.at(i); }
 
-        template <class T, class U>
-        auto binom(T n, U k)
-            -> std::enable_if_t<std::is_integral_v<T> && std::is_integral_v<U>, mint>
-        {
+        template <
+            class T, class U,
+            std::enable_if_t< std::is_integral<T>::value && std::is_integral<U>::value, int> = 0
+        >
+        mint binom(T n, U k) {
             assert(0<=n);
-            if(k<0||n<k)return 0;
-            assert(k<=n && static_cast<std::size_t>(n)<size());
+            if (k<0||n<k) return 0;
+            assert(k<=n && static_cast<usize>(n)<size());
             return fact.at(n) * finv.at(k) * finv.at(n-k);
         }
 
-        template <class T, class U>
-        auto deal(T n, U k)
-            -> std::enable_if_t<std::is_integral_v<T> && std::is_integral_v<U>, mint>
-        {
-            if(n==0&&k==0)return 1;
+        template <
+            class T, class U,
+            std::enable_if_t< std::is_integral<T>::value && std::is_integral<U>::value, int> = 0
+        >
+        mint deal(T n, U k) {
+            if (n==0 && k==0) return 1;
             return binom(n+k-1, k-1);
         }
     };
-    /*}}}*/
+
 snippet moly
     using poly_t=std::vector<mint>;
     namespace moly_utils {
         static poly_t mod, qd, qinv;
-        static lint deg;
+        static i64 deg;
         static void generate(poly_t v){
             mod=([&v]{while(!v.empty()&&v.back()==0)v.pop_back();return v;}());
             qd=mod;mint t=1/qd.back();qd.pop_back();for(mint&x:qd)x*=-t;
@@ -301,8 +319,8 @@ snippet moly
             assert(deg);
         }
         static poly_t&normalize(poly_t&a){
-            for(;deg<(lint)a.size();a.pop_back()){
-                for(lint i=0;i<deg;i++){
+            for(;deg<(i64)a.size();a.pop_back()){
+                for(i64 i=0;i<deg;i++){
                     a.at(a.size()-1-deg+i)+=a.back()*qd.at(i);
                 }
             }
@@ -322,23 +340,23 @@ snippet moly
     };
     std::ostream&operator<<(std::ostream&os,moly const&a){return os<<a.value;}
     moly operator*(moly a, moly b){
-        lint l=a.size(),m=b.size();
+        i64 l=a.size(),m=b.size();
         poly_t c(l+m-1);
-        for(lint i=0;i<l;i++)for(lint j=0;j<m;j++)c.at(i+j)+=a.at(i)*b.at(j);
+        for(i64 i=0;i<l;i++)for(i64 j=0;j<m;j++)c.at(i+j)+=a.at(i)*b.at(j);
         return moly_utils::normalize(c);
     }
     moly&operator*=(moly&a,moly b){return a=a*b;}
-    moly pow(moly a, lint b){moly ans{1};for(;b;b>>=1){if(b&1)ans*=a;a*=a;}return ans;}
+    moly pow(moly a, i64 b){moly ans{1};for(;b;b>>=1){if(b&1)ans*=a;a*=a;}return ans;}
 
 # ! }}}
 # plint{{{
 snippet plint
     struct plint {/*{{{*/
-        lint value;
+        i64 value;
         plint()=default;
-        plint(lint x):value(x){}
-        bool is_inf()const{return value==numr<lint>::max();}
-        static plint inf(){return numr<lint>::max();}
+        plint(i64 x):value(x){}
+        bool is_inf()const{return value==numr<i64>::max();}
+        static plint inf(){return numr<i64>::max();}
     };
     bool operator==(plint x, plint y){return x.value==y.value;}
     bool operator!=(plint x, plint y){return !(x==y);}
@@ -353,46 +371,41 @@ snippet plint
 # !plint}}}
 # data structures{{{
 snippet segtree
-    // segtree {{{
-    /* APIs
-     * - segtree(sz)
-     * - size()
-     * - fold(l, r)
-     * - set(i, x)
-     * - lazy_set(i, x)
-     * - build()
-     * - to_vec()
-     */
-    template <class Monoid> struct segtree{/*{{{*/
-        // a type alias
+    template <class Monoid>
+    struct segtree {
         using value_type = typename Monoid::value_type;
 
-        // member variables
-        std::vector<value_type>table;
+        std::vector<value_type> table;
 
-        // trivial constructors
         segtree()=default;
         segtree(segtree const&)=default;
         segtree(segtree&&)=default;
         segtree&operator=(segtree const&)=default;
         segtree&operator=(segtree&&)=default;
 
-        // a non-trivial constructor
-        segtree(std::size_t n) : table(2*n, Monoid::id) {}
+        segtree(std::size_t n, value_type init=Monoid::id())
+            : table(2*n, init) {}
 
-        // resize
-        void resize(std::size_t n) {
+        void resize(std::size_t n, value_type init=Monoid::id()) {
             assert(table.empty());
-            table.resize(2*n);
+            table.resize(2*n, init);
         }
 
-        // size
+        void lazy_set(std::size_t i, value_type x) {
+            table.at(i + size()) = x;
+        }
+
+        void build() {
+            for (std::size_t i=size()-1; i; i--) {
+                table.at(i) = Monoid::op(table.at(2*i), table.at(2*i+1));
+            }
+        }
+
         std::size_t size() const { return table.size() / 2; }
 
-        // fold
         value_type fold(std::size_t l, std::size_t r) const {
-            value_type fl = Monoid::id;
-            value_type fr = Monoid::id;
+            value_type fl = Monoid::id();
+            value_type fr = Monoid::id();
 
             for(l+=size(),r+=size();l<r;l>>=1,r>>=1){
                 if(l&1u) fl=Monoid::op(fl, table.at(l++));
@@ -402,47 +415,30 @@ snippet segtree
             return Monoid::op(fl, fr);
         }
 
-        // set
-        void set(std::size_t i, value_type x) {
-            assert(0 <= i);
-            assert(i < size());
+        value_type get(std::size_t i) const { return table.at(size() + i); }
 
-            i+=size();
-            table.at(i) = x;
-
-            for(i>>=1;i;i>>=1){ table.at(i) = Monoid::op(table.at(2*i), table.at(2*i+1)); }
-        }
-
-        // lazy_set
-        void lazy_set(std::size_t i, value_type x) {
-            assert(0 <= i);
-            assert(i < size());
-
-            i+=size();
-            table.at(i) = x;
-        }
-
-        // map
-        template <class F>
-            void map(std::size_t i, F const& f) { set(i, f(at(i))); }
-
-        // build
-        void build() {
-            for(std::size_t i=size()-1;i;i--){ table.at(i) = Monoid::op(table.at(2*i), table.at(2*i+1)); }
-        }
-
-        // at
-        value_type at(std::size_t i) const { return table.at(size() + i); }
-
-        // to_vec
         std::vector<value_type> to_vec() const {
             std::vector<value_type> ret(size());
             std::copy(table.begin()+size(), table.end(), ret.begin());
             return ret;
         }
 
-    };/*}}}*/
-    /*}}}*/
+        void set(std::size_t i, value_type x) {
+            assert(i < size());
+            i+=size();
+            table.at(i) = x;
+            for (i>>=1; i; i>>=1) {
+                table.at(i) = Monoid::op(table.at(2*i), table.at(2*i+1));
+            }
+        }
+
+        void add(std::size_t i, value_type x) { set(i, get(i) + x); }
+        void sub(std::size_t i, value_type x) { set(i, get(i) - x); }
+        void mul(std::size_t i, value_type x) { set(i, get(i) * x); }
+        void div(std::size_t i, value_type x) { set(i, get(i) / x); }
+
+        template <class F> void map(std::size_t i, F const& f) { set(i, f(get(i))); }
+    };
 
 snippet union_find
     // Union-Find Tree {{{

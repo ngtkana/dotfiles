@@ -31,10 +31,10 @@
 " !}}}
 
 
-" set {{{
+" options {{{
 set expandtab
 set list
-set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
+set listchars=tab:»-,trail:·,extends:»,precedes:«,nbsp:%
 set number
 set shiftwidth=4
 set smartindent
@@ -47,8 +47,17 @@ set spell spelllang=en_us,cjk
 set hidden
 set foldmethod=marker
 set backspace=indent,eol,start
+set scrolloff=5
+set matchpairs+=「:」,『:』,（:）,【:】,《:》,〈:〉,［:］,‘:’,“:”
 syntax enable
 " !}}}
+" command{{{
+command Copy :w !make c
+command Remove !rm -r test
+command -narg=1 Download url !oj d url
+"}}}
+
+let mapleader = " "
 
 " rust-fmt
 let g:rustfmt_autosave = 1
@@ -63,9 +72,9 @@ autocmd BufWritePost *.rs :silent! exec "!rusty-tags vi --quiet --start-dir=" . 
 " neosnippet
     " Plugin key-mappings.
     " Note: It must be "imap" and "smap".  It uses <Plug> mappings.
-    imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-    smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-    xmap <C-k>     <Plug>(neosnippet_expand_target)
+    imap <Leader>k     <Plug>(neosnippet_expand_or_jump)
+    smap <Leader>k     <Plug>(neosnippet_expand_or_jump)
+    xmap <Leader>k     <Plug>(neosnippet_expand_target)
 
     " SuperTab like snippets behavior.
     " Note: It must be "imap" and "smap".  It uses <Plug> mappings.
@@ -83,5 +92,4 @@ autocmd BufWritePost *.rs :silent! exec "!rusty-tags vi --quiet --start-dir=" . 
 " ! neosnippet
 
 " :! コマンド
-command! -nargs=* -complete=shellcmd ShellRead new | setlocal buftype=nofile bufhidden=hide noswapfile | read !<args>
 cabbrev Sh ShellRead
