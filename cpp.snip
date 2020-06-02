@@ -14,6 +14,9 @@ snippet stemp
     using u64 = std::uint_least64_t;
     using usize = std::size_t;
 
+    template <class T, class U> using pair = std::pair<U, T>;
+    template <class T> using diag_pair = std::pair<T, T>;
+    template <class... Args> using tuple = std::tuple<Args...>;
     template <class T> using vec = std::vector<T>;
     template <class T> using numr = std::numeric_limits<T>;
 
@@ -34,23 +37,14 @@ snippet stemp
 #!#}}}
 # short snippets{{{
 snippet out
-    std::cout<<$0<<'\n';
+    std::cout << $0 << '\n';
 
 snippet dfsin
-    DEBUG("in",${1});
+    DEBUG("in", ${1});
 
 snippet dfsout
-    DEBUG("out",${1});
+    DEBUG("out", ${1});
 #}}}
-# debug{{{
-snippet debug
-    #define ENABLE_DEBUG 1
-    #ifdef NGTKANA
-    #include<debug.hpp>
-    #else
-    #define DEBUG(...)(void)0
-    #endif
-#!#}}}
 # meta{{{
 snippet mkvec
     template <usize N, class T, class... Args, std::enable_if_t<N==0, int> = 0>
@@ -98,16 +92,19 @@ snippet span
 !#}}}
 # short ones{{{
 snippet cmn
-    auto cmn=[](auto&x,auto y){if(x>y){x=y;return true;}return false;};
+    auto cmn = [](auto& x, auto y){ if (x>y) { x=y; return true; } return false; };
 
 snippet cmx
-    auto cmx=[](auto&x,auto y){if(x<y){x=y;return true;}return false;};
+    auto cmx = [](auto& x, auto y){ if (x<y) { x=y; return true; } return false; };
 
 snippet min_fn
-    auto min_fn=[](auto&&x,auto&&y){return std::min(x,y);};
+    auto min_fn = [](auto x, auto y){ return std::min(x,y); };
 
 snippet max_fn
-    auto max_fn=[](auto&&x,auto&&y){return std::max(x,y);};
+    auto max_fn = [](auto x, auto y){ return std::max(x,y); };
+
+snippet xor_fn
+    auto xor_fn = [](auto x, auto y) { return x ^ y; };
 
 snippet array_add_assign
     // array add-assign{{{
@@ -220,6 +217,8 @@ snippet mint
         mint div(mint y) { mint ans=*this; return ans.div_assign(y); }
         mint inv()       { mint ans=*this; return ans.inv_assign(); }
         mint pow(unsigned long long y) { return pow(*this, y); }
+        mint square(mint x) { return *this * *this; }
+        mint cube(mint x) { return *this * *this * *this; }
 
         template <class F> mint map(F const& f){
             value=f(value);
@@ -228,16 +227,14 @@ snippet mint
     };
 
     template <class T> std::istream&
-    operator>>(std::istream& is, modint<T>& x)
-    {
+    operator>>(std::istream& is, modint<T>& x) {
         typename modint<T>::value_type y;
         is >> y;
         x = modint<T>{ y };
         return is;
     }
     template <class T> std::ostream&
-    operator<<(std::ostream& os, modint<T> x)
-    {
+    operator<<(std::ostream& os, modint<T> x) {
         return os << x.value;
     }
 
@@ -278,17 +275,12 @@ snippet fact
                 finv.at(i-1) = finv.at(i) * i;
             }
         }
-
         std::size_t size() const { return fact.size(); }
         std::size_t max() const { return fact.size() - 1; }
-
         mint at(std::size_t i) const { return fact.at(i); }
         mint inv(std::size_t i) const { return finv.at(i); }
 
-        template <
-            class T, class U,
-            std::enable_if_t< std::is_integral<T>::value && std::is_integral<U>::value, int> = 0
-        >
+        template <class T, class U, std::enable_if_t< std::is_integral<T>::value && std::is_integral<U>::value, int> = 0>
         mint binom(T n, U k) {
             assert(0<=n);
             if (k<0||n<k) return 0;
@@ -296,10 +288,7 @@ snippet fact
             return fact.at(n) * finv.at(k) * finv.at(n-k);
         }
 
-        template <
-            class T, class U,
-            std::enable_if_t< std::is_integral<T>::value && std::is_integral<U>::value, int> = 0
-        >
+        template <class T, class U, std::enable_if_t< std::is_integral<T>::value && std::is_integral<U>::value, int> = 0>
         mint deal(T n, U k) {
             if (n==0 && k==0) return 1;
             return binom(n+k-1, k-1);
@@ -369,77 +358,6 @@ snippet plint
     plint operator-(plint x,plint y){return x+(-y);};
     std::ostream&operator<<(std::ostream&os,plint x){return os<<(x.is_inf()?"_":std::to_string(x.value));}/*}}}*/
 # !plint}}}
-# data structures{{{
-snippet segtree
-    template <class Monoid>
-    struct segtree {
-        using value_type = typename Monoid::value_type;
-
-        std::vector<value_type> table;
-
-        segtree()=default;
-        segtree(segtree const&)=default;
-        segtree(segtree&&)=default;
-        segtree&operator=(segtree const&)=default;
-        segtree&operator=(segtree&&)=default;
-
-        segtree(std::size_t n, value_type init=Monoid::id())
-            : table(2*n, init) {}
-
-        void resize(std::size_t n, value_type init=Monoid::id()) {
-            assert(table.empty());
-            table.resize(2*n, init);
-        }
-
-        void lazy_set(std::size_t i, value_type x) {
-            table.at(i + size()) = x;
-        }
-
-        void build() {
-            for (std::size_t i=size()-1; i; i--) {
-                table.at(i) = Monoid::op(table.at(2*i), table.at(2*i+1));
-            }
-        }
-
-        std::size_t size() const { return table.size() / 2; }
-
-        value_type fold(std::size_t l, std::size_t r) const {
-            value_type fl = Monoid::id();
-            value_type fr = Monoid::id();
-
-            for(l+=size(),r+=size();l<r;l>>=1,r>>=1){
-                if(l&1u) fl=Monoid::op(fl, table.at(l++));
-                if(r&1u) fr=Monoid::op(fr, table.at(--r));
-            }
-
-            return Monoid::op(fl, fr);
-        }
-
-        value_type get(std::size_t i) const { return table.at(size() + i); }
-
-        std::vector<value_type> to_vec() const {
-            std::vector<value_type> ret(size());
-            std::copy(table.begin()+size(), table.end(), ret.begin());
-            return ret;
-        }
-
-        void set(std::size_t i, value_type x) {
-            assert(i < size());
-            i+=size();
-            table.at(i) = x;
-            for (i>>=1; i; i>>=1) {
-                table.at(i) = Monoid::op(table.at(2*i), table.at(2*i+1));
-            }
-        }
-
-        void add(std::size_t i, value_type x) { set(i, get(i) + x); }
-        void sub(std::size_t i, value_type x) { set(i, get(i) - x); }
-        void mul(std::size_t i, value_type x) { set(i, get(i) * x); }
-        void div(std::size_t i, value_type x) { set(i, get(i) / x); }
-
-        template <class F> void map(std::size_t i, F const& f) { set(i, f(get(i))); }
-    };
-
 snippet union_find
     // Union-Find Tree {{{
     class union_find {

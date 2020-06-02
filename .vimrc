@@ -29,10 +29,11 @@
     call vundle#end()
     filetype plugin indent on
 " !}}}
-
-
 " options {{{
+set noerrorbells
 set expandtab
+set noswapfile
+set nobackup
 set list
 set listchars=tab:»-,trail:·,extends:»,precedes:«,nbsp:%
 set number
@@ -51,13 +52,15 @@ set scrolloff=5
 set matchpairs+=「:」,『:』,（:）,【:】,《:》,〈:〉,［:］,‘:’,“:”
 syntax enable
 " !}}}
-" command{{{
 command Copy :w !make c
 command Remove !rm -r test
 command -narg=1 Download url !oj d url
-"}}}
 
-let mapleader = " "
+digraphs tg 129300  "🤔
+
+colorscheme lucius
+
+let mapleader = "\\"
 
 " rust-fmt
 let g:rustfmt_autosave = 1
@@ -93,3 +96,9 @@ autocmd BufWritePost *.rs :silent! exec "!rusty-tags vi --quiet --start-dir=" . 
 
 " :! コマンド
 cabbrev Sh ShellRead
+
+" yupana
+function  MOF(x)
+	return float2nr(round(a:x * 1.15))
+endfunction
+
