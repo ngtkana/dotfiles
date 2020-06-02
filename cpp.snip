@@ -5,8 +5,9 @@ snippet stemp
     #define ENABLE_DEBUG 1
     // Kana's kitchen {{{
     #include<bits/stdc++.h>
-    #define ALL(v) std::begin(v),std::end(v)
-    #define LOOP(k) for(i64 ngtkana_is_a_genius=0; ngtkana_is_a_genius<(i64)k; ngtkana_is_a_genius++)
+    #define ALL(v) std::begin(v), std::end(v)
+    #define REP(i, k) for (std::decay_t<decltype(k)> i = 0; i < k; i++)
+    #define LOOP(k) REP (ngtkana_is_a_genius, k)
 
     using i32 = std::int_least32_t;
     using i64 = std::int_least64_t;
@@ -27,7 +28,7 @@ snippet stemp
     #endif
     /*}}}*/
 
-    int main(){
+    int main() {
         std::cin.tie(nullptr);
         std::ios::sync_with_stdio(false);
         std::cout << std::setprecision(15) << std::fixed;
@@ -45,7 +46,7 @@ snippet dfsin
 snippet dfsout
     DEBUG("out", ${1});
 #}}}
-# meta{{{
+# meta {{{
 snippet mkvec
     template <usize N, class T, class... Args, std::enable_if_t<N==0, int> = 0>
     auto mkvec(Args... args) {
@@ -54,7 +55,7 @@ snippet mkvec
     template <usize N, class T, class... Args, std::enable_if_t<N!=0, int> = 0>
     auto mkvec(usize sz, Args... args) {
         using value_type = std::decay_t<decltype(mkvec<N-1, T>(args...))>;
-        return vec<value_type>(sz, value_type(args...));
+        return vec<value_type>(sz, mkvec<N-1, T>(args...));
     }
 snippet project
     template<std::size_t Idx, class Container, class Value = std::tuple_element_t<Idx, typename Container::value_type>>
@@ -90,7 +91,7 @@ snippet span
         return span<iterator_type, iterator_type>(v, l, r);
     }
 !#}}}
-# short ones{{{
+# functional {{{
 snippet cmn
     auto cmn = [](auto& x, auto y){ if (x>y) { x=y; return true; } return false; };
 
@@ -132,7 +133,7 @@ snippet mint
 
         static value_type mod() { return ModType::value; }
 
-    private:
+        private:
         static value_type inverse(value_type x) {
             value_type y=1,u=mod(),v=0;
             while(x){
@@ -144,7 +145,7 @@ snippet mint
             return v<0?v+mod():v;
         }
 
-    public:
+        public:
         // the member variable
         value_type value;
 
@@ -186,8 +187,9 @@ snippet mint
 
         mint& operator++() { return *this+=1; }
         mint& operator--() { return *this-=1; }
-        mint  operator++(int) { mint this_=*this; ++*this; return this_; }
-        mint  operator--(int) { mint this_=*this; --*this; return this_; }
+        mint operator++(int) { mint this_=*this; ++*this; return this_; }
+        mint operator--(int) { mint this_=*this; --*this; return this_; }
+        mint operator-() const { return 0 - *this; }
 
         // static member functions
         static mint inv(mint x) { return inverse(x.value); }
@@ -211,14 +213,14 @@ snippet mint
         mint& inv_assign()       { return *this = inv(*this); }
         mint& pow_assign(unsigned long long y){ return *this = pow(*this, y); }
 
-        mint add(mint y) { mint ans=*this; return ans.add_assign(y); }
-        mint sub(mint y) { mint ans=*this; return ans.sub_assign(y); }
-        mint mul(mint y) { mint ans=*this; return ans.mul_assign(y); }
-        mint div(mint y) { mint ans=*this; return ans.div_assign(y); }
-        mint inv()       { mint ans=*this; return ans.inv_assign(); }
-        mint pow(unsigned long long y) { return pow(*this, y); }
-        mint square(mint x) { return *this * *this; }
-        mint cube(mint x) { return *this * *this * *this; }
+        mint add(mint y) const { mint ans=*this; return ans.add_assign(y); }
+        mint sub(mint y) const { mint ans=*this; return ans.sub_assign(y); }
+        mint mul(mint y) const { mint ans=*this; return ans.mul_assign(y); }
+        mint div(mint y) const { mint ans=*this; return ans.div_assign(y); }
+        mint inv()       const { mint ans=*this; return ans.inv_assign(); }
+        mint pow(unsigned long long y) const { return pow(*this, y); }
+        mint square(mint x) const { return *this * *this; }
+        mint cube(mint x) const { return *this * *this * *this; }
 
         template <class F> mint map(F const& f){
             value=f(value);
@@ -338,64 +340,8 @@ snippet moly
     moly pow(moly a, i64 b){moly ans{1};for(;b;b>>=1){if(b&1)ans*=a;a*=a;}return ans;}
 
 # ! }}}
-# plint{{{
-snippet plint
-    struct plint {/*{{{*/
-        i64 value;
-        plint()=default;
-        plint(i64 x):value(x){}
-        bool is_inf()const{return value==numr<i64>::max();}
-        static plint inf(){return numr<i64>::max();}
-    };
-    bool operator==(plint x, plint y){return x.value==y.value;}
-    bool operator!=(plint x, plint y){return !(x==y);}
-    bool operator<(plint x, plint y){return x.value<y.value;}
-    bool operator>(plint x, plint y){return x.value>y.value;}
-    bool operator<=(plint x, plint y){return x.value<=y.value;}
-    bool operator>=(plint x, plint y){return x.value>=y.value;}
-    plint operator+(plint x, plint y){return x.is_inf()||y.is_inf()||(0ll<=x&&0ll<=y)&&plint::inf().value-x.value<=y.value?plint::inf():x.value+y.value;};
-    plint operator-(plint x){assert(!x.is_inf());return -x.value;};
-    plint operator-(plint x,plint y){return x+(-y);};
-    std::ostream&operator<<(std::ostream&os,plint x){return os<<(x.is_inf()?"_":std::to_string(x.value));}/*}}}*/
-# !plint}}}
-snippet union_find
-    // Union-Find Tree {{{
-    class union_find {
-        std::vector<int> p;
-
-    public:
-        union_find()=default;
-        union_find(union_find const&)=default;
-        union_find(union_find&&)=default;
-        union_find& operator=(union_find const&)=default;
-        union_find& operator=(union_find&&)=default;
-        ~union_find()=default;
-
-        union_find(int n)
-            : p(n, -1) {}
-
-        auto get_internal_table() const { return p; }
-
-        bool is_root(int i) const { return p.at(i) < 0; }
-
-        int root(int i) { return is_root(i) ? i : p.at(i) = root(p.at(i)); }
-
-        int size(int i) { return -p.at(root(i)); }
-
-        bool unite(int i, int j) {
-            i = root(i);
-            j = root(j);
-            if (i==j) return false;
-            if (size(i) > size(j)) std::swap(i, j);
-
-            p.at(j) += p.at(i);
-            p.at(i) = j;
-            return true;
-        }
-    };
-    // }}}
-#}}}
 # monoids{{{
+
 snippet add_monoid
     template <class Value> struct add_monoid_t {
       using value_type = Value;
@@ -447,3 +393,15 @@ snippet minmax_monoid
         }
     };
 #}}}
+// fix# {{{
+
+snippet fixed_point
+    template <class F>
+    class fixed_point {
+        F f;
+    public:
+        fixed_point(F&& f_) : f(f_) {}
+        template <class... Args> auto operator() (Args... args) { return f(f, args...); }
+    };
+    template <class F> auto make_fixed_point(F&& f) { return fixed_point<F>(std::forward<F&&>(f)); }
+# }}}
