@@ -36,10 +36,6 @@ export BAT_THEME="Monokai Extended Light"
 # fast-syntax-highlighting
 source ~/path/to/fsh/fast-syntax-highlighting.plugin.zsh
 
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="/home/ngtkana/.sdkman"
-[[ -s "/home/ngtkana/.sdkman/bin/sdkman-init.sh" ]] && source "/home/ngtkana/.sdkman/bin/sdkman-init.sh"
-
 # starship
 eval "$(starship init zsh)"
 
@@ -58,11 +54,6 @@ export PATH=$PATH:$GOBIN
 # <C-w>
 WORDCHARS="*?_-.[]~=&!#$%^(){}<>"
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/home/ngtkana/google-cloud-sdk/path.zsh.inc' ]; then . '/home/ngtkana/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/home/ngtkana/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/ngtkana/google-cloud-sdk/completion.zsh.inc'; fi
 
 # 初回シェル時のみ tmux実行
 if [ $SHLVL = 1 ]; then tmux; fi
@@ -75,3 +66,13 @@ export TERM=xterm-256color
  export DOT_DIR="$HOME/.dotfiles"
 # fpath=($HOME/.zsh/dot $fpath)  # <- for completion
  source $HOME/.zsh/dot/dot.sh
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/ngtkana/google-cloud-sdk/path.zsh.inc' ]; then . '/home/ngtkana/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/ngtkana/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/ngtkana/google-cloud-sdk/completion.zsh.inc'; fi
+
+# THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/home/ngtkana/.sdkman"
+[[ -s "/home/ngtkana/.sdkman/bin/sdkman-init.sh" ]] && source "/home/ngtkana/.sdkman/bin/sdkman-init.sh"

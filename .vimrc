@@ -1,3 +1,6 @@
+set encoding=utf-8
+scriptencoding utf-8
+
 source $VIMRUNTIME/defaults.vim
 
 call plug#begin()
@@ -5,7 +8,7 @@ call plug#begin()
 """"""""""""""""""""""""""""""""
 "     general settings         "
 """"""""""""""""""""""""""""""""
-let mapleader = "\\"
+let g:mapleader = "\\"
 syntax enable                   " シンタックスハイライティング
 
 """"""""""""""""""""""""""""""""
@@ -53,16 +56,16 @@ Plug 'Shougo/neosnippet-snippets'
 
 " Plugin key-mappings.
 " Note: It must be "imap" and "smap".  It uses <Plug> mappings.
-imap <Leader>k     <Plug>(neosnippet_expand_or_jump)
-smap <Leader>k     <Plug>(neosnippet_expand_or_jump)
-xmap <Leader>k     <Plug>(neosnippet_expand_target)
+inoremap <Leader>k     <Plug>(neosnippet_expand_or_jump)
+snoremap <Leader>k     <Plug>(neosnippet_expand_or_jump)
+xnoremap <Leader>k     <Plug>(neosnippet_expand_target)
 
 " SuperTab like snippets behavior.
 " Note: It must be "imap" and "smap".  It uses <Plug> mappings.
 "imap <expr><TAB>
 " \ pumvisible() ? "\<C-n>" :
 " \ neosnippet#expandable_or_jumpable() ?
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+snoremap <expr><TAB> neosnippet#expandable_or_jumpable() ?
 \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
 
@@ -74,7 +77,6 @@ set number          " 行番号 set shiftwidth=4    " << や >> の移動距離
 colorscheme lucius
 
 Plug 'altercation/vim-colors-solarized'
-syntax enable
 set background=light    "または dark
 
 
@@ -139,8 +141,11 @@ Plug 'racer-rust/vim-racer'     " Rust
 let g:rustfmt_autosave = 1                          " rust-fmt
 
 " rusty-tags
-autocmd BufRead *.rs :setlocal tags=./rusty-tags.vi;/,$RUST_SRC_PATH/rusty-tags.vi
-autocmd BufWritePost *.rs :silent! exec "!rusty-tags vi --quiet --start-dir=" . expand('%:p:h') . "&" | redraw!
+augroup rusty-tags
+  autocmd!
+  autocmd BufRead *.rs :setlocal tags=./rusty-tags.vi;/,$RUST_SRC_PATH/rusty-tags.vi
+  autocmd BufWritePost *.rs :silent! exec "!rusty-tags vi --quiet --start-dir=" . expand('%:p:h') . "&" | redraw!
+augroup END
 
 let g:racer_cmd = '$HOME/.cargo/bin/racer'          " racer
 
@@ -219,5 +224,5 @@ call Airline_init_sections()
 """"""""""""""""""""""""""""""""
 "     ac-adapter-rs-vim        "
 """"""""""""""""""""""""""""""""
-source ~/github/ac-adapter-rs-vim/plugin/ac_adapter_rs_vim.vim
+source ~/github/ngtkana/ac-adapter-rs-vim/plugin/ac_adapter_rs_vim.vim
 command! -narg=1 Snip :call ac_adapter_rs_vim#Fire(<args>)
