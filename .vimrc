@@ -56,9 +56,9 @@ Plug 'Shougo/neosnippet-snippets'
 
 " Plugin key-mappings.
 " Note: It must be "imap" and "smap".  It uses <Plug> mappings.
-inoremap <Leader>k     <Plug>(neosnippet_expand_or_jump)
-snoremap <Leader>k     <Plug>(neosnippet_expand_or_jump)
-xnoremap <Leader>k     <Plug>(neosnippet_expand_target)
+imap <Leader>k     <Plug>(neosnippet_expand_or_jump)
+smap <Leader>k     <Plug>(neosnippet_expand_or_jump)
+xmap <Leader>k     <Plug>(neosnippet_expand_target)
 
 " SuperTab like snippets behavior.
 " Note: It must be "imap" and "smap".  It uses <Plug> mappings.
