@@ -224,5 +224,6 @@ call Airline_init_sections()
 """"""""""""""""""""""""""""""""
 "     ac-adapter-rs-vim        "
 """"""""""""""""""""""""""""""""
-source ~/github/ngtkana/ac-adapter-rs-vim/plugin/ac_adapter_rs_vim.vim
+let g:ac_adapter_rs_path = '~/procon/ac-adapter-rs'
+source ~/procon/ac-adapter-rs-vim/plugin/ac_adapter_rs_vim.vim
 command! -narg=1 Snip :call ac_adapter_rs_vim#Fire(<args>)
