@@ -4,16 +4,16 @@ scriptencoding utf-8
 source $VIMRUNTIME/defaults.vim
 
 call plug#begin()
-Plug 'Shougo/deoplete.nvim'     " neosnippet->
-Plug 'Shougo/neosnippet-snippets'
-Plug 'Shougo/neosnippet.vim'
+" Plug 'Shougo/deoplete.nvim'     " neosnippet->
+" Plug 'Shougo/neosnippet-snippets'
+" Plug 'Shougo/neosnippet.vim'
 Plug 'airblade/vim-gitgutter'   " 左に変更行の印を出せます。
 Plug 'altercation/vim-colors-solarized'
 Plug 'chrisbra/csv.vim'         " CSV 操作
 Plug 'easymotion/vim-easymotion'        " モーション
 Plug 'editorconfig/editorconfig-vim'    " editorconfig を使う
 Plug 'elzr/vim-json'            " JSON のハイライティング
-Plug 'ionide/Ionide-vim', { 'do': 'make fsautocomplete' }
+" Plug 'ionide/Ionide-vim', { 'do': 'make fsautocomplete' }
 Plug 'jremmen/vim-ripgrep'      " 検索（Rg コマンド）
 Plug 'junegunn/fzf'
 Plug 'leafgarland/typescript-vim'       " typescript
@@ -21,8 +21,8 @@ Plug 'majutsushi/tagbar'        " コードの要約。API は TagberToggle
 Plug 'mattn/emmet-vim'          " html / css 入力支援
 Plug 'neoclide/coc.nvim', {'branch': 'release'} " LSP 対応の補完
 Plug 'peitalin/vim-jsx-typescript'      " typescript （どうやらこっちもいるらしい）
-Plug 'roxma/nvim-yarp'          " neosnippet->
-Plug 'roxma/vim-hug-neovim-rpc' " neosnippet->
+" Plug 'roxma/nvim-yarp'          " neosnippet->
+" Plug 'roxma/vim-hug-neovim-rpc' " neosnippet->
 Plug 'ryanoasis/vim-devicons'   " アイコンのフォント
 Plug 'scrooloose/nerdtree'      " ファイルエクスプローラ
 Plug 'sjl/gundo.vim'            " アンドゥツリー
@@ -79,6 +79,7 @@ let g:airline_section_x = airline#section#create_right(['bookmark', 'tagbar', 'v
 let g:airline_section_y = airline#section#create_right([])
 let g:airline_theme = 'alduin'
 let g:airline#extensions#coc#enabled = 1
+let g:deoplete#enable_at_startup = 1
 let g:fsharp#automatic_reload_workspace = 1
 let g:fsharp#linter = 1
 let g:fsharp#show_signature_on_cursor_move = 1
@@ -90,7 +91,7 @@ let g:mapleader = "\\"
 let g:rustfmt_autosave = 1
 let g:rustfmt_options = ""
 
-imap <Leader>k <Plug>(neosnippet_expand_or_jump)
+" imap <Leader>k <Plug>(neosnippet_expand_or_jump)
 nmap <leader>f  <Plug>(coc-format-selected)
 nmap <leader>rn <Plug>(coc-rename)
 nmap <silent> gd <Plug>(coc-definition)
@@ -100,14 +101,14 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nnoremap <silent> K :call ShowDocumentation()<CR>
 noremap <Leader>d <Plug>(coc-definition)<CR>
 noremap <Leader>u :GundoToggle<CR>
-smap <Leader>k <Plug>(neosnippet_expand_or_jump)
-snoremap <expr><TAB> neosnippet :call NeoSnippetJump()<CR>
-xmap <Leader>k <Plug>(neosnippet_expand_target)
+" smap <Leader>k <Plug>(neosnippet_expand_or_jump)
+" snoremap <expr><TAB> neosnippet :call NeoSnippetJump()<CR>
+" xmap <Leader>k <Plug>(neosnippet_expand_target)
 xmap <leader>f <Plug>(coc-format)
 
-function! NeoSnippetJump()
-    #expandable_or_jumpable() ?  \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-endfunction
+" function! NeoSnippetJump()
+"     #expandable_or_jumpable() ?  \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+" endfunction
 
 function! ShowDocumentation()
   if CocAction('hasProvider', 'hover')
@@ -120,6 +121,6 @@ endfunction
 """"""""""""""""""""""""""""""""
 "     ac-adapter-rs-vim        "
 """"""""""""""""""""""""""""""""
-let g:ac_adapter_rs_path = '~/procon/ac-adapter-rs'
+let g:ac_adapter_rs_vim#workspace = '~/repos/ac-adapter-rs'
 source ~/repos/ac-adapter-rs-vim/plugin/ac_adapter_rs_vim.vim
 command! -narg=1 Snip :call ac_adapter_rs_vim#Fire(<args>)

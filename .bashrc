@@ -112,3 +112,4 @@ alias lt='ls --tree'
 # ble.sh 自動起動後半
 # Add this line at the end of .bashrc:
 [[ ${BLE_VERSION-} ]] && ble-attach
+source ~/.local/share/blesh/ble.sh
