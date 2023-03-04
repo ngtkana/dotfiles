@@ -1,9 +1,12 @@
-snippet     AtCoder Template
-abbr        ac
+snippet     ac
+abbr        AtCoder Coding Template
 options     head
-    #[allow(unused_inport)]
-    use proconio::{input, maker::Usize1};
+    #[allow(unused_imports)]
+    use proconio::{input, marker::Usize1};
 
     fn main() {
+        input! {
+            n: usize,
+        }
         ${0:TARGET}
     }
