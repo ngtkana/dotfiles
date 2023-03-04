@@ -4,9 +4,9 @@ scriptencoding utf-8
 source $VIMRUNTIME/defaults.vim
 
 call plug#begin()
-" Plug 'Shougo/deoplete.nvim'     " neosnippet->
-" Plug 'Shougo/neosnippet-snippets'
-" Plug 'Shougo/neosnippet.vim'
+Plug 'Shougo/deoplete.nvim'     " neosnippet->
+Plug 'Shougo/neosnippet-snippets'
+Plug 'Shougo/neosnippet.vim'
 Plug 'airblade/vim-gitgutter'   " 左に変更行の印を出せます。
 Plug 'altercation/vim-colors-solarized'
 Plug 'chrisbra/csv.vim'         " CSV 操作
@@ -21,8 +21,8 @@ Plug 'majutsushi/tagbar'        " コードの要約。API は TagberToggle
 Plug 'mattn/emmet-vim'          " html / css 入力支援
 Plug 'neoclide/coc.nvim', {'branch': 'release'} " LSP 対応の補完
 Plug 'peitalin/vim-jsx-typescript'      " typescript （どうやらこっちもいるらしい）
-" Plug 'roxma/nvim-yarp'          " neosnippet->
-" Plug 'roxma/vim-hug-neovim-rpc' " neosnippet->
+Plug 'roxma/nvim-yarp'          " neosnippet->
+Plug 'roxma/vim-hug-neovim-rpc' " neosnippet->
 Plug 'ryanoasis/vim-devicons'   " アイコンのフォント
 Plug 'scrooloose/nerdtree'      " ファイルエクスプローラ
 Plug 'sjl/gundo.vim'            " アンドゥツリー
@@ -91,7 +91,14 @@ let g:mapleader = "\\"
 let g:rustfmt_autosave = 1
 let g:rustfmt_options = ""
 
-" imap <Leader>k <Plug>(neosnippet_expand_or_jump)
+function! ShowDocumentation()
+  if CocAction('hasProvider', 'hover')
+    call CocActionAsync('doHover')
+  else
+    call feedkeys('K', 'in')
+  endif
+endfunction
+
 nmap <leader>f  <Plug>(coc-format-selected)
 nmap <leader>rn <Plug>(coc-rename)
 nmap <silent> gd <Plug>(coc-definition)
@@ -101,22 +108,31 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nnoremap <silent> K :call ShowDocumentation()<CR>
 noremap <Leader>d <Plug>(coc-definition)<CR>
 noremap <Leader>u :GundoToggle<CR>
-" smap <Leader>k <Plug>(neosnippet_expand_or_jump)
-" snoremap <expr><TAB> neosnippet :call NeoSnippetJump()<CR>
-" xmap <Leader>k <Plug>(neosnippet_expand_target)
 xmap <leader>f <Plug>(coc-format)
 
-" function! NeoSnippetJump()
-"     #expandable_or_jumpable() ?  \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-" endfunction
+""""""""""""""""""""""""""""""""
+"     neosnippet               "
+""""""""""""""""""""""""""""""""
 
-function! ShowDocumentation()
-  if CocAction('hasProvider', 'hover')
-    call CocActionAsync('doHover')
-  else
-    call feedkeys('K', 'in')
-  endif
-endfunction
+" Plugin key-mappings.
+" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-k>     <Plug>(neosnippet_expand_target)
+
+" SuperTab like snippets behavior.
+" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+"imap <expr><TAB>
+" \ pumvisible() ? "\<C-n>" :
+" \ neosnippet#expandable_or_jumpable() ?
+" \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+" For conceal markers.
+if has('conceal')
+  set conceallevel=2 concealcursor=niv
+endif
 
 """"""""""""""""""""""""""""""""
 "     ac-adapter-rs-vim        "
