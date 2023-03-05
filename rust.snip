@@ -1,12 +1,23 @@
 snippet     ac
 abbr        AtCoder Coding Template
 options     head
-    #[allow(unused_imports)]
-    use proconio::{input, marker::Usize1};
+    use proconio::input;
 
     fn main() {
         input! {
             n: usize,
         }
         ${0:TARGET}
+    }
+
+snippet     ure
+abbr        unreachable match arm
+options     head
+    _ => unreachable!(),
+
+snippet     yesno
+abbr        fn yesno(_: bool)
+options     head
+    fn yesno(b: bool) -> &'static str {
+        ["No", "Yes"][b as usize]
     }

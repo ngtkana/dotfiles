@@ -16,6 +16,7 @@ Plug 'elzr/vim-json'            " JSON のハイライティング
 " Plug 'ionide/Ionide-vim', { 'do': 'make fsautocomplete' }
 Plug 'jremmen/vim-ripgrep'      " 検索（Rg コマンド）
 Plug 'junegunn/fzf'
+Plug 'jonathanfilip/vim-lucius' " colorscheme lucs
 Plug 'leafgarland/typescript-vim'       " typescript
 Plug 'majutsushi/tagbar'        " コードの要約。API は TagberToggle
 Plug 'mattn/emmet-vim'          " html / css 入力支援
@@ -48,6 +49,7 @@ noremap <Leader>w :w<CR>
 set ambiwidth=double            " 全角を正しく表示したい
 set backspace=indent,eol,start  " <BS> で消せるもの　
 set belloff=all         " これもエラーベルを鳴らさない（noerrorbells はだめなのか？）
+set completeopt=menuone " 補完メニューを開かない
 set cursorline          " カーソル行をハイライティング
 set expandtab           " タブをスペースに展開する
 set foldmethod=marker   " 折りたたみをマーカーで行う
@@ -99,6 +101,7 @@ function! ShowDocumentation()
   endif
 endfunction
 
+inoremap <silent><expr> <C-g> coc#pum#visible() ? coc#pum#confirm() : "\<C-g>"
 nmap <leader>f  <Plug>(coc-format-selected)
 nmap <leader>rn <Plug>(coc-rename)
 nmap <silent> gd <Plug>(coc-definition)
@@ -119,16 +122,6 @@ xmap <leader>f <Plug>(coc-format)
 imap <C-k>     <Plug>(neosnippet_expand_or_jump)
 smap <C-k>     <Plug>(neosnippet_expand_or_jump)
 xmap <C-k>     <Plug>(neosnippet_expand_target)
-
-" SuperTab like snippets behavior.
-" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
-"imap <expr><TAB>
-" \ pumvisible() ? "\<C-n>" :
-" \ neosnippet#expandable_or_jumpable() ?
-" \    
-" "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
 " For conceal markers.
 if has('conceal')

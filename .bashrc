@@ -1,31 +1,10 @@
 # Starship
 eval "$(starship init bash)"
 
-# ちょっとうまく動かないのでコメントアウトで……
-# # tmux 自動起動
-# # https://qiita.com/ssh-1/items/a9956a74bff8254a606a
-# if [[ ! -n $TMUX && $- == *l* ]]; then
-#   # get the IDs
-#   ID="`tmux list-sessions`"
-#   if [[ -z "$ID" ]]; then
-#     tmux new-session
-#   fi
-#   create_new_session="Create New Session"
-#   ID="$ID\n${create_new_session}:"
-#   ID="`echo $ID | $PERCOL | cut -d: -f1`"
-#   if [[ "$ID" = "${create_new_session}" ]]; then
-#     tmux new-session
-#   elif [[ -n "$ID" ]]; then
-#     tmux attach-session -t "$ID"
-#   else
-#     :  # Start terminal normally
-#   fi
-# fi
-
-# ble.sh 自動起動前半
-# https://github.com/akinomyoga/ble.sh
-# Add this lines at the top of .bashrc:
-[[ $- == *i* ]] && source $HOME/.local/share/blesh/ble.sh --noattach
+# # ble.sh 自動起動前半
+# # https://github.com/akinomyoga/ble.sh
+# # Add this lines at the top of .bashrc:
+# [[ $- == *i* ]] && source $HOME/.local/share/blesh/ble.sh --noattach
 
 # bashでディレクトリ移動を便利にする - Qiita
 # https://qiita.com/k-takata/items/092f70f66d545cb9db7c
@@ -84,8 +63,11 @@ function cd_func () {
 }
 alias cd=cd_func
 
+# xserver
+export DISPLAY=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2}'):0
+
 # ac-adapter-rs のドキュメントを開く
-PATH_TO_AC_ADAPTER_RS=$HOME/procon/ac-adapter-rs
+PATH_TO_AC_ADAPTER_RS=$HOME/repos/ac-adapter-rs
 function updateac () {
   orig_path="${PWD}"
   cd "${PATH_TO_AC_ADAPTER_RS}"
@@ -109,7 +91,7 @@ alias lla='ls --long --all'
 alias lt='ls --tree'
 
 
-# ble.sh 自動起動後半
-# Add this line at the end of .bashrc:
-[[ ${BLE_VERSION-} ]] && ble-attach
-source ~/.local/share/blesh/ble.sh
+# # ble.sh 自動起動後半
+# # Add this line at the end of .bashrc:
+# [[ ${BLE_VERSION-} ]] && ble-attach
+# source ~/.local/share/blesh/ble.sh
