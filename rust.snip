@@ -15,6 +15,11 @@ abbr        unreachable match arm
 options     head
     _ => unreachable!(),
 
+snippet     ln
+abbr        println!
+options     head
+    println!("{}", ${0:TARGET});
+
 snippet     yesno
 abbr        fn yesno(_: bool)
 options     head
