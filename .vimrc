@@ -68,6 +68,7 @@ set number              " 行番号 set shiftwidth=4
 set scrolloff=2         " ここまでくると自動でスクロールがされる
 set shiftwidth=4        " 自動インデントの幅
 set showmatch           " 対応する括弧をハイライト
+set showtabline=2       " タブページのラベルを常に表示する
 set smartindent         " カッコの後ろなどにインデント
 set softtabstop=4       " <Tab> を押した時, 何個分のスペースを挿入するか
 set tabstop=4           " 何個分のスペースで 1 つのタブとしてカウントするか
