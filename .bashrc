@@ -66,6 +66,9 @@ alias cd=cd_func
 # xserver
 export DISPLAY=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2}'):0
 
+# rustup
+source "$HOME/.cargo/env"
+
 # ac-adapter-rs のドキュメントを開く
 PATH_TO_AC_ADAPTER_RS=$HOME/repos/ac-adapter-rs
 function updateac () {
