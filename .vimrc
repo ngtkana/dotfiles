@@ -81,7 +81,6 @@ let g:airline_section_x = airline#section#create_right(['bookmark', 'tagbar', 'v
 let g:airline_section_y = airline#section#create_right([])
 let g:airline_theme = 'alduin'
 let g:airline#extensions#coc#enabled = 1
-let g:deoplete#enable_at_startup = 1
 let g:fsharp#automatic_reload_workspace = 1
 let g:fsharp#linter = 1
 let g:fsharp#show_signature_on_cursor_move = 1
