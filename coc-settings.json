@@ -1,0 +1,4 @@
+{
+    "coc.preferences.formatOnSave": true,
+    "rust-analyzer.completion.autoimport.enable": true
+}
