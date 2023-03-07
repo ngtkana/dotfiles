@@ -9,6 +9,7 @@ Plug 'Shougo/neosnippet-snippets'
 Plug 'Shougo/neosnippet.vim'
 Plug 'airblade/vim-gitgutter'   " 左に変更行の印を出せます。
 Plug 'altercation/vim-colors-solarized'
+Plug 'bfrg/vim-jqplay'          " :Jqplay など
 Plug 'chrisbra/csv.vim'         " CSV 操作
 Plug 'easymotion/vim-easymotion'        " モーション
 Plug 'editorconfig/editorconfig-vim'    " editorconfig を使う
@@ -92,6 +93,8 @@ let g:gundo_prefer_python3 = 1                      " gundo
 let g:mapleader = "\\"
 let g:rustfmt_autosave = 1
 let g:rustfmt_options = ""
+
+colorscheme lucius
 
 function! ShowDocumentation()
   if CocAction('hasProvider', 'hover')
