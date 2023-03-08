@@ -74,10 +74,6 @@ function cd_func () {
   [[ $? -ne 0 ]] && return 1
   the_new_dir=$(pwd)
 
-  # Execute `lsd` (Kana added)
-  lsd --almost-all
-
-  #
   # Trim down everything beyond 11th entry
   popd -n +11 2>/dev/null 1>/dev/null
 

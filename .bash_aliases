@@ -1,6 +1,3 @@
-alias ls='lsd'
-alias ll='ls --long'
-alias la='ls --all'
-alias lla='ls --long --all'
-alias lt='ls --tree'
+alias lsd='lsd --long'
+alias exa='exa --long --header --inode --no-user --no-permissions --time-style long-iso --git'
 alias dnb='dotnet build'
