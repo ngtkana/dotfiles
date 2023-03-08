@@ -86,14 +86,6 @@ function openac () {
 # xset
 xset r rate 135 35
 
-# Aliases
-alias ls='lsd'
-alias ll='ls --long'
-alias la='ls --all'
-alias lla='ls --long --all'
-alias lt='ls --tree'
-
-
 # ble.sh 自動起動後半
 # Add this line at the end of .bashrc:
 [[ ${BLE_VERSION-} ]] && ble-attach

@@ -1,0 +1,6 @@
+alias ls='lsd'
+alias ll='ls --long'
+alias la='ls --all'
+alias lla='ls --long --all'
+alias lt='ls --tree'
+alias dnb='dotnet build'
