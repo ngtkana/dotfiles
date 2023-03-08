@@ -1,5 +1,39 @@
-# Starship
+case $- in
+    *i*) ;;
+      *) return;;
+esac
+
+HISTCONTROL=ignoreboth
+shopt -s histappend
+HISTSIZE=1000
+HISTFILESIZE=2000
+
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
+    debian_chroot=$(cat /etc/debian_chroot)
+fi
+if [ -f ~/.git-completion.sh ]; then
+    source ~/.git-completion.sh
+fi
+if [ -f ~/.git-prompt.sh ]; then
+    source ~/.git-prompt.sh
+fi
+GIT_PS1_SHOWDIRTYSTATE=true
+GIT_PS1_SHOWUNTRACKEDFILES=true
+GIT_PS1_SHOWSTASHSTATE=true
+GIT_PS1_SHOWUPSTREAM=auto
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
+. "$HOME/.cargo/env"
+
 eval "$(starship init bash)"
+eval "$(direnv hook bash)"
+export EDITOR=vim
 
 # ble.sh 自動起動前半
 # https://github.com/akinomyoga/ble.sh
@@ -66,6 +100,12 @@ alias cd=cd_func
 # # xserver
 # export DISPLAY=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2}'):0
 
+# append to the history file, don't overwrite it
+shopt -s histappend
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=1000
+HISTFILESIZE=2000
+
 # rustup
 source "$HOME/.cargo/env"
 
@@ -83,10 +123,17 @@ function openac () {
   google-chrome "${path_to_ac_adapter_doc}"
 }
 
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/kana/google-cloud-sdk/path.bash.inc' ]; then . '/home/kana/google-cloud-sdk/path.bash.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/kana/google-cloud-sdk/completion.bash.inc' ]; then . '/home/kana/google-cloud-sdk/completion.bash.inc'; fi
+
 # xset
 xset r rate 135 35
 
 # ble.sh 自動起動後半
 # Add this line at the end of .bashrc:
 [[ ${BLE_VERSION-} ]] && ble-attach
-source ~/.local/share/blesh/ble.sh
+
+export PATH=$PATH:$HOME/.local/bin
