@@ -123,6 +123,8 @@ function openac () {
   google-chrome "${path_to_ac_adapter_doc}"
 }
 
+if [ -f "${HOME}/.bash_aliases" ]; then . "${HOME}/.bash_aliases"; fi
+
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/home/kana/google-cloud-sdk/path.bash.inc' ]; then . '/home/kana/google-cloud-sdk/path.bash.inc'; fi
 
