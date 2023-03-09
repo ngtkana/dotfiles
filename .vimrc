@@ -111,6 +111,7 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 nmap <silent> gy <Plug>(coc-type-definition)
+nmap <space>e <Cmd>CocCommand explorer<CR>
 nnoremap <silent> K :call ShowDocumentation()<CR>
 noremap <Leader>d <Plug>(coc-definition)<CR>
 noremap <Leader>u :GundoToggle<CR>
