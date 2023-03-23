@@ -4,6 +4,7 @@ scriptencoding utf-8
 source $VIMRUNTIME/defaults.vim
 
 call plug#begin()
+" Plug 'ionide/Ionide-vim', { 'do': 'make fsautocomplete' }
 Plug 'Shougo/deoplete.nvim'     " neosnippet->
 Plug 'Shougo/neosnippet-snippets'
 Plug 'Shougo/neosnippet.vim'
@@ -14,20 +15,21 @@ Plug 'chrisbra/csv.vim'         " CSV 操作
 Plug 'easymotion/vim-easymotion'        " モーション
 Plug 'editorconfig/editorconfig-vim'    " editorconfig を使う
 Plug 'elzr/vim-json'            " JSON のハイライティング
-" Plug 'ionide/Ionide-vim', { 'do': 'make fsautocomplete' }
+Plug 'jonathanfilip/vim-lucius' " colorscheme lucs
 Plug 'jremmen/vim-ripgrep'      " 検索（Rg コマンド）
 Plug 'junegunn/fzf'
-Plug 'jonathanfilip/vim-lucius' " colorscheme lucs
 Plug 'leafgarland/typescript-vim'       " typescript
 Plug 'majutsushi/tagbar'        " コードの要約。API は TagberToggle
 Plug 'mattn/emmet-vim'          " html / css 入力支援
 Plug 'neoclide/coc.nvim', {'branch': 'release'} " LSP 対応の補完
+Plug 'rebelot/kanagawa.nvim'    " カラースキーム kanagawa
 Plug 'peitalin/vim-jsx-typescript'      " typescript （どうやらこっちもいるらしい）
 Plug 'roxma/nvim-yarp'          " neosnippet->
 Plug 'roxma/vim-hug-neovim-rpc' " neosnippet->
 Plug 'ryanoasis/vim-devicons'   " アイコンのフォント
 Plug 'scrooloose/nerdtree'      " ファイルエクスプローラ
 Plug 'sjl/gundo.vim'            " アンドゥツリー
+Plug 'skanehira/denops-gh.vim'  " GitHub
 Plug 'tomtom/tcomment_vim'      " コメントアウト支援（他の選択肢は、nerdcommenter）
 Plug 'tpope/vim-fugitive'       " Git 操作ができます。Gdiff などです。
 Plug 'tpope/vim-repeat'         " ドットコマンドで、対応したプラグイン定義のコマンドも繰り返す
@@ -36,6 +38,7 @@ Plug 'tpope/vim-unimpaired'     " ショートカット
 Plug 'tpope/vim-vinegar'        " press '-' to open the directory
 Plug 'vim-airline/vim-airline'  " ステータスライン（他の選択肢は、Powerline, Lightline）
 Plug 'vim-airline/vim-airline-themes'   " airline のテーマ
+Plug 'vim-denops/denops.vim'    " Write plugins in deno
 Plug 'vim-jp/vimdoc-ja'
 Plug 'vim-utils/vim-man'        " マニュアルを読む（Man コマンド）
 call plug#end()
