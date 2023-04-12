@@ -4,7 +4,6 @@ scriptencoding utf-8
 source $VIMRUNTIME/defaults.vim
 
 call plug#begin()
-" Plug 'ionide/Ionide-vim', { 'do': 'make fsautocomplete' }
 Plug 'Shougo/deoplete.nvim'     " neosnippet->
 Plug 'Shougo/neosnippet-snippets'
 Plug 'Shougo/neosnippet.vim'
@@ -22,8 +21,9 @@ Plug 'leafgarland/typescript-vim'       " typescript
 Plug 'majutsushi/tagbar'        " コードの要約。API は TagberToggle
 Plug 'mattn/emmet-vim'          " html / css 入力支援
 Plug 'neoclide/coc.nvim', {'branch': 'release'} " LSP 対応の補完
-Plug 'rebelot/kanagawa.nvim'    " カラースキーム kanagawa
 Plug 'peitalin/vim-jsx-typescript'      " typescript （どうやらこっちもいるらしい）
+Plug 'rebelot/kanagawa.nvim'    " カラースキーム kanagawa
+Plug 'ron-rs/ron.vim'           " .ron
 Plug 'roxma/nvim-yarp'          " neosnippet->
 Plug 'roxma/vim-hug-neovim-rpc' " neosnippet->
 Plug 'ryanoasis/vim-devicons'   " アイコンのフォント
