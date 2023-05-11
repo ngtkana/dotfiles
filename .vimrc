@@ -65,6 +65,7 @@ set incsearch           " パターンの入力中に検索をする
 set list listchars=tab:>-,trail:#,extends:>,precedes:<,nbsp:%   " 特殊文字の表示方法
 set matchpairs+=「:」,『:』,（:）,【:】,《:》,〈:〉,［:］,‘:’,“:”   " 括弧の定義
 set matchtime=1         " 対応する括弧のハイライトまでの遅延 (x 100 ms)
+set mouse=a
 set nobackup            " 上書き時にバックアップを作らない
 set noerrorbells        " エラーベルを鳴らさない
 set nospell             " スペルチェックなし
