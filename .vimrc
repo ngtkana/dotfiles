@@ -81,13 +81,13 @@ set tabstop=4           " 何個分のスペースで 1 つのタブとしてカ
 set undodir=~/.vim/undodir      " アンドゥファイルのためのディレクトリ
 set undofile            " アンドゥファイルを作る
 
+let g:airline#extensions#coc#enabled = 1
 let g:airline_section_a = airline#section#create_left(['mode', 'crypt', 'paste', 'keymap', 'capslock', 'xkblayout', 'iminsert'])
 let g:airline_section_error = airline#section#create([])
 let g:airline_section_warning = airline#section#create([])
 let g:airline_section_x = airline#section#create_right(['bookmark', 'tagbar', 'vista', 'gutentags', 'grepper', 'filetype'])
 let g:airline_section_y = airline#section#create_right([])
 let g:airline_theme = 'alduin'
-let g:airline#extensions#coc#enabled = 1
 let g:fsharp#automatic_reload_workspace = 1
 let g:fsharp#linter = 1
 let g:fsharp#show_signature_on_cursor_move = 1
@@ -98,6 +98,7 @@ let g:gundo_prefer_python3 = 1                      " gundo
 let g:mapleader = "\\"
 let g:rustfmt_autosave = 1
 let g:rustfmt_options = ""
+let g:termdebug_wide = 160
 
 colorscheme lucius
 
