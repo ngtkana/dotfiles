@@ -3,6 +3,8 @@ scriptencoding utf-8
 
 source $VIMRUNTIME/defaults.vim
 
+packadd termdebug
+
 call plug#begin()
 Plug 'Shougo/deoplete.nvim'     " neosnippet->
 Plug 'Shougo/neosnippet-snippets'
