@@ -1,0 +1,11 @@
+[username]
+disabled = true
+
+[git_branch]
+symbol = '🌱 '
+
+[python]
+style = 'green'
+
+[cmd_duration]
+style = 'green'

@@ -148,5 +148,7 @@ nmap <leader>a v<Plug>(coc-codeaction-selected)
 "     ac-adapter-rs-vim        "
 """"""""""""""""""""""""""""""""
 let g:ac_adapter_rs_vim#workspace = '~/repos/ac-adapter-rs'
-source ~/repos/ac-adapter-rs-vim/plugin/ac_adapter_rs_vim.vim
-command! -narg=1 Snip :call ac_adapter_rs_vim#Fire(<args>)
+if isdirectory(g:ac_adapter_rs_vim#workspace)
+    source ~/repos/ac-adapter-rs-vim/plugin/ac_adapter_rs_vim.vim
+    command! -narg=1 Snip :call ac_adapter_rs_vim#Fire(<args>)
+endif
