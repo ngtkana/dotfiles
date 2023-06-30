@@ -1,0 +1,5 @@
+{
+    "coc.preferences.formatOnSave": true,
+    "rust-analyzer.completion.autoimport.enable": true,
+    "rust-analyzer.procMacro.attributes.enable": true
+}
