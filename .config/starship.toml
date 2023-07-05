@@ -9,3 +9,6 @@ style = 'green'
 
 [cmd_duration]
 style = 'green'
+
+[gcloud]
+disabled = true
