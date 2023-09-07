@@ -158,6 +158,9 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
+# WSL
+export BROWSER=wslview
+
 # Rye
 source "$HOME/.rye/env"
 
@@ -174,3 +177,5 @@ export PATH="$DENO_INSTALL/bin:$PATH"
 # go
 export PATH=$PATH:/usr/local/go/bin
 export PATH=$PATH:$HOME/go/bin
+
+
