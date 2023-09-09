@@ -1,5 +1,7 @@
 {
-    "coc.preferences.formatOnSave": true,
-    "rust-analyzer.completion.autoimport.enable": true,
-    "rust-analyzer.procMacro.attributes.enable": true
+  "coc.preferences.formatOnSave": true,
+  "rust-analyzer.completion.autoimport.enable": true,
+  "rust-analyzer.procMacro.attributes.enable": true,
+  "rust-analyzer.rustfmt.extraArgs": ["+nightly"],
+  "explorer.icon.enableNerdfont": true
 }

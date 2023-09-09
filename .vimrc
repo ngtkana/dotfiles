@@ -98,7 +98,6 @@ let g:gitgutter_enabled = v:true
 let g:gundo_prefer_python3 = 1                      " gundo
 let g:mapleader = "\\"
 let g:rustfmt_autosave = 1
-let g:rustfmt_options = ""
 let g:termdebug_wide = 160
 
 colorscheme lucius
@@ -123,6 +122,8 @@ nnoremap <silent> K :call ShowDocumentation()<CR>
 noremap <Leader>d <Plug>(coc-definition)<CR>
 noremap <Leader>u :GundoToggle<CR>
 xmap <leader>f <Plug>(coc-format)
+
+autocmd BufNewFile,BufRead *.ejs set filetype=html
 
 """"""""""""""""""""""""""""""""
 "     neosnippet               "
