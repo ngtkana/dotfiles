@@ -150,7 +150,12 @@ nmap <leader>a v<Plug>(coc-codeaction-selected)
 "     ac-adapter-rs-vim        "
 """"""""""""""""""""""""""""""""
 let g:ac_adapter_rs_vim#workspace = '~/repos/ac-adapter-rs'
-if isdirectory(g:ac_adapter_rs_vim#workspace)
-    source ~/repos/ac-adapter-rs-vim/plugin/ac_adapter_rs_vim.vim
-    command! -narg=1 Snip :call ac_adapter_rs_vim#Fire(<args>)
-endif
+function! ExpandAcAdapter(libname) abort
+  let command = "procon-bundler find " . g:ac_adapter_rs_vim#workspace . " " . a:libname
+  let result = system(command)
+  if v:shell_error
+    echo l:result
+  endif
+  call append(line('$'), split(l:result, '\n'))
+endfunction
+command! -narg=1 Snip :call ExpandAcAdapter(<args>)
