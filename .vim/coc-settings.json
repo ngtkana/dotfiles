@@ -3,5 +3,7 @@
   "rust-analyzer.completion.autoimport.enable": true,
   "rust-analyzer.procMacro.attributes.enable": true,
   "rust-analyzer.rustfmt.extraArgs": ["+nightly"],
+  "rust-analyzer.cargo.features": "all",
+  "rust-analyzer.updates.prompt": false,
   "explorer.icon.enableNerdfont": true
 }
