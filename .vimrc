@@ -56,6 +56,7 @@ noremap <Leader>w :w<CR>
 
 set ambiwidth=double            " 全角を正しく表示したい
 set backspace=indent,eol,start  " <BS> で消せるもの　
+set background=light    " light/dark theme
 set belloff=all         " これもエラーベルを鳴らさない（noerrorbells はだめなのか？）
 set completeopt=menuone " 補完メニューを開かない
 set cursorline          " カーソル行をハイライティング
