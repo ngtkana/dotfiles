@@ -121,7 +121,12 @@ nmap <silent> gr <Plug>(coc-references)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <space>e <Cmd>CocCommand explorer<CR>
 nnoremap <silent> K :call ShowDocumentation()<CR>
+noremap <Leader>u :GundoToggle<CR>
 noremap <Leader>d <Plug>(coc-definition)<CR>
+noremap <Leader>n :call CocAction('diagnosticNext')<CR>
+noremap <Leader>p :call CocAction('diagnosticPrevious')<CR>
+noremap <Leader>f <Plug>(coc-fix-current)<CR>
+noremap <Leader>e :CocCommand rust-analyzer.explainError<CR>
 noremap <Leader>u :GundoToggle<CR>
 xmap <leader>f <Plug>(coc-format)
 
