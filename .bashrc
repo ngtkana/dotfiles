@@ -35,11 +35,6 @@ eval "$(starship init bash)"
 eval "$(direnv hook bash)"
 export EDITOR=vim
 
-# ble.sh 自動起動前半
-# https://github.com/akinomyoga/ble.sh
-# Add this lines at the top of .bashrc:
-[[ $- == *i* ]] && source $HOME/.local/share/blesh/ble.sh --noattach
-
 # bashでディレクトリ移動を便利にする - Qiita
 # https://qiita.com/k-takata/items/092f70f66d545cb9db7c
 function cd_func () {
@@ -147,10 +142,6 @@ if [ -f '/home/kana/google-cloud-sdk/completion.bash.inc' ]; then . '/home/kana/
 
 # xset
 xset r rate 135 35
-
-# ble.sh 自動起動後半
-# Add this line at the end of .bashrc:
-[[ ${BLE_VERSION-} ]] && ble-attach
 
 export PATH=$PATH:$HOME/.local/bin
 
