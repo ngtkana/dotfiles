@@ -31,6 +31,7 @@ Plug 'rhysd/rust-doc.vim'       " :RustDoc でドキュメントを見る
 Plug 'ron-rs/ron.vim'           " .ron
 Plug 'roxma/nvim-yarp'          " neosnippet->
 Plug 'roxma/vim-hug-neovim-rpc' " neosnippet->
+Plug 'rust-lang/rust.vim'
 Plug 'ryanoasis/vim-devicons'   " アイコンのフォント
 Plug 'scrooloose/nerdtree'      " ファイルエクスプローラ
 Plug 'sjl/gundo.vim'            " アンドゥツリー
@@ -55,6 +56,7 @@ noremap <Leader>sv :source $MYVIMRC<CR>
 noremap <Leader>ev :edit $MYVIMRC<CR>
 noremap <Leader>ee :e!<CR>
 noremap <Leader>w :w<CR>
+noremap <Tab> :tabn<CR>
 
 set ambiwidth=double            " 全角を正しく表示したい
 set backspace=indent,eol,start  " <BS> で消せるもの　
