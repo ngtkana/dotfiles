@@ -126,7 +126,7 @@ let g:airline_mode_map = {
 function! AirlineInit()
   let g:airline_symbols.linenr = ''
   let g:airline_symbols.maxlinenr = ''
-  let g:airline_symbols.colnr = ''
+  let g:airline_symbols.colnr = ':'
   let spc = g:airline_symbols.space
   let g:airline_section_a = airline#section#create_left(['mode', 'crypt', 'paste', 'keymap', 'spell', 'capslock', 'xkblayout', 'iminsert'])
   let g:airline_section_b = airline#section#create(['%{airline#extensions#clock#get()}'])
