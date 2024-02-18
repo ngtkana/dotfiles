@@ -103,6 +103,10 @@ let g:airline#extensions#coc#enabled = 1
 let g:airline#extensions#default#enabled = 1
 let g:airline_theme = 'base16_adwaita'
 let g:airline_powerline_fonts = 1
+let g:airline#extensions#default#layout = [
+  \ [ 'a', 'b', 'c' ],
+  \ [ 'x', 'y', 'z']
+  \ ]
 let g:airline_mode_map = {
   \ '__'     : '-',
   \ 'c'      : 'C',
