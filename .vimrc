@@ -57,7 +57,6 @@ noremap <Leader>sv :source $MYVIMRC<CR>
 noremap <Leader>ev :edit $MYVIMRC<CR>
 noremap <Leader>ee :e!<CR>
 noremap <Leader>w :w<CR>
-noremap <Tab> :tabn<CR>
 
 " set ambiwidth=double  " double にすると '' が全角になってつらい
 set backspace=indent,eol,start  " <BS> で消せるもの　
@@ -76,7 +75,8 @@ set matchtime=1         " 対応する括弧のハイライトまでの遅延 (x
 set mouse=a
 set nobackup            " 上書き時にバックアップを作らない
 set noerrorbells        " エラーベルを鳴らさない
-set nospell             " スペルチェックなし
+set spell               " スペルチェックあり
+set spelllang+=cjk      " 日本語がエラーになるのがいやなのv
 set noswapfile          " swp ファイルを作らない
 set nowrap              " 折返しをしない
 set number              " 行番号 set shiftwidth=4
@@ -139,7 +139,7 @@ function! AirlineInit()
   let g:airline_symbols.maxlinenr = ''
   let g:airline_symbols.colnr = ':'
   let spc = g:airline_symbols.space
-  let g:airline_section_a = airline#section#create_left(['mode', '%{TuskkStatus()}', 'crypt', 'paste', 'keymap', 'spell', 'capslock', 'xkblayout', 'iminsert'])
+  let g:airline_section_a = airline#section#create_left(['mode', '%{TuskkStatus()}', 'crypt', 'paste', 'keymap', 'capslock', 'xkblayout', 'iminsert'])
   let g:airline_section_b = airline#section#create(['%{airline#extensions#clock#get()}'])
   let g:airline_section_c = airline#section#create(['coc_status', 'lsp_progress'])
   let g:airline_section_x = airline#section#create_right(['coc_current_function', 'bookmark', 'scrollbar', 'tagbar', 'taglist', 'vista', 'gutentags', 'gen_tags', 'omnisharp', 'grepper'])
@@ -180,10 +180,10 @@ call tuskk#initialize({
       \     "fu": "ふ",
       \     "ji": "じ",
       \ }),
-      \ 'suggest_wait_ms': 200,
+      \ 'suggest_wait_ms': 50,
       \ 'suggest_prefix_match_minimum': 5,
       \ 'suggest_sort_by': 'length',
-      \ 'use_google_cgi': v:true,
+      \ 'auto_henkan_characters': 'を、。',
       \ 'merge_tsu': v:true,
       \ 'trailing_n': v:true,
       \ 'abbrev_ignore_case': v:true,
