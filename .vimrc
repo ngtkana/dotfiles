@@ -57,6 +57,8 @@ noremap <Leader>sv :source $MYVIMRC<CR>
 noremap <Leader>ev :edit $MYVIMRC<CR>
 noremap <Leader>ee :e!<CR>
 noremap <Leader>w :w<CR>
+noremap <Leader>q :q<CR>
+noremap <Leader>l :ls<CR>
 
 " set ambiwidth=double  " double にすると '' が全角になってつらい
 set backspace=indent,eol,start  " <BS> で消せるもの　
