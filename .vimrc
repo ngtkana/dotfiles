@@ -51,18 +51,9 @@ Plug 'vim-jp/vimdoc-ja'
 Plug 'vim-utils/vim-man'        " マニュアルを読む（Man コマンド）
 call plug#end()
 
-syntax enable                   " シンタックスハイライティング
-
-noremap <Leader>sv :source $MYVIMRC<CR>
-noremap <Leader>ev :edit $MYVIMRC<CR>
-noremap <Leader>ee :e!<CR>
-noremap <Leader>w :w<CR>
-noremap <Leader>q :q<CR>
-noremap <Leader>l :ls<CR>
-
 " set ambiwidth=double  " double にすると '' が全角になってつらい
-set backspace=indent,eol,start  " <BS> で消せるもの　
 set background=light    " light/dark theme
+set backspace=indent,eol,start  " <BS> で消せるもの　
 set belloff=all         " これもエラーベルを鳴らさない（noerrorbells はだめなのか？）
 set completeopt=menuone " 補完メニューを開かない
 set cursorline          " カーソル行をハイライティング
@@ -77,17 +68,18 @@ set matchtime=1         " 対応する括弧のハイライトまでの遅延 (x
 set mouse=a
 set nobackup            " 上書き時にバックアップを作らない
 set noerrorbells        " エラーベルを鳴らさない
-set spell               " スペルチェックあり
-set spelllang+=cjk      " 日本語がエラーになるのがいやなのv
 set noswapfile          " swp ファイルを作らない
 set nowrap              " 折返しをしない
 set number              " 行番号 set shiftwidth=4
+set relativenumber      " 相対行番号を表示する
 set scrolloff=2         " ここまでくると自動でスクロールがされる
 set shiftwidth=4        " 自動インデントの幅
 set showmatch           " 対応する括弧をハイライト
 set showtabline=2       " タブページのラベルを常に表示する
 set smartindent         " カッコの後ろなどにインデント
 set softtabstop=4       " <Tab> を押した時, 何個分のスペースを挿入するか
+set spell               " スペルチェックあり
+set spelllang+=cjk      " 日本語がエラーになるのがいやなのv
 set tabstop=4           " 何個分のスペースで 1 つのタブとしてカウントするか
 set undodir=~/.vim/undodir      " アンドゥファイルのためのディレクトリ
 set undofile            " アンドゥファイルを作る
@@ -156,10 +148,11 @@ let g:fsharp#unused_declarations_analyzer = 1
 let g:fsharp#unused_opens_analyzer = 1
 let g:gitgutter_enabled = v:true
 let g:gundo_prefer_python3 = 1                      " gundo
-let g:mapleader = "\\"
+let g:mapleader = ","
 let g:rustfmt_autosave = 1
 let g:termdebug_wide = 160
 
+syntax enable                   " シンタックスハイライティング
 colorscheme lucius
 
 inoremap <silent><expr> <C-g> coc#pum#visible() ? coc#pum#confirm() : "\<C-g>"
@@ -223,17 +216,6 @@ endfunction
 " Highlight the symbol and its references when holding the cursor
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
-" Symbol renaming
-nmap <leader>rn <Plug>(coc-rename)
-
-" Applying code actions to the selected code block
-" Example: `<leader>aap` for current paragraph
-xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
-
-" Run the Code Lens action on the current line
-nmap <leader>cl  <Plug>(coc-codelens-action)
-
 " Map function and class text objects
 " NOTE: Requires 'textDocument.documentSymbol' support from the language server
 xmap if <Plug>(coc-funcobj-i)
@@ -255,35 +237,26 @@ if has('nvim-0.4.0') || has('patch-8.2.0750')
   vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
 endif
 
-" Apply the most preferred quickfix action to fix diagnostic on the current line
-nmap <leader>qf  <Plug>(coc-fix-current)
-
-" Remap keys for applying refactor code actions
-nmap <silent> <leader>re <Plug>(coc-codeaction-refactor)
-xmap <silent> <leader>r  <Plug>(coc-codeaction-refactor-selected)
-nmap <silent> <leader>r  <Plug>(coc-codeaction-refactor-selected)
-
-" mine
-nmap <space>e <Cmd>CocCommand explorer<CR>
-noremap <Leader>e :CocCommand rust-analyzer.explainError<CR>
-
-
 autocmd BufNewFile,BufRead *.ejs set filetype=html
 
-""""""""""""""""""""""""""""""""
-"     neosnippet               "
-""""""""""""""""""""""""""""""""
-
-" Plugin key-mappings.
-" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
-imap <leader>k     <Plug>(neosnippet_expand_or_jump)
-smap <leader>k     <Plug>(neosnippet_expand_or_jump)
-xmap <leader>k     <Plug>(neosnippet_expand_target)
-
-" For conceal markers.
-if has('conceal')
-  set conceallevel=2 concealcursor=niv
-endif
+map     <silent><leader>k  <Plug>(neosnippet_expand_or_jump)
+nmap    <silent><leader>a  <Plug>(coc-codeaction-selected)
+nmap    <silent><leader>cl <Plug>(coc-codelens-action)
+nmap    <silent><leader>e  <Cmd>CocCommand explorer<CR>
+nmap    <silent><leader>qf <Plug>(coc-fix-current)
+nmap    <silent><leader>r  <Plug>(coc-codeaction-refactor-selected)
+nmap    <silent><leader>re <Plug>(coc-codeaction-refactor)
+nmap    <silent><leader>rn <Plug>(coc-rename)
+noremap <silent><leader>ee :e!<CR>
+noremap <silent><leader>ev :edit $MYVIMRC<CR>
+noremap <silent><leader>g  :Git<CR>
+noremap <silent><leader>q  :q<CR>
+noremap <silent><leader>s  :w<CR>
+noremap <silent><leader>sv :source $MYVIMRC<CR>
+smap    <silent><leader>k  <Plug>(neosnippet_expand_or_jump)
+xmap    <silent><leader>a  <Plug>(coc-codeaction-selected)
+xmap    <silent><leader>k  <Plug>(neosnippet_expand_target)
+xmap    <silent><leader>r  <Plug>(coc-codeaction-refactor-selected)
 
 """"""""""""""""""""""""""""""""
 "     ac-adapter-rs-vim        "
