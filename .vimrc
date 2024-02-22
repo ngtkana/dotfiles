@@ -1,7 +1,9 @@
 set encoding=utf-8
 scriptencoding utf-8
 
-source $VIMRUNTIME/defaults.vim
+if !has('nvim')
+    source $VIMRUNTIME/defaults.vim
+endif
 
 packadd termdebug
 
@@ -11,7 +13,6 @@ Plug 'Shougo/neosnippet-snippets'
 Plug 'Shougo/neosnippet.vim'
 Plug 'airblade/vim-gitgutter'   " 左に変更行の印を出せます。
 Plug 'altercation/vim-colors-solarized'
-Plug 'bfrg/vim-jqplay'          " :Jqplay など
 Plug 'chrisbra/csv.vim'         " CSV 操作
 Plug 'easymotion/vim-easymotion'        " モーション
 Plug 'editorconfig/editorconfig-vim'    " editorconfig を使う
@@ -36,7 +37,6 @@ Plug 'rust-lang/rust.vim'
 Plug 'ryanoasis/vim-devicons'   " アイコンのフォント
 Plug 'scrooloose/nerdtree'      " ファイルエクスプローラ
 Plug 'sjl/gundo.vim'            " アンドゥツリー
-Plug 'skanehira/denops-gh.vim'  " GitHub
 Plug 'tomtom/tcomment_vim'      " コメントアウト支援（他の選択肢は、nerdcommenter）
 Plug 'tpope/vim-fugitive'       " Git 操作ができます。Gdiff などです。
 Plug 'tpope/vim-repeat'         " ドットコマンドで、対応したプラグイン定義のコマンドも繰り返す
@@ -49,6 +49,10 @@ Plug 'vim-airline/vim-airline-themes'   " airline のテーマ
 Plug 'vim-denops/denops.vim'    " Write plugins in deno
 Plug 'vim-jp/vimdoc-ja'
 Plug 'vim-utils/vim-man'        " マニュアルを読む（Man コマンド）
+if !has('nvim')
+    Plug 'bfrg/vim-jqplay'          " :Jqplay など
+    Plug 'skanehira/denops-gh.vim'  " GitHub
+endif
 call plug#end()
 
 " set ambiwidth=double  " double にすると '' が全角になってつらい
