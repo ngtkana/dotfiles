@@ -220,6 +220,10 @@ endfunction
 " Highlight the symbol and its references when holding the cursor
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
+if has('nvim')
+    tnoremap <Esc> <C-\><C-n>
+endif
+
 " Map function and class text objects
 " NOTE: Requires 'textDocument.documentSymbol' support from the language server
 xmap if <Plug>(coc-funcobj-i)
@@ -251,12 +255,12 @@ nmap    <silent><leader>qf <Plug>(coc-fix-current)
 nmap    <silent><leader>r  <Plug>(coc-codeaction-refactor-selected)
 nmap    <silent><leader>re <Plug>(coc-codeaction-refactor)
 nmap    <silent><leader>rn <Plug>(coc-rename)
-noremap <silent><leader>ee :e!<CR>
-noremap <silent><leader>ev :edit $MYVIMRC<CR>
-noremap <silent><leader>g  :Git<CR>
-noremap <silent><leader>q  :q<CR>
-noremap <silent><leader>w  :w<CR>
-noremap <silent><leader>sv :source $MYVIMRC<CR>
+noremap <leader>ee :e!<CR>
+noremap <leader>ev :edit $MYVIMRC<CR>
+noremap <leader>g  :Git<CR>
+noremap <leader>q  :q<CR>
+noremap <leader>w  :w<CR>
+noremap <leader>sv :source $MYVIMRC<CR>
 smap    <silent><leader>k  <Plug>(neosnippet_expand_or_jump)
 xmap    <silent><leader>a  <Plug>(coc-codeaction-selected)
 xmap    <silent><leader>k  <Plug>(neosnippet_expand_target)
