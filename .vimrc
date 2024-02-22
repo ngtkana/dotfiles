@@ -251,7 +251,7 @@ noremap <silent><leader>ee :e!<CR>
 noremap <silent><leader>ev :edit $MYVIMRC<CR>
 noremap <silent><leader>g  :Git<CR>
 noremap <silent><leader>q  :q<CR>
-noremap <silent><leader>s  :w<CR>
+noremap <silent><leader>w  :w<CR>
 noremap <silent><leader>sv :source $MYVIMRC<CR>
 smap    <silent><leader>k  <Plug>(neosnippet_expand_or_jump)
 xmap    <silent><leader>a  <Plug>(coc-codeaction-selected)
