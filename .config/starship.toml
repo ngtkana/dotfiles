@@ -103,6 +103,9 @@ min_time = 0
 style = 'cyan'
 format = " [$duration]($style)"
 
+[directory]
+format = '[$path]($style)[$read_only]($read_only_style)'
+
 [rust]
 symbol = '🦀'
 format = ' [$symbol$version]($style)'
@@ -117,5 +120,5 @@ style = 'green'
 format = '[$time]($style) '
 
 [package]
-format = '[$symbol$version]($style)'
+format = ' [$symbol$version]($style)'
 symbol = '📦'
