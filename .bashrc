@@ -169,4 +169,5 @@ export PATH="$DENO_INSTALL/bin:$PATH"
 export PATH=$PATH:/usr/local/go/bin
 export PATH=$PATH:$HOME/go/bin
 
-
+# texlive
+export PATH=$PATH:/usr/local/texlive/2023/bin/x86_64-linux/
