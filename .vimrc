@@ -75,7 +75,6 @@ set noerrorbells        " エラーベルを鳴らさない
 set noswapfile          " swp ファイルを作らない
 set nowrap              " 折返しをしない
 set number              " 行番号 set shiftwidth=4
-set relativenumber      " 相対行番号を表示する
 set scrolloff=2         " ここまでくると自動でスクロールがされる
 set shiftwidth=4        " 自動インデントの幅
 set showmatch           " 対応する括弧をハイライト
