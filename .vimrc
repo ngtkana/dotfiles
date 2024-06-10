@@ -22,7 +22,6 @@ Plug 'github/copilot.vim'
 Plug 'jonathanfilip/vim-lucius' " colorscheme lucs
 Plug 'jremmen/vim-ripgrep'      " 検索（Rg コマンド）
 Plug 'junegunn/fzf'
-Plug 'kawarimidoll/tuskk.vim'    " 日本語の入力支援
 Plug 'leafgarland/typescript-vim'       " typescript
 Plug 'majutsushi/tagbar'        " コードの要約。API は TagberToggle
 Plug 'mattn/emmet-vim'          " html / css 入力支援
@@ -126,17 +125,11 @@ let g:airline_mode_map = {
   \ ''     : 'V',
   \ }
 function! AirlineInit()
-  function! TuskkStatus()
-    if tuskk#is_enabled()
-      return 'あ'
-    else
-      return 'A'
-  endfunction
   let g:airline_symbols.linenr = ''
   let g:airline_symbols.maxlinenr = ''
   let g:airline_symbols.colnr = ':'
   let spc = g:airline_symbols.space
-  let g:airline_section_a = airline#section#create_left(['mode', '%{TuskkStatus()}', 'crypt', 'paste', 'keymap', 'capslock', 'xkblayout', 'iminsert'])
+  let g:airline_section_a = airline#section#create_left(['mode', 'crypt', 'paste', 'keymap', 'capslock', 'xkblayout', 'iminsert'])
   let g:airline_section_b = airline#section#create(['%{airline#extensions#clock#get()}'])
   let g:airline_section_c = airline#section#create(['coc_status', 'lsp_progress'])
   let g:airline_section_x = airline#section#create_right(['coc_current_function', 'bookmark', 'scrollbar', 'tagbar', 'taglist', 'vista', 'gutentags', 'gen_tags', 'omnisharp', 'grepper'])
@@ -159,33 +152,6 @@ syntax enable                   " シンタックスハイライティング
 colorscheme lucius
 
 inoremap <silent><expr> <C-g> coc#pum#visible() ? coc#pum#confirm() : "\<C-g>"
-
-inoremap <c-j> <cmd>call tuskk#toggle()<cr>
-cnoremap <c-j> <cmd>call tuskk#cmd_buf()<cr>
-call tuskk#initialize({
-      \ 'user_jisyo_path': '~/.cache/vim/SKK-JISYO.user',
-      \ 'jisyo_list':  [
-      \   { 'path': '~/.cache/vim/SKK-JISYO.L', 'encoding': 'euc-jp', 'mark': '[L]' },
-      \   { 'path': '~/.cache/vim/SKK-JISYO.geo', 'encoding': 'euc-jp', 'mark': '[G]' },
-      \   { 'path': '~/.cache/vim/SKK-JISYO.station', 'encoding': 'euc-jp', 'mark': '[S]' },
-      \   { 'path': '~/.cache/vim/SKK-JISYO.jawiki', 'encoding': 'utf-8', 'mark': '[W]' },
-      \   { 'path': '~/.cache/vim/SKK-JISYO.emoji', 'encoding': 'utf-8' },
-      \ ],
-      \ 'kana_table': extend(tuskk#opts#builtin_kana_table(), {
-      \     "shi": "し",
-      \     "chi": "ち",
-      \     "tsu": "つ",
-      \     "fu": "ふ",
-      \     "ji": "じ",
-      \ }),
-      \ 'suggest_wait_ms': 50,
-      \ 'suggest_prefix_match_minimum': 5,
-      \ 'suggest_sort_by': 'length',
-      \ 'auto_henkan_characters': 'を、。',
-      \ 'merge_tsu': v:true,
-      \ 'trailing_n': v:true,
-      \ 'abbrev_ignore_case': v:true,
-      \ })
 
 " Use <c-space> to trigger completion
 if has('nvim')
