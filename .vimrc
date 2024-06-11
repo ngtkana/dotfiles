@@ -18,7 +18,7 @@ Plug 'easymotion/vim-easymotion'        " モーション
 Plug 'editorconfig/editorconfig-vim'    " editorconfig を使う
 Plug 'elzr/vim-json'            " JSON のハイライティング
 Plug 'enricobacis/vim-airline-clock'    " 時計
-Plug 'github/copilot.vim'
+" Plug 'github/copilot.vim'
 Plug 'jonathanfilip/vim-lucius' " colorscheme lucs
 Plug 'jremmen/vim-ripgrep'      " 検索（Rg コマンド）
 Plug 'junegunn/fzf'
@@ -27,6 +27,7 @@ Plug 'majutsushi/tagbar'        " コードの要約。API は TagberToggle
 Plug 'mattn/emmet-vim'          " html / css 入力支援
 Plug 'neoclide/coc.nvim', {'branch': 'release'} " LSP 対応の補完
 Plug 'peitalin/vim-jsx-typescript'      " typescript （どうやらこっちもいるらしい）
+Plug 'qnighy/satysfi.vim'       " SATySFi
 Plug 'rebelot/kanagawa.nvim'    " カラースキーム kanagawa
 Plug 'rhysd/rust-doc.vim'       " :RustDoc でドキュメントを見る
 Plug 'ron-rs/ron.vim'           " .ron
