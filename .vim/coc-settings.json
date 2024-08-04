@@ -5,5 +5,21 @@
   "rust-analyzer.rustfmt.extraArgs": ["+nightly"],
   "rust-analyzer.cargo.features": "all",
   "rust-analyzer.updates.prompt": false,
+  "rust-analyzer.check.overrideCommand": [
+    "cargo",
+    "check",
+    "--quiet",
+    "--workspace",
+    "--message-format=json",
+    "--all-targets"
+  ],
+  "rust-analyzer.cargo.buildScripts.overrideCommand": [
+    "cargo",
+    "check",
+    "--quiet",
+    "--workspace",
+    "--message-format=json",
+    "--all-targets"
+  ],
   "explorer.icon.enableNerdfont": true
 }

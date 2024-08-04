@@ -18,7 +18,7 @@ Plug 'easymotion/vim-easymotion'        " モーション
 Plug 'editorconfig/editorconfig-vim'    " editorconfig を使う
 Plug 'elzr/vim-json'            " JSON のハイライティング
 Plug 'enricobacis/vim-airline-clock'    " 時計
-" Plug 'github/copilot.vim'
+Plug 'github/copilot.vim'
 Plug 'jonathanfilip/vim-lucius' " colorscheme lucs
 Plug 'jremmen/vim-ripgrep'      " 検索（Rg コマンド）
 Plug 'junegunn/fzf'
