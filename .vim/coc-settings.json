@@ -22,6 +22,7 @@
     "--all-targets"
   ],
   "explorer.icon.enableNerdfont": true,
+  "explorer.file.cdCommand": "tcd",
   "diagnostic-languageserver.filetypes": {
     "python": ["flake8"]
   },
