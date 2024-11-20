@@ -47,13 +47,9 @@ Plug 'tssm/fairyfloss.vim'
 Plug 'tyru/open-browser.vim'    " ブラウザを開く
 Plug 'vim-airline/vim-airline'  " ステータスライン（他の選択肢は、Powerline, Lightline）
 Plug 'vim-airline/vim-airline-themes'   " airline のテーマ
-Plug 'vim-denops/denops.vim'    " Write plugins in deno
 Plug 'vim-jp/vimdoc-ja'
 Plug 'vim-utils/vim-man'        " マニュアルを読む（Man コマンド）
-if !has('nvim')
-    Plug 'bfrg/vim-jqplay'          " :Jqplay など
-    Plug 'skanehira/denops-gh.vim'  " GitHub
-endif
+Plug 'bfrg/vim-jqplay'          " :Jqplay など
 call plug#end()
 
 " set ambiwidth=double  " double にすると '' が全角になってつらい
@@ -98,10 +94,10 @@ set updatetime=300      " <CursorHold> が発動するまでの時間 (x 1 ms)
 " sol
 " zenburn
 let g:airline#extensions#clock#auto = 0
-let g:airline#extensions#clock#format = '%m/%d %a %H:%M %S'
-let g:airline#extensions#coc#enabled = 1
+let g:airline#extensions#clock#format = '%m/%d(%a) %H:%M:%S'
+let g:airline#extensiojns#coc#enabled = 1
 let g:airline#extensions#default#enabled = 1
-let g:airline_theme = 'base16_adwaita'
+let g:airline_theme = 'base16_adwaita
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#default#layout = [
   \ [ 'a', 'b', 'c' ],
@@ -131,6 +127,8 @@ function! AirlineInit()
   let g:airline_symbols.linenr = ''
   let g:airline_symbols.maxlinenr = ''
   let g:airline_symbols.colnr = ':'
+  let g:airline_left_sep = '◤'  " Black Upper Left Triangle
+  let g:airline_right_sep = '◢' " Black Lower Right Triangle
   let spc = g:airline_symbols.space
   let g:airline_section_a = airline#section#create_left(['mode', 'crypt', 'paste', 'keymap', 'capslock', 'xkblayout', 'iminsert'])
   let g:airline_section_b = airline#section#create(['%{airline#extensions#clock#get()}'])
