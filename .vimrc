@@ -97,7 +97,7 @@ let g:airline#extensions#clock#auto = 0
 let g:airline#extensions#clock#format = '%m/%d(%a) %H:%M:%S'
 let g:airline#extensiojns#coc#enabled = 1
 let g:airline#extensions#default#enabled = 1
-let g:airline_theme = 'base16_adwaita
+let g:airline_theme = 'base16_adwaita'
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#default#layout = [
   \ [ 'a', 'b', 'c' ],
