@@ -218,9 +218,12 @@ nmap    <silent><leader>a  <Plug>(coc-codeaction-selected)
 nmap    <silent><leader>cl <Plug>(coc-codelens-action)
 nmap    <silent><leader>e  <Cmd>CocCommand explorer<CR>
 nmap    <silent><leader>qf <Plug>(coc-fix-current)
-nmap    <silent><leader>r  <Plug>(coc-codeaction-refactor-selected)
+nmap    <silent><leader>r  <Cmd>CocCommand rust-analyzer.run<CR>
 nmap    <silent><leader>re <Plug>(coc-codeaction-refactor)
 nmap    <silent><leader>rn <Plug>(coc-rename)
+nmap    <silent><leader>u  <Cmd>CocCommand rust-analyzer.moveItemUp<CR>
+nmap    <silent><leader>d  <Cmd>CocCommand rust-analyzer.moveItemDown<CR>
+nmap    <silent><leader>t  <Cmd>CocCommand rust-analyzer.testCurrent<CR>
 noremap <leader>ee :e!<CR>
 noremap <leader>ev :edit $MYVIMRC<CR>
 noremap <leader>g  :Git<CR>
