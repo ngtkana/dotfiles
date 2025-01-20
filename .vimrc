@@ -63,6 +63,7 @@ set belloff=all         " これもエラーベルを鳴らさない（noerrorbe
 set completeopt=menuone " 補完メニューを開かない
 set cursorline          " カーソル行をハイライティング
 set expandtab           " タブをスペースに展開する
+set fillchars+=eob:\\x20    " バッファー最後の ~ を非表示にする
 set foldmethod=marker   " 折りたたみをマーカーで行う
 set helplang=ja,en      " ヘルプを常に日本語で出します。
 set hidden              " 保存されていないバッファーがあっても新規バッファーを開くことができる
