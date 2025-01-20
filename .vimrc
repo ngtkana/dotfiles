@@ -12,6 +12,8 @@ Plug 'Shougo/deoplete.nvim'     " neosnippet->
 Plug 'Shougo/neosnippet-snippets'
 Plug 'Shougo/neosnippet.vim'
 Plug 'lambdalisue/fern.vim'     " ファイラ
+Plug 'lambdalisue/glyph-palette.vim' "NerFont に色
+Plug 'lambdalisue/nerdfont.vim'  " アイコンフォント用プラグイン
 Plug 'lambdalisue/vim-fern-renderer-nerdfont'   " Fern + NerdFont
 Plug 'airblade/vim-gitgutter'   " 左に変更行の印を出せます。
 Plug 'altercation/vim-colors-solarized'
@@ -140,6 +142,8 @@ function! AirlineInit()
   let g:airline_section_z = airline#section#create(['linenr', 'maxlinenr', 'colnr'])
 endfunction
 autocmd User AirlineAfterInit call AirlineInit()
+let g:fern#default_hidden=1
+let g:fern#renderer = "nerdfont"
 let g:fsharp#automatic_reload_workspace = 1
 let g:fsharp#linter = 1
 let g:fsharp#show_signature_on_cursor_move = 1
@@ -214,6 +218,19 @@ if has('nvim-0.4.0') || has('patch-8.2.0750')
 endif
 
 autocmd BufNewFile,BufRead *.ejs set filetype=html
+
+" Fern に line number をつけない
+augroup FernGroup
+  autocmd!
+  autocmd FileType fern setlocal nonumber | setlocal norelativenumber
+augroup END
+
+" アイコンに色をつける
+augroup my-glyph-palette
+  autocmd! *
+  autocmd FileType fern call glyph_palette#apply()
+  autocmd FileType nerdtree,startify call glyph_palette#apply()
+augroup END
 
 map     <silent><leader>k  <Plug>(neosnippet_expand_or_jump)
 nmap    <silent><leader>a  <Plug>(coc-codeaction-selected)
