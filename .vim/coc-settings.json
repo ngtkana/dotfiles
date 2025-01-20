@@ -12,17 +12,15 @@
         "check.overrideCommand": [
             "cargo",
             "check",
-            "--quiet",
             "--workspace",
-            "--message-format=json",
+            "--message-format=json-diagnostic-rendered-ansi",
             "--all-targets"
         ],
         "cargo.buildScripts.overrideCommand": [
             "cargo",
             "check",
-            "--quiet",
             "--workspace",
-            "--message-format=json",
+            "--message-format=json-diagnostic-rendered-ansi",
             "--all-targets"
         ]
     },

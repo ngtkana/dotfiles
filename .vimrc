@@ -11,6 +11,8 @@ call plug#begin()
 Plug 'Shougo/deoplete.nvim'     " neosnippet->
 Plug 'Shougo/neosnippet-snippets'
 Plug 'Shougo/neosnippet.vim'
+Plug 'lambdalisue/fern.vim'     " ファイラ
+Plug 'lambdalisue/vim-fern-renderer-nerdfont'   " Fern + NerdFont
 Plug 'airblade/vim-gitgutter'   " 左に変更行の印を出せます。
 Plug 'altercation/vim-colors-solarized'
 Plug 'chrisbra/csv.vim'         " CSV 操作
@@ -216,7 +218,7 @@ autocmd BufNewFile,BufRead *.ejs set filetype=html
 map     <silent><leader>k  <Plug>(neosnippet_expand_or_jump)
 nmap    <silent><leader>a  <Plug>(coc-codeaction-selected)
 nmap    <silent><leader>cl <Plug>(coc-codelens-action)
-nmap    <silent><leader>e  <Cmd>CocCommand explorer<CR>
+nmap    <silent><leader>e  :Fern . -reveal=% -drawer -toggle<CR>
 nmap    <silent><leader>qf <Plug>(coc-fix-current)
 nmap    <silent><leader>r  <Cmd>CocCommand rust-analyzer.run<CR>
 nmap    <silent><leader>re <Plug>(coc-codeaction-refactor)
