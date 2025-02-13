@@ -11,10 +11,10 @@ call plug#begin()
 Plug 'Shougo/deoplete.nvim'     " neosnippet->
 Plug 'Shougo/neosnippet-snippets'
 Plug 'Shougo/neosnippet.vim'
-Plug 'lambdalisue/fern.vim'     " ファイラ
+" Plug 'lambdalisue/fern.vim'     " ファイラ
 Plug 'lambdalisue/glyph-palette.vim' "NerFont に色
 Plug 'lambdalisue/nerdfont.vim'  " アイコンフォント用プラグイン
-Plug 'lambdalisue/vim-fern-renderer-nerdfont'   " Fern + NerdFont
+" Plug 'lambdalisue/vim-fern-renderer-nerdfont'   " Fern + NerdFont
 Plug 'airblade/vim-gitgutter'   " 左に変更行の印を出せます。
 Plug 'altercation/vim-colors-solarized'
 Plug 'chrisbra/csv.vim'         " CSV 操作
@@ -143,8 +143,8 @@ function! AirlineInit()
   let g:airline_section_z = airline#section#create(['linenr', 'maxlinenr', 'colnr'])
 endfunction
 autocmd User AirlineAfterInit call AirlineInit()
-let g:fern#default_hidden=1
-let g:fern#renderer = "nerdfont"
+" let g:fern#default_hidden=1
+" let g:fern#renderer = "nerdfont"
 let g:fsharp#automatic_reload_workspace = 1
 let g:fsharp#linter = 1
 let g:fsharp#show_signature_on_cursor_move = 1
@@ -233,17 +233,18 @@ augroup my-glyph-palette
   autocmd FileType nerdtree,startify call glyph_palette#apply()
 augroup END
 
-map     <silent><leader>k  <Plug>(neosnippet_expand_or_jump)
-nmap    <silent><leader>a  <Plug>(coc-codeaction-selected)
-nmap    <silent><leader>cl <Plug>(coc-codelens-action)
-nmap    <silent><leader>e  :Fern . -reveal=% -drawer -toggle<CR>
-nmap    <silent><leader>qf <Plug>(coc-fix-current)
-nmap    <silent><leader>r  <Cmd>CocCommand rust-analyzer.run<CR>
-nmap    <silent><leader>re <Plug>(coc-codeaction-refactor)
-nmap    <silent><leader>rn <Plug>(coc-rename)
-nmap    <silent><leader>u  <Cmd>CocCommand rust-analyzer.moveItemUp<CR>
-nmap    <silent><leader>d  <Cmd>CocCommand rust-analyzer.moveItemDown<CR>
-nmap    <silent><leader>t  <Cmd>CocCommand rust-analyzer.testCurrent<CR>
+map     <leader>k  <Plug>(neosnippet_expand_or_jump)
+nmap    <leader>a  <Plug>(coc-codeaction-selected)
+nmap    <leader>cl <Plug>(coc-codelens-action)
+nmap    <leader>e <Cmd>CocCommand explorer<CR>
+" nmap    <silent><leader>e  :Fern . -reveal=% -drawer -toggle<CR>
+nmap    <leader>qf <Plug>(coc-fix-current)
+nmap    <leader>r  <Cmd>CocCommand rust-analyzer.run<CR>
+nmap    <leader>re <Plug>(coc-codeaction-refactor)
+nmap    <leader>rn <Plug>(coc-rename)
+nmap    <leader>u  <Cmd>CocCommand rust-analyzer.moveItemUp<CR>
+nmap    <leader>d  <Cmd>CocCommand rust-analyzer.moveItemDown<CR>
+nmap    <leader>t  <Cmd>CocCommand rust-analyzer.testCurrent<CR>
 noremap <leader>ee :e!<CR>
 noremap <leader>ev :edit $MYVIMRC<CR>
 noremap <leader>g  :Git<CR>
