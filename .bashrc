@@ -164,6 +164,12 @@ export PATH=$PATH:$HOME/go/bin
 # texlive
 export PATH=$PATH:/usr/local/texlive/2023/bin/x86_64-linux/
 
+# cargo make
+makersl() {
+    makers --makefile Makefile.local.toml "$@"
+}
+
+
 export PATH="$HOME/.pyenv/bin:$PATH"
 eval "$(pyenv init --path)"
 eval "$(pyenv init -)"
