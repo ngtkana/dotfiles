@@ -211,5 +211,11 @@ if possession then
     possession.setup()
 end
 
+-- デバッグ環境の設定を読み込む
+local dap_config = safe_require("config.dap")
+if dap_config then
+    dap_config.setup()
+end
+
 -- カラースキーム設定
 vim.cmd([[colorscheme lucius]])
