@@ -17,24 +17,24 @@ vim.opt.rtp:prepend(lazypath)
 -- プラグイン定義
 return {
     -- スニペットと補完
-    { "Shougo/deoplete.nvim", build = ":UpdateRemotePlugins" },
-    { "Shougo/neosnippet-snippets" },
-    { "Shougo/neosnippet.vim" },
+    { "Shougo/deoplete.nvim", build = ":UpdateRemotePlugins", event = "InsertEnter" },
+    { "Shougo/neosnippet-snippets", event = "InsertEnter" },
+    { "Shougo/neosnippet.vim", event = "InsertEnter" },
 
     -- ファイル管理と UI
     { "nvim-tree/nvim-web-devicons" },
-    { "scrooloose/nerdtree" },
+    { "scrooloose/nerdtree", cmd = "NERDTree" },
     { "ryanoasis/vim-devicons" },
-    { "tpope/vim-vinegar" },
-    { "lambdalisue/glyph-palette.vim" },
-    { "lambdalisue/nerdfont.vim" },
+    { "tpope/vim-vinegar", keys = { { "-", desc = "Open netrw" } } },
+    { "lambdalisue/glyph-palette.vim", event = "VeryLazy" },
+    { "lambdalisue/nerdfont.vim", event = "VeryLazy" },
 
     -- Coc.nvim（LSP と CocExplorer 用）
     { "neoclide/coc.nvim", branch = "release" },
 
     -- Git 統合
-    { "lewis6991/gitsigns.nvim" }, -- vim-gitgutter の代替
-    { "tpope/vim-fugitive" },
+    { "lewis6991/gitsigns.nvim", event = "BufReadPre" }, -- vim-gitgutter の代替
+    { "tpope/vim-fugitive", cmd = { "Git", "Gstatus", "Gblame", "Gdiff" } },
 
     -- カラースキーム
     { "altercation/vim-colors-solarized" },
@@ -47,14 +47,14 @@ return {
     { "akinsho/bufferline.nvim", dependencies = { "nvim-tree/nvim-web-devicons" } }, -- タブライン
 
     -- 言語サポート
-    { "rust-lang/rust.vim" },
-    { "rhysd/rust-doc.vim" },
-    { "ron-rs/ron.vim" },
-    { "leafgarland/typescript-vim" },
-    { "peitalin/vim-jsx-typescript" },
-    { "chrisbra/csv.vim" },
-    { "elzr/vim-json" },
-    { "qnighy/satysfi.vim" },
+    { "rust-lang/rust.vim", ft = "rust" },
+    { "rhysd/rust-doc.vim", ft = "rust" },
+    { "ron-rs/ron.vim", ft = "ron" },
+    { "leafgarland/typescript-vim", ft = { "typescript", "typescriptreact" } },
+    { "peitalin/vim-jsx-typescript", ft = { "typescript", "typescriptreact" } },
+    { "chrisbra/csv.vim", ft = "csv" },
+    { "elzr/vim-json", ft = "json" },
+    { "qnighy/satysfi.vim", ft = "satysfi" },
 
     -- LSP と補完 (NeoVim ネイティブ LSP)
     { "neovim/nvim-lspconfig" }, -- LSP 設定
@@ -84,28 +84,42 @@ return {
     { "nvim-treesitter/nvim-treesitter-textobjects", dependencies = { "nvim-treesitter/nvim-treesitter" } }, -- 高度なテキストオブジェクト
 
     -- 編集ツール
-    { "easymotion/vim-easymotion" },
-    { "editorconfig/editorconfig-vim" },
-    { "mattn/emmet-vim" },
-    { "numToStr/Comment.nvim" }, -- tcomment_vim の代替
-    { "tpope/vim-repeat" },
-    { "kylechui/nvim-surround", dependencies = { "nvim-treesitter/nvim-treesitter" } }, -- vim-surround の代替
-    { "tpope/vim-unimpaired" },
-    { "github/copilot.vim" },
-    { "windwp/nvim-autopairs" }, -- 自動括弧閉じ
+    { "easymotion/vim-easymotion", keys = { { "<leader><leader>", desc = "EasyMotion" } } },
+    { "editorconfig/editorconfig-vim", event = "BufReadPre" },
+    { "mattn/emmet-vim", ft = { "html", "css", "javascript", "typescript", "typescriptreact", "javascriptreact" } },
+    { "numToStr/Comment.nvim", event = "VeryLazy" }, -- tcomment_vim の代替
+    { "tpope/vim-repeat", event = "VeryLazy" },
+    { 
+        "kylechui/nvim-surround", 
+        dependencies = { "nvim-treesitter/nvim-treesitter" },
+        event = "VeryLazy"
+    }, -- vim-surround の代替
+    { "tpope/vim-unimpaired", event = "VeryLazy" },
+    { "github/copilot.vim", event = "InsertEnter" },
+    { "windwp/nvim-autopairs", event = "InsertEnter" }, -- 自動括弧閉じ
 
     -- 検索とナビゲーション
-    { "jremmen/vim-ripgrep" },
-    { "junegunn/fzf" },
-    { "majutsushi/tagbar" },
-    { "nvim-telescope/telescope.nvim", dependencies = { "nvim-lua/plenary.nvim" } }, -- ファジーファインダー
+    { "jremmen/vim-ripgrep", cmd = "Rg" },
+    { "junegunn/fzf", cmd = "FZF" },
+    { "majutsushi/tagbar", cmd = "TagbarToggle" },
+    { 
+        "nvim-telescope/telescope.nvim", 
+        dependencies = { "nvim-lua/plenary.nvim" },
+        cmd = "Telescope",
+        keys = {
+            { "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find Files" },
+            { "<leader>fg", "<cmd>Telescope live_grep<cr>", desc = "Live Grep" },
+            { "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Buffers" },
+            { "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Help Tags" },
+        }
+    }, -- ファジーファインダー
     { "nvim-lua/plenary.nvim" }, -- Telescope に必要
 
     -- ユーティリティ
-    { "sjl/gundo.vim" },
-    { "tyru/open-browser.vim" },
-    { "vim-jp/vimdoc-ja" },
-    { "vim-utils/vim-man" },
+    { "sjl/gundo.vim", cmd = "GundoToggle" },
+    { "tyru/open-browser.vim", cmd = { "OpenBrowser", "OpenBrowserSearch" } },
+    { "vim-jp/vimdoc-ja", event = "VeryLazy" },
+    { "vim-utils/vim-man", cmd = "Man" },
 
     -- 日本語入力
     { "vim-denops/denops.vim" },
@@ -116,11 +130,19 @@ return {
     { "roxma/vim-hug-neovim-rpc" },
 
     -- UI 改善
-    { "folke/which-key.nvim" }, -- キーマップのヘルプを表示
-    { "lukas-reineke/indent-blankline.nvim" }, -- インデントガイド
-    { "echasnovski/mini.icons", version = false }, -- which-key 用アイコン
-    { "goolord/alpha-nvim", dependencies = { "nvim-tree/nvim-web-devicons" } }, -- 起動画面
-    { "folke/noice.nvim", dependencies = { "MunifTanjim/nui.nvim", "rcarriga/nvim-notify" } }, -- コマンドラインと通知の改善
-    { "rcarriga/nvim-notify" }, -- 通知システム
-    { "stevearc/dressing.nvim" }, -- UI コンポーネントの見た目改善
+    { "folke/which-key.nvim", event = "VeryLazy" }, -- キーマップのヘルプを表示
+    { "lukas-reineke/indent-blankline.nvim", event = "BufReadPost" }, -- インデントガイド
+    { "echasnovski/mini.icons", version = false, event = "VeryLazy" }, -- which-key 用アイコン
+    { 
+        "goolord/alpha-nvim", 
+        dependencies = { "nvim-tree/nvim-web-devicons" },
+        event = "VimEnter"
+    }, -- 起動画面
+    { 
+        "folke/noice.nvim", 
+        dependencies = { "MunifTanjim/nui.nvim", "rcarriga/nvim-notify" },
+        event = "VeryLazy"
+    }, -- コマンドラインと通知の改善
+    { "rcarriga/nvim-notify", event = "VeryLazy" }, -- 通知システム
+    { "stevearc/dressing.nvim", event = "VeryLazy" }, -- UI コンポーネントの見た目改善
 }

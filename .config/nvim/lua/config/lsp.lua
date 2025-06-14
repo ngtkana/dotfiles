@@ -76,11 +76,13 @@ function M.setup()
 
             -- Linter
             "eslint_d",
+            "luacheck",
 
             -- Formatter
             "prettier",
             "black",
             "rustfmt",
+            "stylua",
 
             -- DAP (デバッガー)
             "codelldb",

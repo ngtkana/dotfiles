@@ -61,15 +61,15 @@ function M.setup()
 
     -- リーダーキーのグループ登録（最新の推奨形式）
     which_key.register({
-        ["<leader>f"] = { name = "+Format/Find" },
-        ["<leader>g"] = { name = "+Git" },
-        ["<leader>l"] = { name = "+LSP" },
-        ["<leader>s"] = { name = "+Search" },
-        ["<leader>t"] = { name = "+Toggle" },
-        ["<leader>w"] = { name = "+Workspace" },
-        ["<leader>x"] = { name = "+Diagnostics/Quickfix" },
-        ["<leader>b"] = { name = "+Buffer" },
-    })
+        f = { name = "+Format/Find" },
+        g = { name = "+Git" },
+        l = { name = "+LSP" },
+        s = { name = "+Search" },
+        t = { name = "+Toggle" },
+        w = { name = "+Workspace" },
+        x = { name = "+Diagnostics/Quickfix" },
+        b = { name = "+Buffer" },
+    }, { prefix = "<leader>" })
 end
 
 return M

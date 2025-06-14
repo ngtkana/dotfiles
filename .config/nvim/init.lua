@@ -17,7 +17,72 @@ safe_require("options")
 -- プラグイン定義を読み込む
 local plugins = safe_require("plugins")
 if plugins then
-    require("lazy").setup(plugins)
+    require("lazy").setup(plugins, {
+        -- パフォーマンス最適化の設定
+        performance = {
+            rtp = {
+                -- 無効化するプラグイン
+                disabled_plugins = {
+                    "gzip",
+                    "matchit",
+                    "matchparen",
+                    "netrwPlugin",
+                    "tarPlugin",
+                    "tohtml",
+                    "tutor",
+                    "zipPlugin",
+                },
+            },
+            -- リセット時間（ミリ秒）
+            reset_packpath = true,
+            -- キャッシュ設定
+            cache = {
+                enabled = true,
+                path = vim.fn.stdpath("cache") .. "/lazy/cache",
+                -- キャッシュの有効期限（日数）
+                ttl = 5,
+            },
+        },
+        -- UI 設定
+        ui = {
+            -- ボーダースタイル
+            border = "rounded",
+            -- アイコン
+            icons = {
+                cmd = "⌘",
+                config = "🛠",
+                event = "📅",
+                ft = "📂",
+                init = "⚙",
+                keys = "🔑",
+                plugin = "🔌",
+                runtime = "💻",
+                source = "📄",
+                start = "🚀",
+                task = "📌",
+                lazy = "💤",
+            },
+        },
+        -- インストール設定
+        install = {
+            -- カラースキーム
+            colorscheme = { "lucius" },
+        },
+        -- チェック設定
+        checker = {
+            -- 更新の自動チェック
+            enabled = true,
+            -- チェック頻度（時間）
+            frequency = 86400, -- 24時間
+            -- 通知設定
+            notify = true,
+        },
+        -- 変更検出設定
+        change_detection = {
+            -- 通知設定
+            notify = true,
+        },
+    })
 end
 
 -- キーマッピングを読み込む

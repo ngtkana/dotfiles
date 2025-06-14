@@ -16,6 +16,12 @@ function M.setup()
         python = { "flake8" },
         lua = { "luacheck" },
     }
+    
+    -- luacheck の設定
+    lint.linters.luacheck.args = {
+        "--globals", "vim",
+        "--no-max-line-length",
+    }
 
     -- キーマップでリントを手動実行
     vim.keymap.set("n", "<leader>l", function()
