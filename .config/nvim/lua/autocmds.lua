@@ -1,0 +1,35 @@
+-- 自動コマンド設定
+
+-- ファイルタイプ固有の設定（新しい callback スタイルを使用）
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+    pattern = "*.ejs",
+    callback = function()
+        vim.opt.filetype = "html"
+    end,
+    desc = "EJS ファイルを HTML として扱う",
+})
+
+-- アイコン設定（新しい callback スタイルを使用）
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = { "fern", "nerdtree", "startify" },
+    callback = function()
+        if vim.fn.exists("*glyph_palette#apply") == 1 then
+            vim.fn["glyph_palette#apply"]()
+        end
+    end,
+    desc = "アイコンパレットを適用",
+})
+
+-- ファイル保存時と開いた時に自動的にリントを実行
+vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost" }, {
+    callback = function()
+        local has_lint, lint = pcall(require, "lint")
+        if has_lint then
+            lint.try_lint()
+        end
+    end,
+    desc = "ファイル保存・読み込み時にリント実行",
+})
+
+-- tuskk 初期化
+vim.call("tuskk#initialize", {})
