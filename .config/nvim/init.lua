@@ -110,9 +110,7 @@ vim.opt.hidden = true
 vim.opt.incsearch = true
 vim.opt.list = true
 vim.opt.listchars = {tab='>-', trail='#', extends='>', precedes='<', nbsp='%'}
--- デフォルトの対応括弧を設定
 vim.opt.matchpairs = '(:),{:},[:]'
--- 追加の対応括弧を設定
 vim.cmd[[set matchpairs+=「:」,『:』,【:】,《:》,〈:〉,［:］,':',":",（:）]]
 vim.cmd[[set fillchars+=eob:\ ]]
 vim.opt.matchtime = 1
@@ -128,7 +126,7 @@ vim.opt.showmatch = true
 vim.opt.showtabline = 2
 vim.opt.smartindent = true
 vim.opt.softtabstop = 4
-vim.opt.spell = true
+vim.opt.spell = false
 vim.opt.spelllang:append({'cjk'})
 vim.opt.tabstop = 4
 vim.opt.undofile = true
@@ -227,9 +225,6 @@ end
 
 -- LSP セットアップ関数の定義
 local on_attach = function(client, bufnr)
-  -- <c-x><c-o> でトリガーされる補完を有効化
-  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-
   -- マッピング
   local bufopts = { noremap=true, silent=true, buffer=bufnr }
   vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
@@ -278,7 +273,7 @@ if has_lspconfig and has_cmp and has_luasnip and has_lspkind then
   }
   -- 直接 LSP サーバーを設定
   local servers = { "rust_analyzer", "ts_ls", "pyright", "eslint", "cssls", "html", "tailwindcss", "jsonls", "lua_ls" }
-  
+
   -- mason-lspconfig は現在問題があるため、一時的に無効化
   -- if has_mason_lspconfig then
   --   mason_lspconfig.setup()
@@ -506,8 +501,6 @@ if has_lspconfig and has_cmp and has_luasnip and has_lspkind then
   })
 
   -- 診断用キーマップ
-  vim.keymap.set('n', '[g', vim.diagnostic.goto_prev, { noremap = true, silent = true })
-  vim.keymap.set('n', ']g', vim.diagnostic.goto_next, { noremap = true, silent = true })
   vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, { noremap = true, silent = true })
   vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { noremap = true, silent = true })
 
@@ -689,12 +682,12 @@ local function setup_statusline()
           if #buf_clients == 0 then
             return msg
           end
-          
+
           local client_names = {}
           for _, client in ipairs(buf_clients) do
             table.insert(client_names, client.name)
           end
-          
+
           return '[' .. table.concat(client_names, ', ') .. ']'
         end,
         'filetype'
