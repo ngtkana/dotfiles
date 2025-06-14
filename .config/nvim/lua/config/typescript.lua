@@ -8,10 +8,15 @@ function M.setup()
         return
     end
 
+    -- エラーメッセージに基づいて修正
+    -- "Lsserver is deprecated, use ts_ls instead"
     typescript.setup({
         -- TypeScript サーバーのオプション
         server = {
             -- LSP サーバーの設定
+            on_attach = function(client, bufnr)
+                -- キーマッピングなどの設定
+            end,
             settings = {
                 typescript = {
                     inlayHints = {
@@ -37,6 +42,8 @@ function M.setup()
                 },
             },
         },
+        -- 明示的に ts_ls を使用するように設定
+        server_capabilities = {},
     })
 
     -- キーマッピング

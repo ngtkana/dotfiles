@@ -61,7 +61,7 @@ return {
     { "williamboman/mason.nvim" }, -- LSP サーバーインストーラー
     { "williamboman/mason-lspconfig.nvim", dependencies = { "neovim/nvim-lspconfig", "williamboman/mason.nvim" } }, -- mason と lspconfig の連携
     { "folke/neodev.nvim" }, -- Neovim の Lua API 開発のためのヘルプ
-    { "jose-elias-alvarez/typescript.nvim" }, -- TypeScript のサポート強化
+    { "pmizio/typescript-tools.nvim", dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" } }, -- TypeScript のサポート強化（最新版）
     { "j-hui/fidget.nvim", tag = "legacy" }, -- LSP の進行状況表示
     { "hrsh7th/nvim-cmp" }, -- 補完フレームワーク
     { "hrsh7th/cmp-nvim-lsp" }, -- LSP 補完ソース

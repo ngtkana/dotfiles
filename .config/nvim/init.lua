@@ -34,8 +34,8 @@ if neodev then neodev.setup() end
 local lsp = safe_require("config.lsp")
 if lsp then lsp.setup() end
 
-local typescript = safe_require("config.typescript")
-if typescript then typescript.setup() end
+local typescript_tools = safe_require("config.typescript-tools")
+if typescript_tools then typescript_tools.setup() end
 
 local fidget = safe_require("config.fidget")
 if fidget then fidget.setup() end
