@@ -1,82 +1,76 @@
 {
-    "coc.preferences.formatOnSave": true,
+  "coc.preferences.formatOnSave": true,
+  "languageserver": {
     "rust-analyzer": {
-        "completion.autoimport.enable": true,
-        "procMacro.attributes.enable": true,
-        "rustfmt.extraArgs": [
-            "+nightly"
-        ],
-        "check.command": "clippy",
-        "cargo.features": "all",
-        "updates.prompt": false,
-        "check.overrideCommand": [
-            "cargo",
-            "check",
-            "--workspace",
-            "--message-format=json-diagnostic-rendered-ansi",
-            "--all-targets"
-        ],
-        "cargo.buildScripts.overrideCommand": [
-            "cargo",
-            "check",
-            "--workspace",
-            "--message-format=json-diagnostic-rendered-ansi",
-            "--all-targets"
-        ]
-    },
-    "explorer": {
-        "icon.enableNerdfont": true,
-        "file.cdCommand": "tcd",
-        "file.showHiddenFiles": true
+      "completion.autoimport.enable": true,
+      "procMacro.attributes.enable": true,
+      "rustfmt.extraArgs": ["+nightly"],
+      "check.command": "clippy",
+      "cargo.features": "all",
+      "updates.prompt": false,
+      "check.overrideCommand": [
+        "cargo",
+        "check",
+        "--workspace",
+        "--message-format=json-diagnostic-rendered-ansi",
+        "--all-targets"
+      ],
+      "cargo.buildScripts.overrideCommand": [
+        "cargo",
+        "check",
+        "--workspace",
+        "--message-format=json-diagnostic-rendered-ansi",
+        "--all-targets"
+      ]
     },
     "sql.database": "bigquery",
     "diagnostic-languageserver.filetypes": {
-        "python": [
-            "flake8"
-        ]
+      "python": ["flake8"]
     },
     "diagnostic-languageserver.formatFiletypes": {
-        "python": [
-            "black"
-        ]
+      "python": ["black"]
     },
     "diagnostic-languageserver.linters": {
-        "flake8": {
-            "command": "flake8",
-            "debounce": 100,
-            "args": [
-                "--format=%(row)d,%(col)d,%(code).1s,%(code)s: %(text)s",
-                "-"
-            ],
-            "offsetLine": 0,
-            "offsetColumn": 0,
-            "sourceName": "flake8",
-            "formatLines": 1,
-            "formatPattern": [
-                "(\\d+),(\\d+),([A-Z]),(.*)(\\r|\\n)*$",
-                {
-                    "line": 1,
-                    "column": 2,
-                    "security": 3,
-                    "message": 4
-                }
-            ],
-            "securities": {
-                "W": "warning",
-                "E": "error",
-                "F": "error",
-                "C": "error",
-                "N": "error"
-            }
+      "flake8": {
+        "command": "flake8",
+        "debounce": 100,
+        "args": ["--format=%(row)d,%(col)d,%(code).1s,%(code)s: %(text)s", "-"],
+        "offsetLine": 0,
+        "offsetColumn": 0,
+        "sourceName": "flake8",
+        "formatLines": 1,
+        "formatPattern": [
+          "(\\d+),(\\d+),([A-Z]),(.*)(\\r|\\n)*$",
+          {
+            "line": 1,
+            "column": 2,
+            "security": 3,
+            "message": 4
+          }
+        ],
+        "securities": {
+          "W": "warning",
+          "E": "error",
+          "F": "error",
+          "C": "error",
+          "N": "error"
         }
+      }
     },
     "diagnostic-languageserver.formatters": {
-        "black": {
-            "command": "black",
-            "args": [
-                "--quiet",
-                "-"
-            ]
-        }
+      "black": {
+        "command": "black",
+        "args": ["--quiet", "-"]
+      }
     }
+  },
+  "explorer": {
+    "icon.enableNerdfont": true,
+    "file.cdCommand": "tcd",
+    "file.showHiddenFiles": true
+  },
+  "prettier": {
+    "enable": true,
+    "requireConfig": true
+  }
 }
