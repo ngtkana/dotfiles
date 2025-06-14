@@ -128,8 +128,10 @@ vim.opt.incsearch = true
 vim.opt.list = true
 vim.opt.listchars = { tab = ">-", trail = "#", extends = ">", precedes = "<", nbsp = "%" }
 vim.opt.matchpairs = "(:),{:},[:]"
+-- 日本語の括弧ペアを追加（現在は Lua API で直接追加できないため vim.cmd を使用）
 vim.cmd([[set matchpairs+=「:」,『:』,【:】,《:》,〈:〉,［:］,':',":",（:）]])
-vim.cmd([[set fillchars+=eob:\ ]])
+-- 空白行の ~ を非表示にする
+vim.opt.fillchars:append({ eob = " " })
 vim.opt.matchtime = 1
 vim.opt.mouse = "a"
 vim.opt.backup = false
@@ -149,37 +151,43 @@ vim.opt.tabstop = 4
 vim.opt.undofile = true
 vim.opt.updatetime = 300
 
--- カラースキーム
-vim.cmd([[set background=light]])
-vim.cmd([[syntax enable]])
-vim.cmd([[colorscheme lucius]])
+-- カラースキーム（Lua API を使用）
+vim.opt.background = "light"
+vim.opt.syntax = "enable" -- syntax enable を Lua API で設定
+vim.cmd([[colorscheme lucius]]) -- colorscheme は現在 Lua API で直接設定できないため vim.cmd を使用
 
--- リーダーキー
-vim.g.mapleader = ","
+-- リーダーキーは既に設定済み（上部で設定しているため削除）
 
--- 基本キーマップ
-vim.api.nvim_set_keymap("", "<leader>w", ":w<CR>", { noremap = true })
-vim.api.nvim_set_keymap("", "<leader>q", ":q<CR>", { noremap = true })
-vim.api.nvim_set_keymap("", "<leader>sv", ":source $MYVIMRC<CR>", { noremap = true })
-vim.api.nvim_set_keymap("", "<leader>ev", ":edit $MYVIMRC<CR>", { noremap = true })
-vim.api.nvim_set_keymap("", "<leader>ee", ":e!<CR>", { noremap = true })
-vim.api.nvim_set_keymap("", "<leader>g", ":Git<CR>", { noremap = true })
+-- 基本キーマップ（新しい vim.keymap.set API を使用）
+vim.keymap.set({ "n", "v" }, "<leader>w", ":w<CR>", { noremap = true, desc = "Save file" })
+vim.keymap.set({ "n", "v" }, "<leader>q", ":q<CR>", { noremap = true, desc = "Quit" })
+vim.keymap.set({ "n", "v" }, "<leader>sv", ":source $MYVIMRC<CR>", { noremap = true, desc = "Source init.lua" })
+vim.keymap.set({ "n", "v" }, "<leader>ev", ":edit $MYVIMRC<CR>", { noremap = true, desc = "Edit init.lua" })
+vim.keymap.set({ "n", "v" }, "<leader>ee", ":e!<CR>", { noremap = true, desc = "Reload file" })
+vim.keymap.set({ "n", "v" }, "<leader>g", ":Git<CR>", { noremap = true, desc = "Open Git" })
 
 -- ターミナルからの脱出
-vim.api.nvim_set_keymap("t", "<Esc>", "<C-\\><C-n>", { noremap = true })
+vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { noremap = true, desc = "Exit terminal mode" })
 
--- Neosnippet
-vim.api.nvim_set_keymap("", "<leader>k", "<Plug>(neosnippet_expand_or_jump)", {})
-vim.api.nvim_set_keymap("s", "<leader>k", "<Plug>(neosnippet_expand_or_jump)", {})
-vim.api.nvim_set_keymap("x", "<leader>k", "<Plug>(neosnippet_expand_target)", {})
+-- Neosnippet（新しい vim.keymap.set API を使用）
+vim.keymap.set("", "<leader>k", "<Plug>(neosnippet_expand_or_jump)", { desc = "Expand snippet" })
+vim.keymap.set("s", "<leader>k", "<Plug>(neosnippet_expand_or_jump)", { desc = "Expand snippet" })
+vim.keymap.set("x", "<leader>k", "<Plug>(neosnippet_expand_target)", { desc = "Expand snippet target" })
 
--- tuskk による日本語入力
-vim.api.nvim_set_keymap("i", "<C-j>", [[<Cmd>call tuskk#toggle()<CR>]], {})
-vim.api.nvim_set_keymap("c", "<C-j>", "call tuskk#cmd_buf()", { expr = true })
+-- tuskk による日本語入力（新しい vim.keymap.set API を使用）
+vim.keymap.set("i", "<C-j>", [[<Cmd>call tuskk#toggle()<CR>]], { desc = "Toggle Japanese input" })
+vim.keymap.set("c", "<C-j>", function()
+    return vim.call("tuskk#cmd_buf")
+end, { expr = true, desc = "Japanese input in command" })
 vim.call("tuskk#initialize", {})
 
--- CocExplorer キーマッピング
-vim.api.nvim_set_keymap("n", "<leader>e", ":CocCommand explorer<CR>", { noremap = true, silent = true })
+-- CocExplorer キーマッピング（新しい vim.keymap.set API を使用）
+vim.keymap.set(
+    "n",
+    "<leader>e",
+    ":CocCommand explorer<CR>",
+    { noremap = true, silent = true, desc = "Open CocExplorer" }
+)
 
 -- ネイティブ LSP 設定
 -- プラグインがまだインストールされていない場合に対応するため pcall でラップ
@@ -320,14 +328,14 @@ if has_lspconfig and has_cmp and has_luasnip and has_lspkind then
         -- Mason でインストールされた rust-analyzer のパスを取得（lazy.nvim 対応版）
         local mason_bin_path = vim.fn.stdpath("data") .. "/mason/bin/"
         local rust_analyzer_path = nil
-        
+
         -- OS に応じたパスを設定
         if vim.fn.has("win32") == 1 then
             rust_analyzer_path = mason_bin_path .. "rust-analyzer.cmd"
         else
             rust_analyzer_path = mason_bin_path .. "rust-analyzer"
         end
-        
+
         -- ファイルが存在するか確認
         if vim.fn.filereadable(rust_analyzer_path) == 0 then
             rust_analyzer_path = nil
@@ -630,10 +638,13 @@ if has_telescope then
     vim.keymap.set("n", "<leader>fr", builtin.lsp_references, { noremap = true })
 end
 
--- ファイルタイプ固有の設定
+-- ファイルタイプ固有の設定（新しい callback スタイルを使用）
 vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
     pattern = "*.ejs",
-    command = "set filetype=html",
+    callback = function()
+        vim.opt.filetype = "html"
+    end,
+    desc = "EJS ファイルを HTML として扱う",
 })
 
 -- Treesitter 設定
@@ -813,9 +824,14 @@ if has_nvim_tree then
         },
     })
 
-    -- ファイルエクスプローラーのキーマッピング (NvimTree)
-    vim.api.nvim_set_keymap("n", "<leader>n", ":NvimTreeToggle<CR>", { noremap = true, silent = true })
-    vim.api.nvim_set_keymap("n", "<leader>N", ":NvimTreeFindFile<CR>", { noremap = true, silent = true })
+    -- ファイルエクスプローラーのキーマッピング (NvimTree)（新しい vim.keymap.set API を使用）
+    vim.keymap.set("n", "<leader>n", ":NvimTreeToggle<CR>", { noremap = true, silent = true, desc = "Toggle NvimTree" })
+    vim.keymap.set(
+        "n",
+        "<leader>N",
+        ":NvimTreeFindFile<CR>",
+        { noremap = true, silent = true, desc = "Find file in NvimTree" }
+    )
 end
 
 -- リンター設定（nvim-lint）
