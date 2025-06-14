@@ -76,7 +76,7 @@ set nobackup            " 上書き時にバックアップを作らない
 set noerrorbells        " エラーベルを鳴らさない
 set noswapfile          " swp ファイルを作らない
 set nowrap              " 折返しをしない
-set number              " 行番号 set shiftwidth=4
+set number              " 行番号
 set scrolloff=2         " ここまでくると自動でスクロールがされる
 set shiftwidth=4        " 自動インデントの幅
 set showmatch           " 対応する括弧をハイライト
@@ -84,7 +84,7 @@ set showtabline=2       " タブページのラベルを常に表示する
 set smartindent         " カッコの後ろなどにインデント
 set softtabstop=4       " <Tab> を押した時, 何個分のスペースを挿入するか
 set spell               " スペルチェックあり
-set spelllang+=cjk      " 日本語がエラーになるのがいやなのv
+set spelllang+=cjk      " 日本語がエラーになるのがいやなの
 set tabstop=4           " 何個分のスペースで 1 つのタブとしてカウントするか
 set undodir=~/.vim/undodir      " アンドゥファイルのためのディレクトリ
 set undofile            " アンドゥファイルを作る
@@ -100,10 +100,13 @@ set updatetime=300      " <CursorHold> が発動するまでの時間 (x 1 ms)
 " zenburn
 let g:airline#extensions#clock#auto = 0
 let g:airline#extensions#clock#format = '%m/%d(%a) %H:%M:%S'
-let g:airline#extensiojns#coc#enabled = 1
+let g:airline#extensions#coc#enabled = 1
 let g:airline#extensions#default#enabled = 1
 let g:airline_theme = 'base16_adwaita'
 let g:airline_powerline_fonts = 1
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
 let g:airline#extensions#default#layout = [
   \ [ 'a', 'b', 'c' ],
   \ [ 'x', 'y', 'z']
@@ -229,8 +232,8 @@ augroup END
 " アイコンに色をつける
 augroup my-glyph-palette
   autocmd! *
-  autocmd FileType fern call glyph_palette#apply()
-  autocmd FileType nerdtree,startify call glyph_palette#apply()
+  autocmd FileType fern if exists('*glyph_palette#apply') | call glyph_palette#apply() | endif
+  autocmd FileType nerdtree,startify if exists('*glyph_palette#apply') | call glyph_palette#apply() | endif
 augroup END
 
 map     <leader>k  <Plug>(neosnippet_expand_or_jump)
