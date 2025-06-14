@@ -114,9 +114,13 @@ return {
     -- 一部のプラグインに必要
     { "roxma/nvim-yarp" },
     { "roxma/vim-hug-neovim-rpc" },
-    
+
     -- UI 改善
     { "folke/which-key.nvim" }, -- キーマップのヘルプを表示
     { "lukas-reineke/indent-blankline.nvim" }, -- インデントガイド
     { "echasnovski/mini.icons", version = false }, -- which-key 用アイコン
+    { "goolord/alpha-nvim", dependencies = { "nvim-tree/nvim-web-devicons" } }, -- 起動画面
+    { "folke/noice.nvim", dependencies = { "MunifTanjim/nui.nvim", "rcarriga/nvim-notify" } }, -- コマンドラインと通知の改善
+    { "rcarriga/nvim-notify" }, -- 通知システム
+    { "stevearc/dressing.nvim" }, -- UI コンポーネントの見た目改善
 }

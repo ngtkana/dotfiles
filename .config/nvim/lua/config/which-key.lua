@@ -35,9 +35,8 @@ function M.setup()
             scroll_down = "<c-d>", -- ポップアップをスクロールダウン
             scroll_up = "<c-u>", -- ポップアップをスクロールアップ
         },
-        win = {
+        window = {
             border = "rounded", -- none, single, double, shadow, rounded
-            position = "bottom", -- bottom, top
             margin = { 1, 0, 1, 0 }, -- 上下左右のマージン
             padding = { 2, 2, 2, 2 }, -- 上下左右のパディング
             winblend = 0, -- 透明度（0-100）
