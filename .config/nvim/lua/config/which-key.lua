@@ -78,31 +78,6 @@ function M.setup()
         },
         g = { name = "+Git" },
         l = { name = "+LSP" },
-        s = { 
-            name = "+Session",
-            s = { "<cmd>Telescope possession list<cr>", "List Sessions" },
-            n = { function()
-                vim.ui.input({ prompt = "Session name: " }, function(name)
-                    if name and name ~= "" then
-                        require("possession.session").save(name)
-                    end
-                end)
-            end, "New Session" },
-            l = { function()
-                vim.ui.input({ prompt = "Session name: " }, function(name)
-                    if name and name ~= "" then
-                        require("possession.session").load(name)
-                    end
-                end)
-            end, "Load Session" },
-            d = { function()
-                vim.ui.input({ prompt = "Session name: " }, function(name)
-                    if name and name ~= "" then
-                        require("possession.session").delete(name)
-                    end
-                end)
-            end, "Delete Session" },
-        },
         t = { name = "+Toggle" },
         w = { name = "+Workspace" },
         x = { name = "+Diagnostics/Quickfix" },

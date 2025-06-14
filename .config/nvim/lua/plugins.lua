@@ -29,9 +29,6 @@ return {
     { "lambdalisue/glyph-palette.vim", event = "VeryLazy" },
     { "lambdalisue/nerdfont.vim", event = "VeryLazy" },
 
-    -- Coc.nvim（LSP と CocExplorer 用）
-    { "neoclide/coc.nvim", branch = "release" },
-
     -- Git 統合
     { "lewis6991/gitsigns.nvim", event = "BufReadPre" }, -- vim-gitgutter の代替
     { "tpope/vim-fugitive", cmd = { "Git", "Gstatus", "Gblame", "Gdiff" } },
@@ -154,14 +151,4 @@ return {
     }, -- コマンドラインと通知の改善
     { "rcarriga/nvim-notify", event = "VeryLazy" }, -- 通知システム
     { "stevearc/dressing.nvim", event = "VeryLazy" }, -- UI コンポーネントの見た目改善
-    
-    -- セッション管理（自動保存・復元を無効化）
-    { 
-        "rmagatti/auto-session", 
-        enabled = false, -- プラグインを無効化
-    }, -- 自動セッション保存
-    { 
-        "jedrzejboczar/possession.nvim", 
-        enabled = false, -- プラグインを無効化
-    }, -- セッション管理
 }

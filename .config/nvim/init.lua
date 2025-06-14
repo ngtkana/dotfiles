@@ -205,12 +205,6 @@ if dressing then
     dressing.setup()
 end
 
--- セッション管理の設定を読み込む
-local possession = safe_require("config.possession")
-if possession then
-    possession.setup()
-end
-
 -- デバッグ環境の設定を読み込む
 local dap_config = safe_require("config.dap")
 if dap_config then

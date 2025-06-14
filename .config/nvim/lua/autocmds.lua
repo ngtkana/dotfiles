@@ -31,8 +31,10 @@ vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost" }, {
     desc = "ファイル保存・読み込み時にリント実行",
 })
 
--- tuskk 初期化
-vim.call("tuskk#initialize", {})
+-- tuskk 初期化（関数が存在する場合のみ）
+if vim.fn.exists("*tuskk#initialize") == 1 then
+    vim.call("tuskk#initialize", {})
+end
 
 -- ファイルを開いたときに新しいタブにならないようにする
 vim.api.nvim_create_autocmd("BufReadPost", {
