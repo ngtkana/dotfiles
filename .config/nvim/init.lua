@@ -173,9 +173,8 @@ local has_lspconfig, lspconfig = pcall(require, 'lspconfig')
 local has_cmp, cmp = pcall(require, 'cmp')
 local has_luasnip, luasnip = pcall(require, 'luasnip')
 local has_lspkind, lspkind = pcall(require, 'lspkind')
-
--- Mason セットアップ (LSP サーバーインストーラー)
 local has_mason, mason = pcall(require, 'mason')
+local has_mason_lspconfig, mason_lspconfig = pcall(require, 'mason-lspconfig')
 
 if has_mason then
   mason.setup({
@@ -224,14 +223,20 @@ if has_mason then
     end
   end
 
-  -- mason-lspconfig の設定は一時的に無効化
-  -- if has_mason_lspconfig then
-  --   mason_lspconfig.setup()
-  -- end
+  -- mason-lspconfig の設定
+  if has_mason_lspconfig then
+    mason_lspconfig.setup({
+      -- 自動インストールは無効化（mason-registry で個別に管理）
+      automatic_installation = false
+    })
+  end
 end
 
 -- LSP セットアップ関数の定義
 local on_attach = function(client, bufnr)
+  -- <c-x><c-o> でトリガーされる補完を有効化
+  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+
   -- マッピング
   local bufopts = { noremap=true, silent=true, buffer=bufnr }
   vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
@@ -679,8 +684,17 @@ local function setup_statusline()
       },
       lualine_x = {
         function()
+          local msg = ''
+          local buf_clients = vim.lsp.get_active_clients({ bufnr = 0 })
+          if #buf_clients == 0 then
+            return msg
+          end
+          
           local client_names = {}
-
+          for _, client in ipairs(buf_clients) do
+            table.insert(client_names, client.name)
+          end
+          
           return '[' .. table.concat(client_names, ', ') .. ']'
         end,
         'filetype'
@@ -757,6 +771,7 @@ if has_null_ls then
         }
       }),
       null_ls.builtins.formatting.rustfmt,
+      null_ls.builtins.formatting.stylua,  -- Lua 用フォーマッタ
       null_ls.builtins.formatting.black.with({ extra_args = { "--fast" } }),
       null_ls.builtins.diagnostics.eslint,
       null_ls.builtins.code_actions.eslint,
@@ -774,19 +789,8 @@ if has_null_ls then
   })
 end
 
--- LSP キーマッピング
-vim.api.nvim_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>f', '<cmd>lua vim.lsp.buf.format({ async = true })<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>d', '<cmd>lua vim.diagnostic.open_float()<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '[g', '<cmd>lua vim.diagnostic.goto_prev()<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', ']g', '<cmd>lua vim.diagnostic.goto_next()<CR>', { noremap = true, silent = true })
+-- LSP キーマッピングはすでに on_attach 関数内で設定されているため、ここでは不要
+-- グローバルなキーマッピングは必要に応じて追加
 
 -- プラグイン設定
 vim.g.gitgutter_enabled = true
