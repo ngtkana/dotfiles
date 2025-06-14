@@ -53,3 +53,17 @@ vim.api.nvim_create_autocmd("BufNew", {
     end,
     desc = "新しいファイルを現在のウィンドウで開く",
 })
+
+-- LSP が有効なバッファでは deoplete を無効化（競合を避けるため）
+vim.api.nvim_create_autocmd("LspAttach", {
+    callback = function(args)
+        -- LSP がアタッチされたバッファで deoplete を無効化
+        if vim.fn.exists("*deoplete#disable") == 1 then
+            vim.call("deoplete#disable")
+        end
+        
+        -- LSP 補完が有効なことをユーザーに通知
+        vim.notify("LSP active: nvim-cmp is now handling completion", vim.log.levels.INFO)
+    end,
+    desc = "LSP が有効な場合は deoplete を無効化",
+})

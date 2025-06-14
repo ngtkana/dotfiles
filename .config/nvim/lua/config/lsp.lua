@@ -172,6 +172,24 @@ function M.setup()
                             rustc = {
                                 source = nil,
                             },
+                            imports = {
+                                granularity = {
+                                    group = "module",
+                                },
+                                prefix = "self",
+                            },
+                            assist = {
+                                importGranularity = "module",
+                                importPrefix = "self",
+                            },
+                            completion = {
+                                autoimport = {
+                                    enable = true,
+                                },
+                                autoself = {
+                                    enable = true,
+                                },
+                            },
                         },
                     },
                 },
@@ -333,7 +351,10 @@ function M.setup()
                 ["<C-f>"] = cmp.mapping.scroll_docs(4),
                 ["<C-Space>"] = cmp.mapping.complete(),
                 ["<C-e>"] = cmp.mapping.abort(),
-                ["<CR>"] = cmp.mapping.confirm({ select = true }),
+                ["<CR>"] = cmp.mapping.confirm({ 
+                    select = true,
+                    behavior = cmp.ConfirmBehavior.Replace,
+                }),
                 ["<Tab>"] = cmp.mapping(function(fallback)
                     if cmp.visible() then
                         cmp.select_next_item()
@@ -354,10 +375,10 @@ function M.setup()
                 end, { "i", "s" }),
             }),
             sources = cmp.config.sources({
-                { name = "nvim_lsp" },
-                { name = "luasnip" },
+                { name = "nvim_lsp", keyword_length = 1 },
+                { name = "luasnip", keyword_length = 2 },
             }, {
-                { name = "buffer" },
+                { name = "buffer", keyword_length = 3 },
                 { name = "path" },
             }),
             formatting = {
@@ -366,6 +387,13 @@ function M.setup()
                     maxwidth = 50,
                     ellipsis_char = "...",
                 }),
+            },
+            experimental = {
+                ghost_text = true,
+            },
+            preselect = cmp.PreselectMode.Item,
+            completion = {
+                completeopt = "menu,menuone,noinsert",
             },
         })
 

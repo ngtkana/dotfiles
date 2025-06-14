@@ -62,6 +62,9 @@ function M.setup()
     -- リーダーキーのグループ登録（最新の推奨形式）
     which_key.add({
         { "<leader>b", group = "Buffer" },
+        { "<leader>c", group = "Code" },
+        { "<leader>ca", desc = "Code Action" },
+        { "<leader>ci", desc = "Auto Import" },
         { "<leader>f", group = "Find/Telescope" },
         { "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Buffers" },
         { "<leader>fc", "<cmd>Telescope commands<cr>", desc = "Commands" },

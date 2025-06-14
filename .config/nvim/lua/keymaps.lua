@@ -54,6 +54,26 @@ vim.keymap.set("n", "<leader>l", function()
     end
 end, { desc = "Lint current file" })
 
+-- Rust 用の自動インポートキーマップ
+vim.keymap.set("i", "<C-a>", function()
+    vim.lsp.buf.code_action({
+        context = {
+            only = { "source.addMissingImports" }
+        },
+        apply = true
+    })
+end, { desc = "Auto-import (insert mode)", silent = true })
+
+-- 自動インポート用のコードアクションキーマップ（ノーマルモード）
+vim.keymap.set("n", "<leader>ci", function()
+    vim.lsp.buf.code_action({
+        context = {
+            only = { "source.addMissingImports" }
+        },
+        apply = true
+    })
+end, { desc = "Auto-import (normal mode)", silent = true })
+
 -- ac-adapter-rs-vim 用関数
 function ExpandAcAdapter(libname)
     local command = "procon-bundler find " .. vim.g.ac_adapter_rs_vim_workspace .. " " .. libname
