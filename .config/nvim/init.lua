@@ -174,7 +174,6 @@ local has_cmp, cmp = pcall(require, 'cmp')
 local has_luasnip, luasnip = pcall(require, 'luasnip')
 local has_lspkind, lspkind = pcall(require, 'lspkind')
 local has_mason, mason = pcall(require, 'mason')
-local has_mason_lspconfig, mason_lspconfig = pcall(require, 'mason-lspconfig')
 
 if has_mason then
   mason.setup({
@@ -223,13 +222,7 @@ if has_mason then
     end
   end
 
-  -- mason-lspconfig の設定
-  if has_mason_lspconfig then
-    mason_lspconfig.setup({
-      -- 自動インストールは無効化（mason-registry で個別に管理）
-      automatic_installation = false
-    })
-  end
+  -- mason-lspconfig の設定は後で servers 変数を使用するため、後で設定します
 end
 
 -- LSP セットアップ関数の定義
@@ -285,6 +278,11 @@ if has_lspconfig and has_cmp and has_luasnip and has_lspkind then
   }
   -- 直接 LSP サーバーを設定
   local servers = { "rust_analyzer", "ts_ls", "pyright", "eslint", "cssls", "html", "tailwindcss", "jsonls", "lua_ls" }
+  
+  -- mason-lspconfig は現在問題があるため、一時的に無効化
+  -- if has_mason_lspconfig then
+  --   mason_lspconfig.setup()
+  -- end
   for _, server in ipairs(servers) do
     local ok, _ = pcall(function()
       lspconfig[server].setup({
@@ -305,9 +303,10 @@ if has_lspconfig and has_cmp and has_luasnip and has_lspkind then
         on_attach = on_attach,
         settings = {
           ["rust-analyzer"] = {
-            checkOnSave = {
-              command = "clippy"
-            },
+            checkOnSave = true,
+            procMacro = {
+              enable = true
+            }
           }
         }
       }
@@ -685,7 +684,8 @@ local function setup_statusline()
       lualine_x = {
         function()
           local msg = ''
-          local buf_clients = vim.lsp.get_active_clients({ bufnr = 0 })
+          -- 非推奨の vim.lsp.get_active_clients() から vim.lsp.get_clients() に更新
+          local buf_clients = vim.lsp.get_clients({ bufnr = 0 })
           if #buf_clients == 0 then
             return msg
           end
