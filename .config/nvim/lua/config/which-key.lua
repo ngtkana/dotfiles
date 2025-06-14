@@ -60,29 +60,27 @@ function M.setup()
     })
 
     -- リーダーキーのグループ登録（最新の推奨形式）
-    which_key.register({
-        f = { 
-            name = "+Find/Telescope",
-            f = { "<cmd>Telescope find_files<cr>", "Find Files" },
-            g = { "<cmd>Telescope live_grep<cr>", "Live Grep" },
-            b = { "<cmd>Telescope buffers<cr>", "Buffers" },
-            h = { "<cmd>Telescope help_tags<cr>", "Help Tags" },
-            s = { "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
-            r = { "<cmd>Telescope lsp_references<cr>", "References" },
-            d = { "<cmd>Telescope diagnostics<cr>", "Diagnostics" },
-            o = { "<cmd>Telescope oldfiles<cr>", "Recent Files" },
-            c = { "<cmd>Telescope commands<cr>", "Commands" },
-            k = { "<cmd>Telescope keymaps<cr>", "Keymaps" },
-            e = { "<cmd>Telescope file_browser<cr>", "File Browser" },
-            p = { "<cmd>Telescope project<cr>", "Projects" },
-        },
-        g = { name = "+Git" },
-        l = { name = "+LSP" },
-        t = { name = "+Toggle" },
-        w = { name = "+Workspace" },
-        x = { name = "+Diagnostics/Quickfix" },
-        b = { name = "+Buffer" },
-    }, { prefix = "<leader>" })
+    which_key.add({
+        { "<leader>b", group = "Buffer" },
+        { "<leader>f", group = "Find/Telescope" },
+        { "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Buffers" },
+        { "<leader>fc", "<cmd>Telescope commands<cr>", desc = "Commands" },
+        { "<leader>fd", "<cmd>Telescope diagnostics<cr>", desc = "Diagnostics" },
+        { "<leader>fe", "<cmd>Telescope file_browser<cr>", desc = "File Browser" },
+        { "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find Files" },
+        { "<leader>fg", "<cmd>Telescope live_grep<cr>", desc = "Live Grep" },
+        { "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Help Tags" },
+        { "<leader>fk", "<cmd>Telescope keymaps<cr>", desc = "Keymaps" },
+        { "<leader>fo", "<cmd>Telescope oldfiles<cr>", desc = "Recent Files" },
+        { "<leader>fp", "<cmd>Telescope project<cr>", desc = "Projects" },
+        { "<leader>fr", "<cmd>Telescope lsp_references<cr>", desc = "References" },
+        { "<leader>fs", "<cmd>Telescope lsp_document_symbols<cr>", desc = "Document Symbols" },
+        { "<leader>g", group = "Git" },
+        { "<leader>l", group = "LSP" },
+        { "<leader>t", group = "Toggle" },
+        { "<leader>w", group = "Workspace" },
+        { "<leader>x", group = "Diagnostics/Quickfix" },
+    })
 end
 
 return M
