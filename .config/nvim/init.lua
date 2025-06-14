@@ -27,8 +27,18 @@ safe_require("keymaps")
 safe_require("autocmds")
 
 -- プラグイン設定を読み込む
+-- LSP 関連の設定を読み込む
+local neodev = safe_require("config.neodev")
+if neodev then neodev.setup() end
+
 local lsp = safe_require("config.lsp")
 if lsp then lsp.setup() end
+
+local typescript = safe_require("config.typescript")
+if typescript then typescript.setup() end
+
+local fidget = safe_require("config.fidget")
+if fidget then fidget.setup() end
 
 local treesitter = safe_require("config.treesitter")
 if treesitter then treesitter.setup() end
