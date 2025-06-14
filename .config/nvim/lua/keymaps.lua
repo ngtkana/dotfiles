@@ -22,13 +22,13 @@ vim.keymap.set("c", "<C-j>", function()
     return vim.call("tuskk#cmd_buf")
 end, { expr = true, desc = "Japanese input in command" })
 
--- CocExplorer キーマッピング
-vim.keymap.set(
-    "n",
-    "<leader>e",
-    ":CocCommand explorer<CR>",
-    { noremap = true, silent = true, desc = "Open CocExplorer" }
-)
+-- CocExplorer キーマッピング（無効化：nvim-tree を使用）
+-- vim.keymap.set(
+--     "n",
+--     "<leader>e",
+--     ":CocCommand explorer<CR>",
+--     { noremap = true, silent = true, desc = "Open CocExplorer" }
+-- )
 
 -- 診断用キーマップ
 vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, { noremap = true, silent = true })

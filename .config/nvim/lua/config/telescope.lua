@@ -55,7 +55,7 @@ function M.setup()
             -- ファイルブラウザ拡張
             file_browser = {
                 theme = "dropdown",
-                hijack_netrw = true,             -- netrw の代わりに使用
+                hijack_netrw = false,            -- netrw の代わりに使用しない（nvim-tree を使用）
                 mappings = {
                     ["i"] = {
                         ["<C-w>"] = function() vim.cmd('normal vbd') end, -- 単語を削除
@@ -63,9 +63,17 @@ function M.setup()
                     ["n"] = {
                         ["N"] = "create",        -- 新規ファイル作成
                         ["h"] = "goto_parent_dir", -- 親ディレクトリへ
-                        ["/"] = "filter",        -- フィルター
+                        -- ["/"] = "filter" の代わりに以下を使用
+                        ["/"] = function()
+                            vim.cmd("startinsert")
+                        end,
                     },
                 },
+                -- 追加の設定
+                hidden = true,                   -- 隠しファイルを表示
+                respect_gitignore = false,       -- .gitignore を尊重しない
+                initial_mode = "normal",         -- 初期モードを normal に設定
+                path = "%:p:h",                  -- 現在のファイルのディレクトリを開く
             },
             -- プロジェクト拡張
             project = {
@@ -83,9 +91,16 @@ function M.setup()
     })
 
     -- 拡張機能を読み込む
-    pcall(telescope.load_extension, "fzf")
-    pcall(telescope.load_extension, "file_browser")
-    pcall(telescope.load_extension, "project")
+    local function load_extension(name)
+        local success, err = pcall(telescope.load_extension, name)
+        if not success then
+            vim.notify("Failed to load telescope extension: " .. name .. "\n" .. err, vim.log.levels.WARN)
+        end
+    end
+    
+    load_extension("fzf")
+    load_extension("file_browser")
+    load_extension("project")
 
     -- Telescope キーマップ
     local builtin = require("telescope.builtin")
@@ -101,7 +116,19 @@ function M.setup()
     vim.keymap.set("n", "<leader>fk", builtin.keymaps, { noremap = true, desc = "Keymaps" })
     
     -- 拡張機能のキーマップ
-    vim.keymap.set("n", "<leader>fe", ":Telescope file_browser<CR>", { noremap = true, desc = "File Browser" })
+    vim.keymap.set("n", "<leader>fe", function()
+        require("telescope").extensions.file_browser.file_browser({
+            path = "%:p:h",
+            cwd = vim.fn.expand('%:p:h'),
+            respect_gitignore = false,
+            hidden = true,
+            grouped = true,
+            previewer = false,
+            initial_mode = "normal",
+            layout_config = { height = 40 }
+        })
+    end, { noremap = true, desc = "File Browser" })
+    
     vim.keymap.set("n", "<leader>fp", ":Telescope project<CR>", { noremap = true, desc = "Projects" })
 end
 
