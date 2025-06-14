@@ -57,7 +57,8 @@ Plug('saadparwaiz1/cmp_luasnip')        -- スニペット補完ソース
 Plug('onsails/lspkind-nvim')            -- 補完メニューのアイコン
 Plug('folke/trouble.nvim')              -- 診断表示の改善
 Plug('simrat39/rust-tools.nvim')        -- Rust 用追加ツール
-Plug('jose-elias-alvarez/null-ls.nvim') -- フォーマッタとリンター統合
+Plug('mfussenegger/nvim-lint')         -- リンター統合
+Plug('stevearc/conform.nvim')          -- フォーマッター統合
 Plug('nvim-tree/nvim-tree.lua')         -- ファイルエクスプローラー
 Plug('b0o/schemastore.nvim')            -- JSON スキーマ
 Plug('mfussenegger/nvim-dap')           -- デバッガー
@@ -225,6 +226,10 @@ end
 
 -- LSP セットアップ関数の定義
 local on_attach = function(client, bufnr)
+  -- フォーマットは conform.nvim で行うため、LSP のフォーマット機能を無効化
+  client.server_capabilities.documentFormattingProvider = false
+  client.server_capabilities.documentRangeFormattingProvider = false
+  
   -- マッピング
   local bufopts = { noremap=true, silent=true, buffer=bufnr }
   vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
@@ -241,7 +246,6 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, bufopts)
   vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
   vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-  vim.keymap.set('n', '<leader>f', function() vim.lsp.buf.format { async = true } end, bufopts)
 
   -- カーソルを置いた時に参照をハイライト
   if client.server_capabilities.documentHighlightProvider then
@@ -312,11 +316,7 @@ if has_lspconfig and has_cmp and has_luasnip and has_lspkind then
   if has_lspconfig then
     pcall(function()
       lspconfig.ts_ls.setup({
-        on_attach = function(client, bufnr)
-          on_attach(client, bufnr)
-          -- TypeScript 固有の設定
-          client.server_capabilities.documentFormattingProvider = false -- prettier を使用するため無効化
-        end,
+        on_attach = on_attach,
         filetypes = { "typescript", "typescriptreact", "typescript.tsx", "javascript", "javascriptreact" },
         root_dir = function(fname)
           return lspconfig.util.root_pattern("tsconfig.json", "jsconfig.json", "package.json", ".git")(fname)
@@ -744,42 +744,68 @@ if has_nvim_tree then
   vim.api.nvim_set_keymap('n', '<leader>N', ':NvimTreeFindFile<CR>', { noremap = true, silent = true })
 end
 
--- フォーマッタ設定（null-ls）
-local has_null_ls, null_ls = pcall(require, 'null-ls')
-if has_null_ls then
-  null_ls.setup({
-    sources = {
-      null_ls.builtins.formatting.prettier.with({
-        filetypes = {
-          "javascript",
-          "javascriptreact",
-          "typescript",
-          "typescriptreact",
-          "css",
-          "scss",
-          "html",
-          "json",
-          "yaml",
-          "markdown"
-        }
-      }),
-      null_ls.builtins.formatting.rustfmt,
-      null_ls.builtins.formatting.stylua,  -- Lua 用フォーマッタ
-      null_ls.builtins.formatting.black.with({ extra_args = { "--fast" } }),
-      null_ls.builtins.diagnostics.eslint,
-      null_ls.builtins.code_actions.eslint,
-    },
-    on_attach = function(client, bufnr)
-      if client.supports_method("textDocument/formatting") then
-        vim.api.nvim_create_autocmd("BufWritePre", {
-          buffer = bufnr,
-          callback = function()
-            vim.lsp.buf.format({ bufnr = bufnr })
-          end,
-        })
-      end
+-- リンター設定（nvim-lint）
+local has_lint, lint = pcall(require, 'lint')
+if has_lint then
+  lint.linters_by_ft = {
+    javascript = {'eslint'},
+    typescript = {'eslint'},
+    javascriptreact = {'eslint'},
+    typescriptreact = {'eslint'},
+  }
+
+  -- ファイル保存時と開いた時に自動的にリントを実行
+  vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost" }, {
+    callback = function()
+      require("lint").try_lint()
     end,
   })
+
+  -- キーマップでリントを手動実行
+  vim.keymap.set("n", "<leader>l", function()
+    require("lint").try_lint()
+  end, { desc = "Lint current file" })
+end
+
+-- フォーマッタ設定（conform.nvim）
+local has_conform, conform = pcall(require, 'conform')
+if has_conform then
+  conform.setup({
+    formatters_by_ft = {
+      -- JavaScript/TypeScript
+      javascript = { "prettier" },
+      typescript = { "prettier" },
+      javascriptreact = { "prettier" },
+      typescriptreact = { "prettier" },
+      -- Web
+      css = { "prettier" },
+      scss = { "prettier" },
+      html = { "prettier" },
+      json = { "prettier" },
+      yaml = { "prettier" },
+      markdown = { "prettier" },
+      -- Rust
+      rust = { "rustfmt" },
+      -- Python
+      python = { "black" },
+      -- Lua
+      lua = { "stylua" },
+    },
+    format_on_save = {
+      -- `timeout_ms` を設定して、フォーマットが完了するまでの最大待機時間を指定
+      timeout_ms = 500,
+      lsp_fallback = true,
+    },
+  })
+  
+  -- キーマップでフォーマットを手動実行
+  vim.keymap.set({ "n", "v" }, "<leader>f", function()
+    conform.format({
+      lsp_fallback = true,
+      async = false,
+      timeout_ms = 500,
+    })
+  end, { desc = "Format file or range (in visual mode)" })
 end
 
 -- LSP キーマッピングはすでに on_attach 関数内で設定されているため、ここでは不要
@@ -788,7 +814,8 @@ end
 -- プラグイン設定
 vim.g.gitgutter_enabled = true
 vim.g.gundo_prefer_python3 = 1
-vim.g.rustfmt_autosave = 1
+-- rustfmt は conform.nvim で処理するため無効化
+vim.g.rustfmt_autosave = 0
 vim.g.termdebug_wide = 160
 
 -- ac-adapter-rs-vim
