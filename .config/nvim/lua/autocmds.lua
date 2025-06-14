@@ -33,3 +33,21 @@ vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost" }, {
 
 -- tuskk 初期化
 vim.call("tuskk#initialize", {})
+
+-- ファイルを開いたときに新しいタブにならないようにする
+vim.api.nvim_create_autocmd("BufReadPost", {
+    callback = function()
+        -- 既存のバッファを再利用するための設定
+        vim.opt.switchbuf = "useopen"
+    end,
+    desc = "ファイルを開いたときに新しいタブにならないようにする",
+})
+
+-- 新しいファイルを開くときの動作を設定
+vim.api.nvim_create_autocmd("BufNew", {
+    callback = function()
+        -- 新しいバッファを現在のウィンドウで開く
+        vim.opt.switchbuf = "useopen"
+    end,
+    desc = "新しいファイルを現在のウィンドウで開く",
+})

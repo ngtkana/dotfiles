@@ -33,7 +33,7 @@ return {
     { "neoclide/coc.nvim", branch = "release" },
 
     -- Git 統合
-    { "airblade/vim-gitgutter" },
+    { "lewis6991/gitsigns.nvim" }, -- vim-gitgutter の代替
     { "tpope/vim-fugitive" },
 
     -- カラースキーム
@@ -42,8 +42,9 @@ return {
     { "rebelot/kanagawa.nvim" },
     { "tssm/fairyfloss.vim" },
 
-    -- ステータスライン
+    -- ステータスラインとタブライン
     { "nvim-lualine/lualine.nvim", dependencies = { "nvim-tree/nvim-web-devicons" } },
+    { "akinsho/bufferline.nvim", dependencies = { "nvim-tree/nvim-web-devicons" } }, -- タブライン
 
     -- 言語サポート
     { "rust-lang/rust.vim" },
@@ -77,16 +78,18 @@ return {
     { "rcarriga/nvim-dap-ui", dependencies = { "mfussenegger/nvim-dap" } }, -- デバッガー UI
     { "theHamsta/nvim-dap-virtual-text", dependencies = { "mfussenegger/nvim-dap" } }, -- デバッガー仮想テキスト
     { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" }, -- 構文解析
+    { "nvim-treesitter/nvim-treesitter-textobjects", dependencies = { "nvim-treesitter/nvim-treesitter" } }, -- 高度なテキストオブジェクト
 
     -- 編集ツール
     { "easymotion/vim-easymotion" },
     { "editorconfig/editorconfig-vim" },
     { "mattn/emmet-vim" },
-    { "tomtom/tcomment_vim" },
+    { "numToStr/Comment.nvim" }, -- tcomment_vim の代替
     { "tpope/vim-repeat" },
-    { "tpope/vim-surround" },
+    { "kylechui/nvim-surround", dependencies = { "nvim-treesitter/nvim-treesitter" } }, -- vim-surround の代替
     { "tpope/vim-unimpaired" },
     { "github/copilot.vim" },
+    { "windwp/nvim-autopairs" }, -- 自動括弧閉じ
 
     -- 検索とナビゲーション
     { "jremmen/vim-ripgrep" },
@@ -108,4 +111,9 @@ return {
     -- 一部のプラグインに必要
     { "roxma/nvim-yarp" },
     { "roxma/vim-hug-neovim-rpc" },
+    
+    -- UI 改善
+    { "folke/which-key.nvim" }, -- キーマップのヘルプを表示
+    { "lukas-reineke/indent-blankline.nvim" }, -- インデントガイド
+    { "echasnovski/mini.icons", version = false }, -- which-key 用アイコン
 }

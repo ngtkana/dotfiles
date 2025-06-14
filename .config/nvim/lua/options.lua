@@ -4,6 +4,7 @@ vim.g.mapleader = "," -- リーダーキーを先に設定
 -- 基本オプション
 vim.opt.encoding = "utf-8"
 vim.opt.belloff = "all"
+vim.opt.clipboard = "unnamedplus" -- システムクリップボードを使用
 vim.opt.number = true
 vim.opt.completeopt = "menuone"
 vim.opt.cursorline = true
@@ -34,14 +35,14 @@ vim.opt.smartindent = true
 vim.opt.softtabstop = 4
 vim.opt.spell = false
 vim.opt.spelllang:append({ "cjk" })
+vim.opt.switchbuf = "useopen,usetab" -- 既存のバッファを再利用
 vim.opt.tabstop = 4
 vim.opt.undofile = true
 vim.opt.updatetime = 300
 
--- カラースキーム（Lua API を使用）
+-- カラースキーム設定
 vim.opt.background = "light"
 vim.opt.syntax = "enable" -- syntax enable を Lua API で設定
-vim.cmd([[colorscheme lucius]]) -- colorscheme は現在 Lua API で直接設定できないため vim.cmd を使用
 
 -- プラグイン設定
 vim.g.gitgutter_enabled = true
