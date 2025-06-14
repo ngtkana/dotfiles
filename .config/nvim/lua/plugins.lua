@@ -155,32 +155,13 @@ return {
     { "rcarriga/nvim-notify", event = "VeryLazy" }, -- 通知システム
     { "stevearc/dressing.nvim", event = "VeryLazy" }, -- UI コンポーネントの見た目改善
     
-    -- セッション管理
+    -- セッション管理（自動保存・復元を無効化）
     { 
         "rmagatti/auto-session", 
-        event = "VimEnter",
-        config = function()
-            require("auto-session").setup({
-                log_level = "error",
-                auto_session_suppress_dirs = { "~/", "~/Projects", "~/Downloads", "/" },
-                auto_session_enable_last_session = false,
-                auto_session_root_dir = vim.fn.stdpath("data") .. "/sessions/",
-                auto_session_enabled = true,
-                auto_save_enabled = true,
-                auto_restore_enabled = true,
-            })
-        end
+        enabled = false, -- プラグインを無効化
     }, -- 自動セッション保存
     { 
         "jedrzejboczar/possession.nvim", 
-        dependencies = { "nvim-lua/plenary.nvim" },
-        event = "VeryLazy",
-        cmd = { 
-            "PossessionSave", 
-            "PossessionLoad", 
-            "PossessionDelete", 
-            "PossessionList", 
-            "PossessionShow" 
-        },
+        enabled = false, -- プラグインを無効化
     }, -- セッション管理
 }
