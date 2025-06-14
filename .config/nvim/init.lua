@@ -786,7 +786,7 @@ end
 -- ステータスラインを設定
 setup_statusline()
 
--- アイコン設定
+-- アイコン設定（新しい callback スタイルを使用）
 vim.api.nvim_create_autocmd("FileType", {
     pattern = { "fern", "nerdtree", "startify" },
     callback = function()
@@ -794,6 +794,7 @@ vim.api.nvim_create_autocmd("FileType", {
             vim.fn["glyph_palette#apply"]()
         end
     end,
+    desc = "アイコンパレットを適用",
 })
 
 -- ファイルエクスプローラー設定（nvim-tree.lua）
