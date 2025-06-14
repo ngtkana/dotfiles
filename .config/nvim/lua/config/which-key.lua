@@ -61,10 +61,48 @@ function M.setup()
 
     -- リーダーキーのグループ登録（最新の推奨形式）
     which_key.register({
-        f = { name = "+Format/Find" },
+        f = { 
+            name = "+Find/Telescope",
+            f = { "<cmd>Telescope find_files<cr>", "Find Files" },
+            g = { "<cmd>Telescope live_grep<cr>", "Live Grep" },
+            b = { "<cmd>Telescope buffers<cr>", "Buffers" },
+            h = { "<cmd>Telescope help_tags<cr>", "Help Tags" },
+            s = { "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
+            r = { "<cmd>Telescope lsp_references<cr>", "References" },
+            d = { "<cmd>Telescope diagnostics<cr>", "Diagnostics" },
+            o = { "<cmd>Telescope oldfiles<cr>", "Recent Files" },
+            c = { "<cmd>Telescope commands<cr>", "Commands" },
+            k = { "<cmd>Telescope keymaps<cr>", "Keymaps" },
+            e = { "<cmd>Telescope file_browser<cr>", "File Browser" },
+            p = { "<cmd>Telescope project<cr>", "Projects" },
+        },
         g = { name = "+Git" },
         l = { name = "+LSP" },
-        s = { name = "+Search" },
+        s = { 
+            name = "+Session",
+            s = { "<cmd>Telescope possession list<cr>", "List Sessions" },
+            n = { function()
+                vim.ui.input({ prompt = "Session name: " }, function(name)
+                    if name and name ~= "" then
+                        require("possession.session").save(name)
+                    end
+                end)
+            end, "New Session" },
+            l = { function()
+                vim.ui.input({ prompt = "Session name: " }, function(name)
+                    if name and name ~= "" then
+                        require("possession.session").load(name)
+                    end
+                end)
+            end, "Load Session" },
+            d = { function()
+                vim.ui.input({ prompt = "Session name: " }, function(name)
+                    if name and name ~= "" then
+                        require("possession.session").delete(name)
+                    end
+                end)
+            end, "Delete Session" },
+        },
         t = { name = "+Toggle" },
         w = { name = "+Workspace" },
         x = { name = "+Diagnostics/Quickfix" },

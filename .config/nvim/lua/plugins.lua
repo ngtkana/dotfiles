@@ -104,13 +104,22 @@ return {
     { "majutsushi/tagbar", cmd = "TagbarToggle" },
     { 
         "nvim-telescope/telescope.nvim", 
-        dependencies = { "nvim-lua/plenary.nvim" },
+        dependencies = { 
+            "nvim-lua/plenary.nvim",
+            -- Telescope 拡張機能
+            { "nvim-telescope/telescope-fzf-native.nvim", build = "make" }, -- FZF アルゴリズムで高速化
+            "nvim-telescope/telescope-file-browser.nvim", -- ファイルブラウザ
+            "nvim-telescope/telescope-project.nvim", -- プロジェクト管理
+        },
         cmd = "Telescope",
         keys = {
             { "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find Files" },
             { "<leader>fg", "<cmd>Telescope live_grep<cr>", desc = "Live Grep" },
             { "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Buffers" },
             { "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Help Tags" },
+            -- 拡張機能用のキーマッピング
+            { "<leader>fe", "<cmd>Telescope file_browser<cr>", desc = "File Browser" },
+            { "<leader>fp", "<cmd>Telescope project<cr>", desc = "Projects" },
         }
     }, -- ファジーファインダー
     { "nvim-lua/plenary.nvim" }, -- Telescope に必要
@@ -145,4 +154,33 @@ return {
     }, -- コマンドラインと通知の改善
     { "rcarriga/nvim-notify", event = "VeryLazy" }, -- 通知システム
     { "stevearc/dressing.nvim", event = "VeryLazy" }, -- UI コンポーネントの見た目改善
+    
+    -- セッション管理
+    { 
+        "rmagatti/auto-session", 
+        event = "VimEnter",
+        config = function()
+            require("auto-session").setup({
+                log_level = "error",
+                auto_session_suppress_dirs = { "~/", "~/Projects", "~/Downloads", "/" },
+                auto_session_enable_last_session = false,
+                auto_session_root_dir = vim.fn.stdpath("data") .. "/sessions/",
+                auto_session_enabled = true,
+                auto_save_enabled = true,
+                auto_restore_enabled = true,
+            })
+        end
+    }, -- 自動セッション保存
+    { 
+        "jedrzejboczar/possession.nvim", 
+        dependencies = { "nvim-lua/plenary.nvim" },
+        event = "VeryLazy",
+        cmd = { 
+            "PossessionSave", 
+            "PossessionLoad", 
+            "PossessionDelete", 
+            "PossessionList", 
+            "PossessionShow" 
+        },
+    }, -- セッション管理
 }
