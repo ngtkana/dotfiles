@@ -83,13 +83,5 @@ if comment then comment.setup() end
 local surround = safe_require("config.surround")
 if surround then surround.setup() end
 
--- カラースキーム設定（プラグインが読み込まれた後に設定）
-vim.api.nvim_create_autocmd("User", {
-    pattern = "LazyDone",
-    callback = function()
-        -- プラグインが読み込まれた後に lucius カラースキームを設定
-        pcall(function()
-            vim.cmd([[colorscheme lucius]])
-        end)
-    end,
-})
+-- カラースキーム設定
+vim.cmd([[colorscheme lucius]])
