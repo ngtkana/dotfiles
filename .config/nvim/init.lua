@@ -1,15 +1,15 @@
--- NeoVim configuration
--- Based on existing .vimrc and init.lua
+-- NeoVim 設定
+-- 既存の .vimrc と init.lua に基づいています
 
--- Plugin management with vim-plug
+-- vim-plug によるプラグイン管理
 local Plug = vim.fn['plug#']
 vim.call('plug#begin')
--- Snippets and completion
+-- スニペットと補完
 Plug('Shougo/deoplete.nvim')
 Plug('Shougo/neosnippet-snippets')
 Plug('Shougo/neosnippet.vim')
 
--- File management and UI
+-- ファイル管理と UI
 Plug('nvim-tree/nvim-web-devicons')
 Plug('scrooloose/nerdtree')
 Plug('ryanoasis/vim-devicons')
@@ -17,23 +17,23 @@ Plug('tpope/vim-vinegar')
 Plug('lambdalisue/glyph-palette.vim')
 Plug('lambdalisue/nerdfont.vim')
 
--- Git integration
+-- Coc.nvim（LSP と CocExplorer 用）
+Plug('neoclide/coc.nvim', {branch = 'release'})
+
+-- Git 統合
 Plug('airblade/vim-gitgutter')
 Plug('tpope/vim-fugitive')
 
--- Color schemes
+-- カラースキーム
 Plug('altercation/vim-colors-solarized')
 Plug('jonathanfilip/vim-lucius')
 Plug('rebelot/kanagawa.nvim')
 Plug('tssm/fairyfloss.vim')
 
--- Status line
+-- ステータスライン
 Plug('nvim-lualine/lualine.nvim')
-Plug('enricobacis/vim-airline-clock')
-Plug('vim-airline/vim-airline')
-Plug('vim-airline/vim-airline-themes')
 
--- Language support
+-- 言語サポート
 Plug('rust-lang/rust.vim')
 Plug('rhysd/rust-doc.vim')
 Plug('ron-rs/ron.vim')
@@ -43,10 +43,29 @@ Plug('chrisbra/csv.vim')
 Plug('elzr/vim-json')
 Plug('qnighy/satysfi.vim')
 
--- LSP and completion
-Plug('neoclide/coc.nvim', {branch = 'release'})
+-- LSP と補完 (NeoVim ネイティブ LSP)
+Plug('neovim/nvim-lspconfig')           -- LSP 設定
+Plug('williamboman/mason.nvim')         -- LSP サーバーインストーラー
+Plug('williamboman/mason-lspconfig.nvim') -- mason と lspconfig の連携
+Plug('hrsh7th/nvim-cmp')                -- 補完フレームワーク
+Plug('hrsh7th/cmp-nvim-lsp')            -- LSP 補完ソース
+Plug('hrsh7th/cmp-buffer')              -- バッファ補完ソース
+Plug('hrsh7th/cmp-path')                -- パス補完ソース
+Plug('hrsh7th/cmp-cmdline')             -- コマンドライン補完ソース
+Plug('L3MON4D3/LuaSnip')                -- スニペットエンジン
+Plug('saadparwaiz1/cmp_luasnip')        -- スニペット補完ソース
+Plug('onsails/lspkind-nvim')            -- 補完メニューのアイコン
+Plug('folke/trouble.nvim')              -- 診断表示の改善
+Plug('simrat39/rust-tools.nvim')        -- Rust 用追加ツール
+Plug('jose-elias-alvarez/null-ls.nvim') -- フォーマッタとリンター統合
+Plug('nvim-tree/nvim-tree.lua')         -- ファイルエクスプローラー
+Plug('b0o/schemastore.nvim')            -- JSON スキーマ
+Plug('mfussenegger/nvim-dap')           -- デバッガー
+Plug('rcarriga/nvim-dap-ui')            -- デバッガー UI
+Plug('theHamsta/nvim-dap-virtual-text') -- デバッガー仮想テキスト
+Plug('nvim-treesitter/nvim-treesitter', {['do'] = ':TSUpdate'}) -- 構文解析
 
--- Editing tools
+-- 編集ツール
 Plug('easymotion/vim-easymotion')
 Plug('editorconfig/editorconfig-vim')
 Plug('mattn/emmet-vim')
@@ -56,27 +75,29 @@ Plug('tpope/vim-surround')
 Plug('tpope/vim-unimpaired')
 Plug('github/copilot.vim')
 
--- Search and navigation
+-- 検索とナビゲーション
 Plug('jremmen/vim-ripgrep')
 Plug('junegunn/fzf')
 Plug('majutsushi/tagbar')
+Plug('nvim-telescope/telescope.nvim')   -- ファジーファインダー
+Plug('nvim-lua/plenary.nvim')           -- Telescope に必要
 
--- Utilities
+-- ユーティリティ
 Plug('sjl/gundo.vim')
 Plug('tyru/open-browser.vim')
 Plug('vim-jp/vimdoc-ja')
 Plug('vim-utils/vim-man')
 
--- Japanese input
+-- 日本語入力
 Plug('vim-denops/denops.vim')
 Plug('kawarimidoll/tuskk.vim')
 
--- Required for some plugins
+-- 一部のプラグインに必要
 Plug('roxma/nvim-yarp')
 Plug('roxma/vim-hug-neovim-rpc')
 vim.call('plug#end')
 
--- Basic settings
+-- 基本設定
 vim.opt.encoding = 'utf-8'
 vim.opt.belloff = 'all'
 vim.opt.number = true
@@ -89,9 +110,9 @@ vim.opt.hidden = true
 vim.opt.incsearch = true
 vim.opt.list = true
 vim.opt.listchars = {tab='>-', trail='#', extends='>', precedes='<', nbsp='%'}
--- Set default matchpairs
+-- デフォルトの対応括弧を設定
 vim.opt.matchpairs = '(:),{:},[:]'
--- Add additional matchpairs
+-- 追加の対応括弧を設定
 vim.cmd[[set matchpairs+=「:」,『:』,【:】,《:》,〈:〉,［:］,':',":",（:）]]
 vim.cmd[[set fillchars+=eob:\ ]]
 vim.opt.matchtime = 1
@@ -100,7 +121,7 @@ vim.opt.backup = false
 vim.opt.swapfile = false
 vim.opt.wrap = false
 vim.opt.number = true
-vim.opt.relativenumber = true
+vim.opt.relativenumber = false
 vim.opt.scrolloff = 2
 vim.opt.shiftwidth = 4
 vim.opt.showmatch = true
@@ -113,15 +134,15 @@ vim.opt.tabstop = 4
 vim.opt.undofile = true
 vim.opt.updatetime = 300
 
--- Color scheme
+-- カラースキーム
 vim.cmd[[set background=light]]
 vim.cmd[[syntax enable]]
 vim.cmd[[colorscheme lucius]]
 
--- Leader key
+-- リーダーキー
 vim.g.mapleader = ','
 
--- Basic keymaps
+-- 基本キーマップ
 vim.api.nvim_set_keymap('', '<leader>w', ':w<CR>', { noremap = true })
 vim.api.nvim_set_keymap('', '<leader>q', ':q<CR>', { noremap = true })
 vim.api.nvim_set_keymap('', '<leader>sv', ':source $MYVIMRC<CR>', { noremap = true })
@@ -129,7 +150,7 @@ vim.api.nvim_set_keymap('', '<leader>ev', ':edit $MYVIMRC<CR>', { noremap = true
 vim.api.nvim_set_keymap('', '<leader>ee', ':e!<CR>', { noremap = true })
 vim.api.nvim_set_keymap('', '<leader>g', ':Git<CR>', { noremap = true })
 
--- Terminal escape
+-- ターミナルからの脱出
 vim.api.nvim_set_keymap('t', '<Esc>', '<C-\\><C-n>', { noremap = true })
 
 -- Neosnippet
@@ -137,92 +158,504 @@ vim.api.nvim_set_keymap('', '<leader>k', '<Plug>(neosnippet_expand_or_jump)', {}
 vim.api.nvim_set_keymap('s', '<leader>k', '<Plug>(neosnippet_expand_or_jump)', {})
 vim.api.nvim_set_keymap('x', '<leader>k', '<Plug>(neosnippet_expand_target)', {})
 
--- Japanese input with tuskk
+-- tuskk による日本語入力
 vim.api.nvim_set_keymap('i', '<C-j>', [[<Cmd>call tuskk#toggle()<CR>]], {})
 vim.api.nvim_set_keymap('c', '<C-j>', 'call tuskk#cmd_buf()', { expr = true })
 vim.call("tuskk#initialize", {})
 
--- CoC configuration
-vim.api.nvim_set_keymap('i', '<C-g>', 'coc#pum#visible() ? coc#pum#confirm() : "<C-g>"', { silent = true, expr = true })
+-- CocExplorer キーマッピング
+vim.api.nvim_set_keymap('n', '<leader>e', ':CocCommand explorer<CR>', { noremap = true, silent = true })
 
--- Use <c-space> to trigger completion
-vim.api.nvim_set_keymap('i', '<c-space>', 'coc#refresh()', { silent = true, expr = true })
 
--- Use `[g` and `]g` to navigate diagnostics
-vim.api.nvim_set_keymap('n', '[g', '<Plug>(coc-diagnostic-prev)', { silent = true })
-vim.api.nvim_set_keymap('n', ']g', '<Plug>(coc-diagnostic-next)', { silent = true })
+-- ネイティブ LSP 設定
+-- プラグインがまだインストールされていない場合に対応するため pcall でラップ
+local has_lspconfig, lspconfig = pcall(require, 'lspconfig')
+local has_cmp, cmp = pcall(require, 'cmp')
+local has_luasnip, luasnip = pcall(require, 'luasnip')
+local has_lspkind, lspkind = pcall(require, 'lspkind')
 
--- GoTo code navigation
-vim.api.nvim_set_keymap('n', 'gd', '<Plug>(coc-definition)', { silent = true })
-vim.api.nvim_set_keymap('n', 'gy', '<Plug>(coc-type-definition)', { silent = true })
-vim.api.nvim_set_keymap('n', 'gi', '<Plug>(coc-implementation)', { silent = true })
-vim.api.nvim_set_keymap('n', 'gr', '<Plug>(coc-references)', { silent = true })
+-- Mason セットアップ (LSP サーバーインストーラー)
+local has_mason, mason = pcall(require, 'mason')
 
--- Use K to show documentation in preview window
-vim.api.nvim_set_keymap('n', 'K', ':lua ShowDocumentation()<CR>', { silent = true, noremap = true })
+if has_mason then
+  mason.setup({
+    ui = {
+      icons = {
+        package_installed = "✓",
+        package_pending = "➜",
+        package_uninstalled = "✗"
+      }
+    }
+  })
 
-function ShowDocumentation()
-  if vim.fn.CocAction('hasProvider', 'hover') then
-    vim.fn.CocActionAsync('doHover')
-  else
-    vim.api.nvim_feedkeys('K', 'in', false)
+  -- 必要なツールを自動インストール
+  local ensure_installed = {
+    -- LSP
+    "rust-analyzer",
+    "typescript-language-server",
+    "pyright",
+    "eslint-lsp",
+    "css-lsp",
+    "html-lsp",
+    "tailwindcss-language-server",
+    "json-lsp",
+    "lua-language-server",
+
+    -- Linter
+    "eslint_d",
+
+    -- Formatter
+    "prettier",
+    "black",
+    "rustfmt",
+
+    -- DAP (デバッガー)
+    "codelldb",
+    "js-debug-adapter",
+    "debugpy"
+  }
+
+  -- mason-registry を使用して必要なツールをインストール
+  local mr = require("mason-registry")
+  for _, tool in ipairs(ensure_installed) do
+    local p = mr.get_package(tool)
+    if not p:is_installed() then
+      p:install()
+    end
+  end
+
+  -- mason-lspconfig の設定は一時的に無効化
+  -- if has_mason_lspconfig then
+  --   mason_lspconfig.setup()
+  -- end
+end
+
+-- LSP セットアップ関数の定義
+local on_attach = function(client, bufnr)
+  -- マッピング
+  local bufopts = { noremap=true, silent=true, buffer=bufnr }
+  vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
+  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+  vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+  vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
+  vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
+  vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, bufopts)
+  vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
+  vim.keymap.set('n', '<leader>wl', function()
+    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+  end, bufopts)
+  vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, bufopts)
+  vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, bufopts)
+  vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
+  vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+  vim.keymap.set('n', '<leader>f', function() vim.lsp.buf.format { async = true } end, bufopts)
+
+  -- カーソルを置いた時に参照をハイライト
+  if client.server_capabilities.documentHighlightProvider then
+    vim.api.nvim_create_autocmd("CursorHold", {
+      buffer = bufnr,
+      callback = function() vim.lsp.buf.document_highlight() end
+    })
+    vim.api.nvim_create_autocmd("CursorMoved", {
+      buffer = bufnr,
+      callback = function() vim.lsp.buf.clear_references() end
+    })
   end
 end
 
--- Highlight the symbol and its references when holding the cursor
-vim.api.nvim_create_autocmd("CursorHold", {
-  pattern = "*",
-  callback = function()
-    vim.fn.CocActionAsync('highlight')
+-- 必要なプラグインが利用可能な場合のみ LSP を設定
+if has_lspconfig and has_cmp and has_luasnip and has_lspkind then
+  -- capabilities の設定
+  local capabilities = vim.lsp.protocol.make_client_capabilities()
+  if has_cmp then
+    capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
   end
-})
+  capabilities.textDocument.completion.completionItem.snippetSupport = true
+  capabilities.textDocument.completion.completionItem.resolveSupport = {
+    properties = {
+      'documentation',
+      'detail',
+      'additionalTextEdits',
+    }
+  }
+  -- 直接 LSP サーバーを設定
+  local servers = { "rust_analyzer", "ts_ls", "pyright", "eslint", "cssls", "html", "tailwindcss", "jsonls", "lua_ls" }
+  for _, server in ipairs(servers) do
+    local ok, _ = pcall(function()
+      lspconfig[server].setup({
+        on_attach = on_attach
+      })
+    end)
+    if not ok then
+      print("Failed to set up LSP server: " .. server)
+    end
+  end
 
--- Map function and class text objects
-vim.api.nvim_set_keymap('x', 'if', '<Plug>(coc-funcobj-i)', {})
-vim.api.nvim_set_keymap('o', 'if', '<Plug>(coc-funcobj-i)', {})
-vim.api.nvim_set_keymap('x', 'af', '<Plug>(coc-funcobj-a)', {})
-vim.api.nvim_set_keymap('o', 'af', '<Plug>(coc-funcobj-a)', {})
-vim.api.nvim_set_keymap('x', 'ic', '<Plug>(coc-classobj-i)', {})
-vim.api.nvim_set_keymap('o', 'ic', '<Plug>(coc-classobj-i)', {})
-vim.api.nvim_set_keymap('x', 'ac', '<Plug>(coc-classobj-a)', {})
-vim.api.nvim_set_keymap('o', 'ac', '<Plug>(coc-classobj-a)', {})
+  -- 言語サーバーの設定
+  -- Rust
+  local has_rust_tools, rust_tools = pcall(require, 'rust-tools')
+  if has_rust_tools then
+    rust_tools.setup({
+      server = {
+        on_attach = on_attach,
+        settings = {
+          ["rust-analyzer"] = {
+            checkOnSave = {
+              command = "clippy"
+            },
+          }
+        }
+      }
+    })
+  end
 
--- Remap <C-f> and <C-b> to scroll float windows/popups
-vim.api.nvim_set_keymap('n', '<C-f>', 'coc#float#has_scroll() ? coc#float#scroll(1) : "<C-f>"', { silent = true, nowait = true, expr = true })
-vim.api.nvim_set_keymap('n', '<C-b>', 'coc#float#has_scroll() ? coc#float#scroll(0) : "<C-b>"', { silent = true, nowait = true, expr = true })
-vim.api.nvim_set_keymap('i', '<C-f>', 'coc#float#has_scroll() ? "<c-r>=coc#float#scroll(1)<cr>" : "<Right>"', { silent = true, nowait = true, expr = true })
-vim.api.nvim_set_keymap('i', '<C-b>', 'coc#float#has_scroll() ? "<c-r>=coc#float#scroll(0)<cr>" : "<Left>"', { silent = true, nowait = true, expr = true })
-vim.api.nvim_set_keymap('v', '<C-f>', 'coc#float#has_scroll() ? coc#float#scroll(1) : "<C-f>"', { silent = true, nowait = true, expr = true })
-vim.api.nvim_set_keymap('v', '<C-b>', 'coc#float#has_scroll() ? coc#float#scroll(0) : "<C-b>"', { silent = true, nowait = true, expr = true })
+  -- TypeScript
+  if has_lspconfig then
+    pcall(function()
+      lspconfig.ts_ls.setup({
+        on_attach = function(client, bufnr)
+          on_attach(client, bufnr)
+          -- TypeScript 固有の設定
+          client.server_capabilities.documentFormattingProvider = false -- prettier を使用するため無効化
+        end,
+        filetypes = { "typescript", "typescriptreact", "typescript.tsx", "javascript", "javascriptreact" },
+        root_dir = function(fname)
+          return lspconfig.util.root_pattern("tsconfig.json", "jsconfig.json", "package.json", ".git")(fname)
+        end,
+        settings = {
+          typescript = {
+            inlayHints = {
+              includeInlayParameterNameHints = "all",
+              includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+              includeInlayFunctionParameterTypeHints = true,
+              includeInlayVariableTypeHints = true,
+              includeInlayPropertyDeclarationTypeHints = true,
+              includeInlayFunctionLikeReturnTypeHints = true,
+              includeInlayEnumMemberValueHints = true
+            }
+          },
+          javascript = {
+            inlayHints = {
+              includeInlayParameterNameHints = "all",
+              includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+              includeInlayFunctionParameterTypeHints = true,
+              includeInlayVariableTypeHints = true,
+              includeInlayPropertyDeclarationTypeHints = true,
+              includeInlayFunctionLikeReturnTypeHints = true,
+              includeInlayEnumMemberValueHints = true
+            }
+          }
+        }
+      })
+    end)
 
--- CoC actions
-vim.api.nvim_set_keymap('n', '<leader>a', '<Plug>(coc-codeaction-selected)', {})
-vim.api.nvim_set_keymap('x', '<leader>a', '<Plug>(coc-codeaction-selected)', { silent = true })
-vim.api.nvim_set_keymap('n', '<leader>cl', '<Plug>(coc-codelens-action)', {})
-vim.api.nvim_set_keymap('n', '<leader>e', '<Cmd>CocCommand explorer<CR>', {})
-vim.api.nvim_set_keymap('n', '<leader>qf', '<Plug>(coc-fix-current)', {})
-vim.api.nvim_set_keymap('n', '<leader>r', '<Cmd>CocCommand rust-analyzer.run<CR>', {})
-vim.api.nvim_set_keymap('n', '<leader>re', '<Plug>(coc-codeaction-refactor)', {})
-vim.api.nvim_set_keymap('x', '<leader>r', '<Plug>(coc-codeaction-refactor-selected)', { silent = true })
-vim.api.nvim_set_keymap('n', '<leader>rn', '<Plug>(coc-rename)', {})
-vim.api.nvim_set_keymap('n', '<leader>u', '<Cmd>CocCommand rust-analyzer.moveItemUp<CR>', {})
-vim.api.nvim_set_keymap('n', '<leader>d', '<Cmd>CocCommand rust-analyzer.moveItemDown<CR>', {})
-vim.api.nvim_set_keymap('n', '<leader>t', '<Cmd>CocCommand rust-analyzer.testCurrent<CR>', {})
+    -- ESLint
+    pcall(function()
+      lspconfig.eslint.setup({
+        on_attach = function(client, bufnr)
+          on_attach(client, bufnr)
+          -- ESLint 自動修正を有効化
+          vim.api.nvim_create_autocmd("BufWritePre", {
+            buffer = bufnr,
+            command = "EslintFixAll",
+          })
+        end,
+        settings = {
+          packageManager = "npm",
+          autoFixOnSave = true,
+          format = true
+        }
+      })
+    end)
 
--- File type specific settings
+    -- CSS
+    pcall(function()
+      lspconfig.cssls.setup({
+        on_attach = on_attach,
+        capabilities = capabilities
+      })
+    end)
+
+    -- HTML
+    pcall(function()
+      lspconfig.html.setup({
+        on_attach = on_attach,
+        capabilities = capabilities
+      })
+    end)
+
+    -- Tailwind CSS
+    pcall(function()
+      lspconfig.tailwindcss.setup({
+        on_attach = on_attach,
+        capabilities = capabilities,
+        root_dir = function(fname)
+          return lspconfig.util.root_pattern("tailwind.config.js", "tailwind.config.ts")(fname) or
+                 lspconfig.util.root_pattern("package.json", ".git")(fname)
+        end
+      })
+    end)
+
+    -- JSON
+    pcall(function()
+      lspconfig.jsonls.setup({
+        on_attach = on_attach,
+        capabilities = capabilities,
+        settings = {
+          json = {
+            schemas = require('schemastore').json.schemas(),
+            validate = { enable = true }
+          }
+        }
+      })
+    end)
+
+    -- Lua
+    pcall(function()
+      lspconfig.lua_ls.setup({
+        on_attach = on_attach,
+        capabilities = capabilities,
+        settings = {
+          Lua = {
+            runtime = {
+              -- LuaJIT for NeoVim
+              version = 'LuaJIT',
+              path = vim.split(package.path, ';'),
+            },
+            diagnostics = {
+              -- Get the language server to recognize the `vim` global
+              globals = {'vim'},
+            },
+            workspace = {
+              -- Make the server aware of NeoVim runtime files
+              library = {
+                [vim.fn.expand('$VIMRUNTIME/lua')] = true,
+                [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
+              },
+              maxPreload = 2000,
+              preloadFileSize = 50000,
+            },
+            telemetry = {
+              enable = false,
+            },
+          },
+        },
+      })
+    end)
+  end
+
+  -- 補完の設定
+  cmp.setup({
+    snippet = {
+      expand = function(args)
+        luasnip.lsp_expand(args.body)
+      end,
+    },
+    mapping = cmp.mapping.preset.insert({
+      ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+      ['<C-f>'] = cmp.mapping.scroll_docs(4),
+      ['<C-Space>'] = cmp.mapping.complete(),
+      ['<C-e>'] = cmp.mapping.abort(),
+      ['<CR>'] = cmp.mapping.confirm({ select = true }),
+      ['<Tab>'] = cmp.mapping(function(fallback)
+        if cmp.visible() then
+          cmp.select_next_item()
+        elseif luasnip.expand_or_jumpable() then
+          luasnip.expand_or_jump()
+        else
+          fallback()
+        end
+      end, { 'i', 's' }),
+      ['<S-Tab>'] = cmp.mapping(function(fallback)
+        if cmp.visible() then
+          cmp.select_prev_item()
+        elseif luasnip.jumpable(-1) then
+          luasnip.jump(-1)
+        else
+          fallback()
+        end
+      end, { 'i', 's' }),
+    }),
+    sources = cmp.config.sources({
+      { name = 'nvim_lsp' },
+      { name = 'luasnip' },
+    }, {
+      { name = 'buffer' },
+      { name = 'path' },
+    }),
+    formatting = {
+      format = lspkind.cmp_format({
+        mode = 'symbol_text',
+        maxwidth = 50,
+        ellipsis_char = '...',
+      })
+    }
+  })
+
+  -- 診断の設定
+  vim.diagnostic.config({
+    virtual_text = true,
+    signs = true,
+    underline = true,
+    update_in_insert = false,
+    severity_sort = true,
+  })
+
+  -- 診断用キーマップ
+  vim.keymap.set('n', '[g', vim.diagnostic.goto_prev, { noremap = true, silent = true })
+  vim.keymap.set('n', ']g', vim.diagnostic.goto_next, { noremap = true, silent = true })
+  vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, { noremap = true, silent = true })
+  vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { noremap = true, silent = true })
+
+  -- Trouble キーマップ
+  local has_trouble, trouble = pcall(require, 'trouble')
+  if has_trouble then
+    trouble.setup({
+      position = "bottom",
+      icons = true,
+      mode = "workspace_diagnostics",
+      action_keys = {
+        close = "q",
+        cancel = "<esc>",
+        refresh = "r",
+        jump = {"<cr>", "<tab>"},
+        open_split = {"<c-x>"},
+        open_vsplit = {"<c-v>"},
+        open_tab = {"<c-t>"},
+        jump_close = {"o"},
+        toggle_mode = "m",
+        toggle_preview = "P",
+        hover = "K",
+        preview = "p",
+        close_folds = {"zM", "zm"},
+        open_folds = {"zR", "zr"},
+        toggle_fold = {"zA", "za"},
+        previous = "k",
+        next = "j"
+      },
+    })
+
+    vim.keymap.set("n", "<leader>xx", "<cmd>TroubleToggle<cr>", { silent = true, noremap = true })
+    vim.keymap.set("n", "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>", { silent = true, noremap = true })
+    vim.keymap.set("n", "<leader>xd", "<cmd>TroubleToggle document_diagnostics<cr>", { silent = true, noremap = true })
+    vim.keymap.set("n", "<leader>xl", "<cmd>TroubleToggle loclist<cr>", { silent = true, noremap = true })
+    vim.keymap.set("n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>", { silent = true, noremap = true })
+    vim.keymap.set("n", "gR", "<cmd>TroubleToggle lsp_references<cr>", { silent = true, noremap = true })
+  end
+end -- End of LSP configuration block
+
+-- より良いナビゲーションのための Telescope 設定
+local has_telescope, telescope = pcall(require, 'telescope')
+if has_telescope then
+  telescope.setup({
+    defaults = {
+      mappings = {
+        i = {
+          ["<C-j>"] = "move_selection_next",
+          ["<C-k>"] = "move_selection_previous",
+        }
+      }
+    }
+  })
+
+  -- Telescope キーマップ
+  local builtin = require('telescope.builtin')
+  vim.keymap.set('n', '<leader>ff', builtin.find_files, { noremap = true })
+  vim.keymap.set('n', '<leader>fg', builtin.live_grep, { noremap = true })
+  vim.keymap.set('n', '<leader>fb', builtin.buffers, { noremap = true })
+  vim.keymap.set('n', '<leader>fh', builtin.help_tags, { noremap = true })
+  vim.keymap.set('n', '<leader>fs', builtin.lsp_document_symbols, { noremap = true })
+  vim.keymap.set('n', '<leader>fr', builtin.lsp_references, { noremap = true })
+end
+
+-- ファイルタイプ固有の設定
 vim.api.nvim_create_autocmd({"BufNewFile", "BufRead"}, {
   pattern = "*.ejs",
   command = "set filetype=html"
 })
 
--- Status line configuration with lualine (modern, recommended for NeoVim)
+-- Treesitter 設定
+local has_treesitter, treesitter = pcall(require, 'nvim-treesitter.configs')
+if has_treesitter then
+  treesitter.setup({
+    ensure_installed = {
+      "typescript",
+      "javascript",
+      "tsx",
+      "html",
+      "css",
+      "json",
+      "yaml",
+      "lua",
+      "rust",
+      "python",
+      "markdown",
+      "markdown_inline"
+    },
+    highlight = {
+      enable = true,
+      additional_vim_regex_highlighting = false,
+    },
+    indent = {
+      enable = true,
+    },
+    incremental_selection = {
+      enable = true,
+      keymaps = {
+        init_selection = "<CR>",
+        node_incremental = "<CR>",
+        scope_incremental = "<S-CR>",
+        node_decremental = "<BS>",
+      },
+    },
+    textobjects = {
+      select = {
+        enable = true,
+        lookahead = true,
+        keymaps = {
+          ["af"] = "@function.outer",
+          ["if"] = "@function.inner",
+          ["ac"] = "@class.outer",
+          ["ic"] = "@class.inner",
+          ["aa"] = "@parameter.outer",
+          ["ia"] = "@parameter.inner",
+        },
+      },
+      move = {
+        enable = true,
+        set_jumps = true,
+        goto_next_start = {
+          ["]f"] = "@function.outer",
+          ["]c"] = "@class.outer",
+        },
+        goto_next_end = {
+          ["]F"] = "@function.outer",
+          ["]C"] = "@class.outer",
+        },
+        goto_previous_start = {
+          ["[f"] = "@function.outer",
+          ["[c"] = "@class.outer",
+        },
+        goto_previous_end = {
+          ["[F"] = "@function.outer",
+          ["[C"] = "@class.outer",
+        },
+      },
+    },
+  })
+end
+
+-- lualine によるステータスライン設定（最新、NeoVim 推奨）
 local function setup_statusline()
   local function tuskk_status()
     if vim.call("tuskk#is_enabled") then return 'あ' else return 'A' end
   end
 
-  -- Set up lualine with a style similar to airline
-  local lualine = require('lualine')
+  -- airline に似たスタイルで lualine を設定
+  local has_lualine, lualine = pcall(require, 'lualine')
+  if not has_lualine then
+    return
+  end
   lualine.setup({
     options = {
       theme = 'solarized_light',
@@ -235,21 +668,20 @@ local function setup_statusline()
         { 'mode', fmt = function(str) return str:sub(1,1) end },
         { tuskk_status }
       },
-      lualine_b = { 
-        function() 
+      lualine_b = {
+        function()
           return os.date('%m/%d(%a) %H:%M:%S')
         end
       },
-      lualine_c = { 
+      lualine_c = {
         'filename',
-        function() return vim.fn['coc#status']() end
+        'diagnostics'
       },
-      lualine_x = { 
-        function() 
-          if vim.fn['coc#status']() ~= '' then
-            return vim.fn['coc#status']()
-          end
-          return ''
+      lualine_x = {
+        function()
+          local client_names = {}
+
+          return '[' .. table.concat(client_names, ', ') .. ']'
         end,
         'filetype'
       },
@@ -259,10 +691,10 @@ local function setup_statusline()
   })
 end
 
--- Set up the status line
+-- ステータスラインを設定
 setup_statusline()
 
--- Icon configuration
+-- アイコン設定
 vim.api.nvim_create_autocmd("FileType", {
   pattern = {"fern", "nerdtree", "startify"},
   callback = function()
@@ -272,7 +704,91 @@ vim.api.nvim_create_autocmd("FileType", {
   end
 })
 
--- Plugin settings
+-- ファイルエクスプローラー設定（nvim-tree.lua）
+local has_nvim_tree, nvim_tree = pcall(require, 'nvim-tree')
+if has_nvim_tree then
+  nvim_tree.setup({
+    sort_by = "case_sensitive",
+    view = {
+      width = 30,
+    },
+    renderer = {
+      group_empty = true,
+      icons = {
+        show = {
+          file = true,
+          folder = true,
+          folder_arrow = true,
+          git = true,
+        },
+      },
+    },
+    filters = {
+      dotfiles = false,
+    },
+    git = {
+      enable = true,
+      ignore = false,
+    },
+  })
+
+  -- ファイルエクスプローラーのキーマッピング (NvimTree)
+  vim.api.nvim_set_keymap('n', '<leader>n', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
+  vim.api.nvim_set_keymap('n', '<leader>N', ':NvimTreeFindFile<CR>', { noremap = true, silent = true })
+end
+
+-- フォーマッタ設定（null-ls）
+local has_null_ls, null_ls = pcall(require, 'null-ls')
+if has_null_ls then
+  null_ls.setup({
+    sources = {
+      null_ls.builtins.formatting.prettier.with({
+        filetypes = {
+          "javascript",
+          "javascriptreact",
+          "typescript",
+          "typescriptreact",
+          "css",
+          "scss",
+          "html",
+          "json",
+          "yaml",
+          "markdown"
+        }
+      }),
+      null_ls.builtins.formatting.rustfmt,
+      null_ls.builtins.formatting.black.with({ extra_args = { "--fast" } }),
+      null_ls.builtins.diagnostics.eslint,
+      null_ls.builtins.code_actions.eslint,
+    },
+    on_attach = function(client, bufnr)
+      if client.supports_method("textDocument/formatting") then
+        vim.api.nvim_create_autocmd("BufWritePre", {
+          buffer = bufnr,
+          callback = function()
+            vim.lsp.buf.format({ bufnr = bufnr })
+          end,
+        })
+      end
+    end,
+  })
+end
+
+-- LSP キーマッピング
+vim.api.nvim_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>f', '<cmd>lua vim.lsp.buf.format({ async = true })<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>d', '<cmd>lua vim.diagnostic.open_float()<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '[g', '<cmd>lua vim.diagnostic.goto_prev()<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', ']g', '<cmd>lua vim.diagnostic.goto_next()<CR>', { noremap = true, silent = true })
+
+-- プラグイン設定
 vim.g.gitgutter_enabled = true
 vim.g.gundo_prefer_python3 = 1
 vim.g.rustfmt_autosave = 1
