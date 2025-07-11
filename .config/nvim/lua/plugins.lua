@@ -86,10 +86,10 @@ return {
     { "mattn/emmet-vim", ft = { "html", "css", "javascript", "typescript", "typescriptreact", "javascriptreact" } },
     { "numToStr/Comment.nvim", event = "VeryLazy" }, -- tcomment_vim の代替
     { "tpope/vim-repeat", event = "VeryLazy" },
-    { 
-        "kylechui/nvim-surround", 
+    {
+        "kylechui/nvim-surround",
         dependencies = { "nvim-treesitter/nvim-treesitter" },
-        event = "VeryLazy"
+        event = "VeryLazy",
     }, -- vim-surround の代替
     { "tpope/vim-unimpaired", event = "VeryLazy" },
     { "github/copilot.vim", event = "InsertEnter" },
@@ -99,9 +99,9 @@ return {
     { "jremmen/vim-ripgrep", cmd = "Rg" },
     { "junegunn/fzf", cmd = "FZF" },
     { "majutsushi/tagbar", cmd = "TagbarToggle" },
-    { 
-        "nvim-telescope/telescope.nvim", 
-        dependencies = { 
+    {
+        "nvim-telescope/telescope.nvim",
+        dependencies = {
             "nvim-lua/plenary.nvim",
             -- Telescope 拡張機能
             { "nvim-telescope/telescope-fzf-native.nvim", build = "make" }, -- FZF アルゴリズムで高速化
@@ -117,7 +117,7 @@ return {
             -- 拡張機能用のキーマッピング
             { "<leader>fe", "<cmd>Telescope file_browser<cr>", desc = "File Browser" },
             { "<leader>fp", "<cmd>Telescope project<cr>", desc = "Projects" },
-        }
+        },
     }, -- ファジーファインダー
     { "nvim-lua/plenary.nvim" }, -- Telescope に必要
 
@@ -139,15 +139,15 @@ return {
     { "folke/which-key.nvim", event = "VeryLazy" }, -- キーマップのヘルプを表示
     { "lukas-reineke/indent-blankline.nvim", event = "BufReadPost" }, -- インデントガイド
     { "echasnovski/mini.icons", version = false, event = "VeryLazy" }, -- which-key 用アイコン
-    { 
-        "goolord/alpha-nvim", 
+    {
+        "goolord/alpha-nvim",
         dependencies = { "nvim-tree/nvim-web-devicons" },
-        event = "VimEnter"
+        event = "VimEnter",
     }, -- 起動画面
-    { 
-        "folke/noice.nvim", 
+    {
+        "folke/noice.nvim",
         dependencies = { "MunifTanjim/nui.nvim", "rcarriga/nvim-notify" },
-        event = "VeryLazy"
+        event = "VeryLazy",
     }, -- コマンドラインと通知の改善
     { "rcarriga/nvim-notify", event = "VeryLazy" }, -- 通知システム
     { "stevearc/dressing.nvim", event = "VeryLazy" }, -- UI コンポーネントの見た目改善

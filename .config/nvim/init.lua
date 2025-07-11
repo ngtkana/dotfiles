@@ -16,9 +16,8 @@ safe_require("options")
 
 -- Vim 0.10 以降の LSP API の互換性を保つための設定
 if vim.lsp.get_clients and not vim.lsp.get_active_clients then
-  vim.lsp.get_active_clients = vim.lsp.get_clients
+    vim.lsp.get_active_clients = vim.lsp.get_clients
 end
-
 
 -- プラグイン定義を読み込む
 local plugins = safe_require("plugins")

@@ -58,9 +58,9 @@ end, { desc = "Lint current file" })
 vim.keymap.set("i", "<C-a>", function()
     vim.lsp.buf.code_action({
         context = {
-            only = { "source.addMissingImports" }
+            only = { "source.addMissingImports" },
         },
-        apply = true
+        apply = true,
     })
 end, { desc = "Auto-import (insert mode)", silent = true })
 
@@ -68,9 +68,9 @@ end, { desc = "Auto-import (insert mode)", silent = true })
 vim.keymap.set("n", "<leader>ci", function()
     vim.lsp.buf.code_action({
         context = {
-            only = { "source.addMissingImports" }
+            only = { "source.addMissingImports" },
         },
-        apply = true
+        apply = true,
     })
 end, { desc = "Auto-import (normal mode)", silent = true })
 

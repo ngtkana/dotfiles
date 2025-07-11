@@ -90,10 +90,19 @@ function M.setup()
 
     -- アイコン設定
     vim.fn.sign_define("DapBreakpoint", { text = "🔴", texthl = "DapBreakpoint", linehl = "", numhl = "" })
-    vim.fn.sign_define("DapBreakpointCondition", { text = "🟡", texthl = "DapBreakpointCondition", linehl = "", numhl = "" })
+    vim.fn.sign_define(
+        "DapBreakpointCondition",
+        { text = "🟡", texthl = "DapBreakpointCondition", linehl = "", numhl = "" }
+    )
     vim.fn.sign_define("DapLogPoint", { text = "📝", texthl = "DapLogPoint", linehl = "", numhl = "" })
-    vim.fn.sign_define("DapStopped", { text = "▶️", texthl = "DapStopped", linehl = "DapStopped", numhl = "DapStopped" })
-    vim.fn.sign_define("DapBreakpointRejected", { text = "⭕", texthl = "DapBreakpointRejected", linehl = "", numhl = "" })
+    vim.fn.sign_define(
+        "DapStopped",
+        { text = "▶️", texthl = "DapStopped", linehl = "DapStopped", numhl = "DapStopped" }
+    )
+    vim.fn.sign_define(
+        "DapBreakpointRejected",
+        { text = "⭕", texthl = "DapBreakpointRejected", linehl = "", numhl = "" }
+    )
 
     -- 言語ごとのデバッガ設定
     -- JavaScript/TypeScript (Node.js)
@@ -243,15 +252,33 @@ function M.setup()
     }
 
     -- キーマッピング
-    vim.keymap.set("n", "<F5>", function() require("dap").continue() end, { desc = "Debug: Continue" })
-    vim.keymap.set("n", "<F10>", function() require("dap").step_over() end, { desc = "Debug: Step Over" })
-    vim.keymap.set("n", "<F11>", function() require("dap").step_into() end, { desc = "Debug: Step Into" })
-    vim.keymap.set("n", "<F12>", function() require("dap").step_out() end, { desc = "Debug: Step Out" })
-    vim.keymap.set("n", "<leader>db", function() require("dap").toggle_breakpoint() end, { desc = "Debug: Toggle Breakpoint" })
-    vim.keymap.set("n", "<leader>dB", function() require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: ")) end, { desc = "Debug: Set Conditional Breakpoint" })
-    vim.keymap.set("n", "<leader>dl", function() require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point message: ")) end, { desc = "Debug: Set Log Point" })
-    vim.keymap.set("n", "<leader>dr", function() require("dap").repl.open() end, { desc = "Debug: Open REPL" })
-    vim.keymap.set("n", "<leader>du", function() require("dapui").toggle() end, { desc = "Debug: Toggle UI" })
+    vim.keymap.set("n", "<F5>", function()
+        require("dap").continue()
+    end, { desc = "Debug: Continue" })
+    vim.keymap.set("n", "<F10>", function()
+        require("dap").step_over()
+    end, { desc = "Debug: Step Over" })
+    vim.keymap.set("n", "<F11>", function()
+        require("dap").step_into()
+    end, { desc = "Debug: Step Into" })
+    vim.keymap.set("n", "<F12>", function()
+        require("dap").step_out()
+    end, { desc = "Debug: Step Out" })
+    vim.keymap.set("n", "<leader>db", function()
+        require("dap").toggle_breakpoint()
+    end, { desc = "Debug: Toggle Breakpoint" })
+    vim.keymap.set("n", "<leader>dB", function()
+        require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))
+    end, { desc = "Debug: Set Conditional Breakpoint" })
+    vim.keymap.set("n", "<leader>dl", function()
+        require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point message: "))
+    end, { desc = "Debug: Set Log Point" })
+    vim.keymap.set("n", "<leader>dr", function()
+        require("dap").repl.open()
+    end, { desc = "Debug: Open REPL" })
+    vim.keymap.set("n", "<leader>du", function()
+        require("dapui").toggle()
+    end, { desc = "Debug: Toggle UI" })
 end
 
 return M

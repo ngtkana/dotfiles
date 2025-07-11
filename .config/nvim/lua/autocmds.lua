@@ -61,7 +61,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
         if vim.fn.exists("*deoplete#disable") == 1 then
             vim.call("deoplete#disable")
         end
-        
+
         -- LSP 補完が有効なことをユーザーに通知
         vim.notify("LSP active: nvim-cmp is now handling completion", vim.log.levels.INFO)
     end,

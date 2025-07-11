@@ -11,10 +11,10 @@ function M.setup()
     possession.setup({
         -- セッションの保存先
         session_dir = vim.fn.stdpath("data") .. "/possession",
-        
+
         -- 無視するバッファのパターン
         silent = false,
-        
+
         -- セッションに含めないプラグイン
         plugins = {
             -- デフォルトで無視されるプラグイン
@@ -29,7 +29,7 @@ function M.setup()
                 "trouble.nvim",
             },
         },
-        
+
         -- セッションに保存する追加情報
         hooks = {
             -- セッション保存前のフック
@@ -37,13 +37,13 @@ function M.setup()
                 -- 保存前に実行する処理
                 return {}
             end,
-            
+
             -- セッション読み込み後のフック
             after_load = function(name, user_data)
                 -- 読み込み後に実行する処理
             end,
         },
-        
+
         -- Telescope 拡張機能の設定
         telescope = {
             -- Telescope での表示オプション
@@ -58,15 +58,15 @@ function M.setup()
             },
         },
     })
-    
+
     -- Telescope 拡張機能を読み込む
     pcall(require("telescope").load_extension, "possession")
-    
+
     -- キーマッピング
     vim.keymap.set("n", "<leader>ss", function()
         require("telescope").extensions.possession.list()
     end, { desc = "List Sessions" })
-    
+
     vim.keymap.set("n", "<leader>sn", function()
         vim.ui.input({ prompt = "Session name: " }, function(name)
             if name and name ~= "" then
@@ -74,7 +74,7 @@ function M.setup()
             end
         end)
     end, { desc = "New Session" })
-    
+
     vim.keymap.set("n", "<leader>sl", function()
         vim.ui.input({ prompt = "Session name: " }, function(name)
             if name and name ~= "" then
@@ -82,7 +82,7 @@ function M.setup()
             end
         end)
     end, { desc = "Load Session" })
-    
+
     vim.keymap.set("n", "<leader>sd", function()
         vim.ui.input({ prompt = "Session name: " }, function(name)
             if name and name ~= "" then

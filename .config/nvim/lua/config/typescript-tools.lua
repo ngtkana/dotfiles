@@ -41,13 +41,28 @@ function M.setup()
         pattern = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
         callback = function()
             -- TypeScript 固有のコマンド
-            vim.keymap.set("n", "<leader>li", "<cmd>TSToolsAddMissingImports<CR>", { buffer = true, desc = "Add Missing Imports" })
-            vim.keymap.set("n", "<leader>lo", "<cmd>TSToolsOrganizeImports<CR>", { buffer = true, desc = "Organize Imports" })
+            vim.keymap.set(
+                "n",
+                "<leader>li",
+                "<cmd>TSToolsAddMissingImports<CR>",
+                { buffer = true, desc = "Add Missing Imports" }
+            )
+            vim.keymap.set(
+                "n",
+                "<leader>lo",
+                "<cmd>TSToolsOrganizeImports<CR>",
+                { buffer = true, desc = "Organize Imports" }
+            )
             vim.keymap.set("n", "<leader>lu", "<cmd>TSToolsRemoveUnused<CR>", { buffer = true, desc = "Remove Unused" })
             vim.keymap.set("n", "<leader>lf", "<cmd>TSToolsFixAll<CR>", { buffer = true, desc = "Fix All" })
             vim.keymap.set("n", "<leader>lr", "<cmd>TSToolsRenameFile<CR>", { buffer = true, desc = "Rename File" })
             vim.keymap.set("n", "<leader>ls", "<cmd>TSToolsSortImports<CR>", { buffer = true, desc = "Sort Imports" })
-            vim.keymap.set("n", "<leader>lg", "<cmd>TSToolsGoToSourceDefinition<CR>", { buffer = true, desc = "Go To Source Definition" })
+            vim.keymap.set(
+                "n",
+                "<leader>lg",
+                "<cmd>TSToolsGoToSourceDefinition<CR>",
+                { buffer = true, desc = "Go To Source Definition" }
+            )
         end,
     })
 end

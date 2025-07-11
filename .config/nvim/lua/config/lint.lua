@@ -16,10 +16,11 @@ function M.setup()
         python = { "flake8" },
         lua = { "luacheck" },
     }
-    
+
     -- luacheck の設定
     lint.linters.luacheck.args = {
-        "--globals", "vim",
+        "--globals",
+        "vim",
         "--no-max-line-length",
     }
 

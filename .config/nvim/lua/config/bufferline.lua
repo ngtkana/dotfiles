@@ -117,7 +117,7 @@ function M.setup()
         ":BufferLineMoveNext<CR>",
         { noremap = true, silent = true, desc = "Move buffer right" }
     )
-    
+
     -- gt/gT でバッファを切り替えるためのキーマッピング
     vim.keymap.set("n", "gt", ":BufferLineCycleNext<CR>", { noremap = true, silent = true, desc = "Next buffer" })
     vim.keymap.set("n", "gT", ":BufferLineCyclePrev<CR>", { noremap = true, silent = true, desc = "Previous buffer" })

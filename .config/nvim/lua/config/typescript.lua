@@ -51,8 +51,18 @@ function M.setup()
         pattern = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
         callback = function()
             -- TypeScript 固有のコマンド
-            vim.keymap.set("n", "<leader>li", ":TypescriptAddMissingImports<CR>", { buffer = true, desc = "Add Missing Imports" })
-            vim.keymap.set("n", "<leader>lo", ":TypescriptOrganizeImports<CR>", { buffer = true, desc = "Organize Imports" })
+            vim.keymap.set(
+                "n",
+                "<leader>li",
+                ":TypescriptAddMissingImports<CR>",
+                { buffer = true, desc = "Add Missing Imports" }
+            )
+            vim.keymap.set(
+                "n",
+                "<leader>lo",
+                ":TypescriptOrganizeImports<CR>",
+                { buffer = true, desc = "Organize Imports" }
+            )
             vim.keymap.set("n", "<leader>lu", ":TypescriptRemoveUnused<CR>", { buffer = true, desc = "Remove Unused" })
             vim.keymap.set("n", "<leader>lf", ":TypescriptFixAll<CR>", { buffer = true, desc = "Fix All" })
             vim.keymap.set("n", "<leader>lr", ":TypescriptRenameFile<CR>", { buffer = true, desc = "Rename File" })

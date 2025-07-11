@@ -1,6 +1,6 @@
 case $- in
-    *i*) ;;
-      *) return;;
+*i*) ;;
+*) return ;;
 esac
 
 HISTCONTROL=ignoreboth
@@ -23,11 +23,11 @@ GIT_PS1_SHOWUNTRACKEDFILES=true
 GIT_PS1_SHOWSTASHSTATE=true
 GIT_PS1_SHOWUPSTREAM=auto
 if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-  fi
+    if [ -f /usr/share/bash-completion/bash_completion ]; then
+        . /usr/share/bash-completion/bash_completion
+    elif [ -f /etc/bash_completion ]; then
+        . /etc/bash_completion
+    fi
 fi
 . "$HOME/.cargo/env"
 
@@ -37,54 +37,54 @@ export EDITOR=vim
 
 # bashでディレクトリ移動を便利にする - Qiita
 # https://qiita.com/k-takata/items/092f70f66d545cb9db7c
-function cd_func () {
-  local x2 the_new_dir adir index
-  local -i cnt
+function cd_func() {
+    local x2 the_new_dir adir index
+    local -i cnt
 
-  if [[ $1 ==  "--" ]]; then
-    dirs -v
-    return 0
-  fi
-
-  the_new_dir=$1
-  [[ -z $1 ]] && the_new_dir=$HOME
-
-  if [[ ${the_new_dir:0:1} == '-' ]]; then
-    #
-    # Extract dir N from dirs
-    index=${the_new_dir:1}
-    [[ -z $index ]] && index=1
-    adir=$(dirs +$index)
-    [[ -z $adir ]] && return 1
-    the_new_dir=$adir
-  fi
-
-  #
-  # '~' has to be substituted by ${HOME}
-  [[ ${the_new_dir:0:1} == '~' ]] && the_new_dir="${HOME}${the_new_dir:1}"
-
-  #
-  # Now change to the new dir and add to the top of the stack
-  pushd "${the_new_dir}" > /dev/null
-  [[ $? -ne 0 ]] && return 1
-  the_new_dir=$(pwd)
-
-  # Trim down everything beyond 11th entry
-  popd -n +11 2>/dev/null 1>/dev/null
-
-  #
-  # Remove any other occurence of this dir, skipping the top of the stack
-  for ((cnt=1; cnt <= 10; cnt++)); do
-    x2=$(dirs +${cnt} 2>/dev/null)
-    [[ $? -ne 0 ]] && return 0
-    [[ ${x2:0:1} == '~' ]] && x2="${HOME}${x2:1}"
-    if [[ "${x2}" == "${the_new_dir}" ]]; then
-      popd -n +$cnt 2>/dev/null 1>/dev/null
-      cnt=cnt-1
+    if [[ $1 == "--" ]]; then
+        dirs -v
+        return 0
     fi
-  done
 
-  return 0
+    the_new_dir=$1
+    [[ -z $1 ]] && the_new_dir=$HOME
+
+    if [[ ${the_new_dir:0:1} == '-' ]]; then
+        #
+        # Extract dir N from dirs
+        index=${the_new_dir:1}
+        [[ -z $index ]] && index=1
+        adir=$(dirs +$index)
+        [[ -z $adir ]] && return 1
+        the_new_dir=$adir
+    fi
+
+    #
+    # '~' has to be substituted by ${HOME}
+    [[ ${the_new_dir:0:1} == '~' ]] && the_new_dir="${HOME}${the_new_dir:1}"
+
+    #
+    # Now change to the new dir and add to the top of the stack
+    pushd "${the_new_dir}" >/dev/null
+    [[ $? -ne 0 ]] && return 1
+    the_new_dir=$(pwd)
+
+    # Trim down everything beyond 11th entry
+    popd -n +11 2>/dev/null 1>/dev/null
+
+    #
+    # Remove any other occurence of this dir, skipping the top of the stack
+    for ((cnt = 1; cnt <= 10; cnt++)); do
+        x2=$(dirs +${cnt} 2>/dev/null)
+        [[ $? -ne 0 ]] && return 0
+        [[ ${x2:0:1} == '~' ]] && x2="${HOME}${x2:1}"
+        if [[ "${x2}" == "${the_new_dir}" ]]; then
+            popd -n +$cnt 2>/dev/null 1>/dev/null
+            cnt=cnt-1
+        fi
+    done
+
+    return 0
 }
 alias cd=cd_func
 
@@ -101,8 +101,7 @@ HISTFILESIZE=2000
 source "$HOME/.cargo/env"
 
 # cargo make
-_cargo_make_completions()
-{
+_cargo_make_completions() {
     if [ "${#COMP_WORDS[@]}" != "2" ]; then
         return
     fi
@@ -120,16 +119,16 @@ complete -F _cargo_make_completions makers
 
 # ac-adapter-rs のドキュメントを開く
 PATH_TO_AC_ADAPTER_RS=$HOME/repos/ac-adapter-rs
-function updateac () {
-  orig_path="${PWD}"
-  cd "${PATH_TO_AC_ADAPTER_RS}"
-  cargo doc
-  cd "${orig_path}"
+function updateac() {
+    orig_path="${PWD}"
+    cd "${PATH_TO_AC_ADAPTER_RS}"
+    cargo doc
+    cd "${orig_path}"
 }
-function openac () {
-  updateac
-  path_to_ac_adapter_doc=$PATH_TO_AC_ADAPTER_RS/target/doc/ac_adapter_rs/index.html
-  google-chrome "${path_to_ac_adapter_doc}"
+function openac() {
+    updateac
+    path_to_ac_adapter_doc=$PATH_TO_AC_ADAPTER_RS/target/doc/ac_adapter_rs/index.html
+    google-chrome "${path_to_ac_adapter_doc}"
 }
 
 if [ -f "${HOME}/.bash_aliases" ]; then . "${HOME}/.bash_aliases"; fi
@@ -140,11 +139,8 @@ xset r rate 135 35
 export PATH=$PATH:$HOME/.local/bin
 
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# WSL
-export BROWSER=google-chrome
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
 
 # Pyenv
 export PYENV_ROOT="$HOME/.pyenv"
@@ -169,12 +165,10 @@ makersl() {
     makers --makefile Makefile.local.toml "$@"
 }
 
-
 export PATH="$HOME/.pyenv/bin:$PATH"
 eval "$(pyenv init --path)"
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
-
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/home/ngtkana/repos/occt-sandbox/build/google-cloud-sdk/path.bash.inc' ]; then . '/home/ngtkana/repos/occt-sandbox/build/google-cloud-sdk/path.bash.inc'; fi

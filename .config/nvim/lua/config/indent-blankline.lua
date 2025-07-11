@@ -46,12 +46,7 @@ function M.setup()
     })
 
     -- キーマッピング
-    vim.keymap.set(
-        "n",
-        "<leader>ti",
-        ":IBLToggle<CR>",
-        { noremap = true, silent = true, desc = "Toggle indent lines" }
-    )
+    vim.keymap.set("n", "<leader>ti", ":IBLToggle<CR>", { noremap = true, silent = true, desc = "Toggle indent lines" })
 end
 
 return M

@@ -47,21 +47,23 @@ function M.setup()
         extensions = {
             -- FZF 拡張
             fzf = {
-                fuzzy = true,                    -- ファジー検索を有効化
-                override_generic_sorter = true,  -- デフォルトのソーターを上書き
-                override_file_sorter = true,     -- ファイルソーターを上書き
-                case_mode = "smart_case",        -- 大文字小文字の区別（"ignore_case", "respect_case", "smart_case"）
+                fuzzy = true, -- ファジー検索を有効化
+                override_generic_sorter = true, -- デフォルトのソーターを上書き
+                override_file_sorter = true, -- ファイルソーターを上書き
+                case_mode = "smart_case", -- 大文字小文字の区別（"ignore_case", "respect_case", "smart_case"）
             },
             -- ファイルブラウザ拡張
             file_browser = {
                 theme = "dropdown",
-                hijack_netrw = false,            -- netrw の代わりに使用しない（nvim-tree を使用）
+                hijack_netrw = false, -- netrw の代わりに使用しない（nvim-tree を使用）
                 mappings = {
                     ["i"] = {
-                        ["<C-w>"] = function() vim.cmd('normal vbd') end, -- 単語を削除
+                        ["<C-w>"] = function()
+                            vim.cmd("normal vbd")
+                        end, -- 単語を削除
                     },
                     ["n"] = {
-                        ["N"] = "create",        -- 新規ファイル作成
+                        ["N"] = "create", -- 新規ファイル作成
                         ["h"] = "goto_parent_dir", -- 親ディレクトリへ
                         -- ["/"] = "filter" の代わりに以下を使用
                         ["/"] = function()
@@ -70,10 +72,10 @@ function M.setup()
                     },
                 },
                 -- 追加の設定
-                hidden = true,                   -- 隠しファイルを表示
-                respect_gitignore = false,       -- .gitignore を尊重しない
-                initial_mode = "normal",         -- 初期モードを normal に設定
-                path = "%:p:h",                  -- 現在のファイルのディレクトリを開く
+                hidden = true, -- 隠しファイルを表示
+                respect_gitignore = false, -- .gitignore を尊重しない
+                initial_mode = "normal", -- 初期モードを normal に設定
+                path = "%:p:h", -- 現在のファイルのディレクトリを開く
             },
             -- プロジェクト拡張
             project = {
@@ -81,11 +83,11 @@ function M.setup()
                     { path = "~/repos", max_depth = 4 },
                     { path = "~/.config", max_depth = 2 },
                 },
-                hidden_files = true,             -- 隠しファイルを表示
+                hidden_files = true, -- 隠しファイルを表示
                 theme = "dropdown",
                 order_by = "asc",
                 search_by = "title",
-                sync_with_nvim_tree = true,      -- nvim-tree と同期
+                sync_with_nvim_tree = true, -- nvim-tree と同期
             },
         },
     })
@@ -97,7 +99,7 @@ function M.setup()
             vim.notify("Failed to load telescope extension: " .. name .. "\n" .. err, vim.log.levels.WARN)
         end
     end
-    
+
     load_extension("fzf")
     load_extension("file_browser")
     load_extension("project")
@@ -114,21 +116,21 @@ function M.setup()
     vim.keymap.set("n", "<leader>fo", builtin.oldfiles, { noremap = true, desc = "Recent Files" })
     vim.keymap.set("n", "<leader>fc", builtin.commands, { noremap = true, desc = "Commands" })
     vim.keymap.set("n", "<leader>fk", builtin.keymaps, { noremap = true, desc = "Keymaps" })
-    
+
     -- 拡張機能のキーマップ
     vim.keymap.set("n", "<leader>fe", function()
         require("telescope").extensions.file_browser.file_browser({
             path = "%:p:h",
-            cwd = vim.fn.expand('%:p:h'),
+            cwd = vim.fn.expand("%:p:h"),
             respect_gitignore = false,
             hidden = true,
             grouped = true,
             previewer = false,
             initial_mode = "normal",
-            layout_config = { height = 40 }
+            layout_config = { height = 40 },
         })
     end, { noremap = true, desc = "File Browser" })
-    
+
     vim.keymap.set("n", "<leader>fp", ":Telescope project<CR>", { noremap = true, desc = "Projects" })
 end
 
