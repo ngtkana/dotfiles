@@ -4,7 +4,7 @@ vim.g.mapleader = "," -- リーダーキーを先に設定
 -- 基本オプション
 vim.opt.encoding = "utf-8"
 vim.opt.belloff = "all"
-vim.opt.clipboard = "unnamedplus" -- システムクリップボードを使用
+vim.opt.clipboard = "" -- システムクリップボードを使用
 vim.opt.number = true
 vim.opt.completeopt = "menuone"
 vim.opt.cursorline = true
