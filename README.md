@@ -26,3 +26,11 @@ exec -l $SHELL # ~/.cargo/env を読むため
 cargo install starship --locked
 exec -l $SHELL # ~/.config/starship.toml を読むため
 ```
+
+### NeoVim
+
+参考: https://github.com/neovim/neovim/blob/master/INSTALL.md
+
+```bash
+sudo apt install neovim
+```
