@@ -1,3 +1,3 @@
 local map = LazyVim.safe_keymap_set
 
-map("n", "<le ader>w", ":w<CR>")
+map("n", "<leader>wr", ":w<CR>", { desc = "Save file" })
