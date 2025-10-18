@@ -1,11 +1,12 @@
+-- 自動補完
 return {
   "hrsh7th/nvim-cmp",
   dependencies = {
-    "L3MON4D3/LuaSnip",
-    "saadparwaiz1/cmp_luasnip",
-    "neovim/nvim-lspconfig",
-    "hrsh7th/cmp-emoji",
-    "kdheepak/cmp-latex-symbols",
+    "L3MON4D3/LuaSnip",           -- スニペットエンジン
+    "saadparwaiz1/cmp_luasnip",   -- LuaSnip 補完ソース
+    "neovim/nvim-lspconfig",      -- LSP 補完ソース
+    "hrsh7th/cmp-emoji",          -- 絵文字補完
+    "kdheepak/cmp-latex-symbols", -- LaTeX シンボル補完
   },
   config = function()
     local cmp = require("cmp")

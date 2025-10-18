@@ -1,3 +1,4 @@
+-- カラースキーム
 return {
   "jonathanfilip/vim-lucius",
   config = function()
