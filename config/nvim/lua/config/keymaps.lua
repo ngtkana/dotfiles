@@ -37,8 +37,10 @@ end, { desc = "Find AC library" })
 
 -- Cargo 関連のキーマップ
 local cargo = require("config.utils.cargo")
-
+map("n", "<F3>", cargo.check, { desc = "Run cargo check" })
+map("n", "<F4>", cargo.run_with_clipboard, { desc = "Run cargo with clipboard input" })
+map("n", "<F5>", cargo.run_with_input_buffer, { desc = "Run cargo with input buffer" })
 map("n", "<leader>cc", cargo.check, { desc = "Run cargo check" })
-map("n", "<leader>cr", cargo.run_with_clipboard, { desc = "Run cargo with clipboard input" })
-map("n", "<F5>", cargo.run_with_clipboard, { desc = "Run cargo with clipboard input" })
-map("n", "<leader>co", cargo.toggle_buffers, { desc = "Toggle cargo output buffer" })
+map("n", "<leader>ci", cargo.open_input_buffer, { desc = "Open input buffer for editing" })
+map("n", "<leader>cr", cargo.run_with_input_buffer, { desc = "Run cargo with input buffer" })
+map("n", "<leader>co", cargo.toggle_buffers, { desc = "Toggle cargo buffers" })

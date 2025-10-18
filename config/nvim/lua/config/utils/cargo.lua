@@ -53,9 +53,10 @@ end
 ---@param input string input text
 function M.write_input(buf, input)
   vim.api.nvim_set_option_value('modifiable', true, { buf = buf })
-  local input_lines = vim.split(input, "\n")
+  -- Windows の改行コード (\r) を削除
+  local cleaned_input = input:gsub("\r", "")
+  local input_lines = vim.split(cleaned_input, "\n")
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, input_lines)
-  vim.api.nvim_set_option_value('modifiable', false, { buf = buf })
 end
 
 -- 出力バッファに内容を書き込む
@@ -65,15 +66,15 @@ end
 function M.write_output(buf, lines, exit_code)
   vim.schedule(function()
     vim.api.nvim_set_option_value('modifiable', true, { buf = buf })
-    local all_lines = exit_code == 0 and lines or { "✗ cargo run (exit code: " .. exit_code .. ")" }
-    vim.api.nvim_buf_set_lines(buf, 0, -1, false, all_lines)
+    -- 成功・失敗に関わらず全出力を表示
+    vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
     vim.api.nvim_set_option_value('modifiable', false, { buf = buf })
     
-    -- 通知
+    -- 通知で成功/失敗を知らせる
     if exit_code == 0 then
       vim.notify("✓ cargo run completed", vim.log.levels.INFO)
     else
-      vim.notify("✗ cargo run failed", vim.log.levels.ERROR)
+      vim.notify("✗ cargo run failed (exit code: " .. exit_code .. ")", vim.log.levels.ERROR)
     end
   end)
 end
@@ -171,7 +172,7 @@ function M.check()
         vim.notify("✓ cargo check passed", vim.log.levels.INFO)
       else
         vim.notify("✗ cargo check failed", vim.log.levels.ERROR)
-        vim.cmd("copen")
+        vim.cmd("botright copen")
       end
     end,
     stdout_buffered = true,
@@ -185,6 +186,91 @@ function M.check()
       end
     end,
   })
+end
+
+-- 入力バッファを開いて編集可能にする
+function M.open_input_buffer()
+  local input_buf = M.get_or_create_input_buffer()
+  local output_buf = M.get_or_create_output_buffer()
+  
+  -- クリップボードの内容で初期化（バッファが空の場合）
+  local line_count = vim.api.nvim_buf_line_count(input_buf)
+  local first_line = vim.api.nvim_buf_get_lines(input_buf, 0, 1, false)[1] or ""
+  
+  if line_count == 1 and first_line == "" then
+    local clipboard = vim.fn.getreg('+')
+    if clipboard ~= "" then
+      M.write_input(input_buf, clipboard)
+    end
+  end
+  
+  -- バッファを表示
+  M.show_buffers(input_buf, output_buf)
+  
+  -- 入力バッファにフォーカスを移動
+  local input_wins = vim.fn.win_findbuf(input_buf)
+  if #input_wins > 0 then
+    vim.api.nvim_set_current_win(input_wins[1])
+  end
+  
+  vim.notify("Edit input buffer and press <F5> to run", vim.log.levels.INFO)
+end
+
+-- 入力バッファの内容で cargo run を実行する
+function M.run_with_input_buffer()
+  local input_buf = M.get_or_create_input_buffer()
+  local output_buf = M.get_or_create_output_buffer()
+  
+  -- 入力バッファの内容を取得
+  local input_lines = vim.api.nvim_buf_get_lines(input_buf, 0, -1, false)
+  local input = table.concat(input_lines, "\n")
+  
+  if input == "" then
+    vim.notify("Input buffer is empty", vim.log.levels.WARN)
+    return
+  end
+  
+  -- 出力バッファをクリア
+  vim.api.nvim_set_option_value('modifiable', true, { buf = output_buf })
+  vim.api.nvim_buf_set_lines(output_buf, 0, -1, false, {"Running cargo run..."})
+  vim.api.nvim_set_option_value('modifiable', false, { buf = output_buf })
+  
+  -- バッファを表示
+  M.show_buffers(input_buf, output_buf)
+  
+  local output = {}
+  
+  local job_id = vim.fn.jobstart("cargo run --quiet", {
+    stdout_buffered = true,
+    stderr_buffered = true,
+    on_stdout = function(_, data)
+      if data then
+        for _, line in ipairs(data) do
+          if line ~= "" then
+            table.insert(output, line)
+          end
+        end
+      end
+    end,
+    on_stderr = function(_, data)
+      if data then
+        for _, line in ipairs(data) do
+          if line ~= "" then
+            table.insert(output, line)
+          end
+        end
+      end
+    end,
+    on_exit = function(_, exit_code)
+      M.write_output(output_buf, output, exit_code)
+    end,
+  })
+  
+  -- 入力バッファの内容を標準入力として送信
+  vim.fn.chansend(job_id, input)
+  vim.fn.chanclose(job_id, 'stdin')
+  
+  vim.notify("Running cargo with input buffer...", vim.log.levels.INFO)
 end
 
 -- cargo run をクリップボードの内容を入力として実行する
