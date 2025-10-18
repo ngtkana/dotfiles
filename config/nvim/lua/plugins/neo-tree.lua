@@ -16,5 +16,14 @@ return {
       end,
       desc = "Explorer NeoTree (cwd)",
     },
+  },
+  opts = {
+    filesystem = {
+      filtered_items = {
+          hide_dotfiles = false,
+          hide_gitignored = false,
+          hide_ignored = false,
+      }
+    }
   }
 }
