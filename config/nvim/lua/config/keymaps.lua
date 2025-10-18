@@ -17,6 +17,9 @@ end, { desc = 'Telescope help tags' })
 -- <leader>ca: code action
 map('n', '<leader>ca', vim.lsp.buf.code_action, { desc = "Code action" })
 
+-- <leader>cr: rename
+map('n', '<leader>cr', vim.lsp.buf.rename, { desc = "Rename symbol" })
+
 -- <leader>w: save
 map("n", "<leader>w", ":w<CR>", { desc = "Save file" })
 
@@ -49,5 +52,5 @@ map("n", "<F4>", cargo.run_with_clipboard, { desc = "Run cargo with clipboard in
 map("n", "<F5>", cargo.run_with_input_buffer, { desc = "Run cargo with input buffer" })
 map("n", "<leader>cc", cargo.check, { desc = "Run cargo check" })
 map("n", "<leader>ci", cargo.open_input_buffer, { desc = "Open input buffer for editing" })
-map("n", "<leader>cr", cargo.run_with_input_buffer, { desc = "Run cargo with input buffer" })
+map("n", "<leader>cs", cargo.run_with_input_buffer, { desc = "Run cargo with input buffer" })
 map("n", "<leader>co", cargo.toggle_buffers, { desc = "Toggle cargo buffers" })
