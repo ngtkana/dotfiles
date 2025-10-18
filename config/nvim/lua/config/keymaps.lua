@@ -1,11 +1,18 @@
 local map = vim.keymap.set
 
 -- <leader>f{f,g,b,h}: telescope
-local builtin = require('telescope.builtin')
-map('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find files' })
-map('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
-map('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
-map('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
+map('n', '<leader>ff', function()
+  require('telescope.builtin').find_files()
+end, { desc = 'Telescope find files' })
+map('n', '<leader>fg', function()
+  require('telescope.builtin').live_grep()
+end, { desc = 'Telescope live grep' })
+map('n', '<leader>fb', function()
+  require('telescope.builtin').buffers()
+end, { desc = 'Telescope buffers' })
+map('n', '<leader>fh', function()
+  require('telescope.builtin').help_tags()
+end, { desc = 'Telescope help tags' })
 
 -- <leader>ca: code action
 map('n', '<leader>ca', vim.lsp.buf.code_action, { desc = "Code action" })

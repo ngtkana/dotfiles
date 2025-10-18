@@ -1,3 +1,6 @@
+-- 定数
+local FORMAT_TIMEOUT_MS = 1000
+
 vim.lsp.enable({
   "lua_ls",
   "rust_analyzer",
@@ -28,7 +31,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
         group = vim.api.nvim_create_augroup("my.lsp", { clear = false }),
         buffer = args.buf,
         callback = function()
-          vim.lsp.buf.format({ bufnr = args.buf, id = client.id, timeout_ms = 1000 })
+          vim.lsp.buf.format({ bufnr = args.buf, id = client.id, timeout_ms = FORMAT_TIMEOUT_MS })
         end,
       })
     end

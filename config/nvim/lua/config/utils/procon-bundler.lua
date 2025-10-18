@@ -1,11 +1,12 @@
--- ProCon Bundler ユーティリティ
+--- ProCon Bundler ユーティリティ
+--- 競技プログラミング用のライブラリをバンドルする機能を提供
 local M = {}
 
 -- 定数
 local LIBS_DIR = vim.fn.expand("~/repos/ac-adapter-rs/libs")
 
--- ライブラリディレクトリの存在確認
----@return boolean
+--- ライブラリディレクトリの存在確認
+---@return boolean exists ディレクトリが存在する場合true
 local function check_libs_dir()
   local stat = vim.loop.fs_stat(LIBS_DIR)
   if not stat or stat.type ~= "directory" then
@@ -18,8 +19,9 @@ local function check_libs_dir()
   return true
 end
 
--- ライブラリ一覧を取得
----@return string[] list of library names
+--- ライブラリ一覧を取得
+--- LIBS_DIRからライブラリ名のリストを取得する
+---@return string[] libraries ライブラリ名の配列
 function M.get_libraries()
   if not check_libs_dir() then
     return {}
@@ -49,8 +51,9 @@ function M.get_libraries()
   return libraries
 end
 
--- procon-bundler を実行してバッファに挿入
----@param library_name string library name to bundle
+--- procon-bundlerを実行してバッファに挿入
+--- 指定されたライブラリをバンドルし、現在のバッファの最後に挿入する
+---@param library_name string バンドルするライブラリ名
 function M.bundle_library(library_name)
   if not check_libs_dir() then
     return
@@ -97,7 +100,8 @@ function M.bundle_library(library_name)
   vim.notify(string.format("✓ Bundled: %s", library_name), vim.log.levels.INFO)
 end
 
--- Telescope でライブラリを選択
+--- Telescopeでライブラリを選択
+--- Telescopeのピッカーを使用してライブラリを選択し、バンドルする
 function M.select_and_bundle()
   -- Telescope の遅延読み込みに対応
   local ok, pickers = pcall(require, "telescope.pickers")
