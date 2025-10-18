@@ -1,4 +1,5 @@
 -- Git UI
+---@type LazyPluginSpec
 return {
   "kdheepak/lazygit.nvim",
   lazy = true,

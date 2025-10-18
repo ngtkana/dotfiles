@@ -1,4 +1,5 @@
 -- インデントとチャンクのハイライト
+---@type LazyPluginSpec
 return {
   "shellRaining/hlchunk.nvim",
   event = { "BufReadPre", "BufNewFile" },

@@ -1,4 +1,5 @@
 -- 自動補完
+---@type LazyPluginSpec
 return {
   "hrsh7th/nvim-cmp",
   dependencies = {

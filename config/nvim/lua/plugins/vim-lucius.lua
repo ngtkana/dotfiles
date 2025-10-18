@@ -1,4 +1,5 @@
 -- カラースキーム
+---@type LazyPluginSpec
 return {
   "jonathanfilip/vim-lucius",
   config = function()

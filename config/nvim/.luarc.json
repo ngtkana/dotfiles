@@ -10,7 +10,8 @@
     "workspace": {
         "library": [
             "$VIMRUNTIME/lua",
-            "${3rd}/luv/library"
+            "${3rd}/luv/library",
+            "$HOME/.local/share/nvim/lazy/lazy.nvim/lua"
         ],
         "checkThirdParty": false
     },
