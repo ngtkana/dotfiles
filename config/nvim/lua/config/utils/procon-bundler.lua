@@ -33,7 +33,7 @@ function M.get_libraries()
   local result = handle:read("*a")
   local success, _, exit_code = handle:close()
 
-  if not success or exit_code ~= 0 then
+  if not success or (exit_code ~= nil and exit_code ~= 0) then
     require("fidget").notify("Failed to read library directory", vim.log.levels.ERROR)
     return {}
   end
@@ -83,7 +83,7 @@ function M.bundle_library(library_name)
   local output = handle:read("*a")
   local success, _, exit_code = handle:close()
 
-  if not success or exit_code ~= 0 then
+  if not success or (exit_code ~= nil and exit_code ~= 0) then
     require("fidget").notify(
       string.format("procon-bundler failed:\n%s", output),
       vim.log.levels.ERROR
