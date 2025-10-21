@@ -14,12 +14,6 @@ map('n', '<leader>fh', function()
   require('telescope.builtin').help_tags()
 end, { desc = 'Telescope help tags' })
 
--- <leader>ca: code action
-map('n', '<leader>ca', vim.lsp.buf.code_action, { desc = "Code action" })
-
--- <leader>cr: rename
-map('n', '<leader>cr', vim.lsp.buf.rename, { desc = "Rename symbol" })
-
 -- <leader>w: save
 map("n", "<leader>w", ":w<CR>", { desc = "Save file" })
 
@@ -43,7 +37,6 @@ end, { desc = "Open config folder" })
 map("n", "<leader>fa", function()
   require("config.utils.procon-bundler").select_and_bundle()
 end, { desc = "Find AC library" })
-
 
 -- Cargo 関連のキーマップ
 local cargo = require("config.utils.cargo")

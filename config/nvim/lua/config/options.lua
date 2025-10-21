@@ -25,9 +25,6 @@ opt.cursorline = true
 opt.scrolloff = 8
 opt.sidescrolloff = 8
 
--- クリップボード
-opt.clipboard = "unnamedplus"
-
 -- バックアップ・スワップ
 opt.backup = false
 opt.writebackup = false
