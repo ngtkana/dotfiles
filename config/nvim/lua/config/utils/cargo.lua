@@ -79,9 +79,9 @@ function M.write_output(buf, lines, exit_code)
 
     -- 通知で成功/失敗を知らせる
     if exit_code == 0 then
-      vim.notify("✓ cargo run completed", vim.log.levels.INFO)
+      require("fidget").notify("✓ cargo run completed", vim.log.levels.INFO)
     else
-      vim.notify("✗ cargo run failed (exit code: " .. exit_code .. ")", vim.log.levels.ERROR)
+      require("fidget").notify("✗ cargo run failed (exit code: " .. exit_code .. ")", vim.log.levels.ERROR)
     end
   end)
 end
@@ -147,7 +147,7 @@ function M.toggle_buffers()
   end
 
   if not input_buf and not output_buf then
-    vim.notify("No cargo buffers found", vim.log.levels.WARN)
+    require("fidget").notify("No cargo buffers found", vim.log.levels.WARN)
     return
   end
 
@@ -174,14 +174,14 @@ end
 --- cargo checkを実行する
 --- エラーがある場合はquickfixリストを開く
 function M.check()
-  vim.notify("Running cargo check...", vim.log.levels.INFO)
+  require("fidget").notify("Running cargo check...", vim.log.levels.INFO)
 
   vim.fn.jobstart(CARGO_CHECK_COMMAND, {
     on_exit = function(_, exit_code)
       if exit_code == 0 then
-        vim.notify("✓ cargo check passed", vim.log.levels.INFO)
+        require("fidget").notify("✓ cargo check passed", vim.log.levels.INFO)
       else
-        vim.notify("✗ cargo check failed", vim.log.levels.ERROR)
+        require("fidget").notify("✗ cargo check failed", vim.log.levels.ERROR)
         vim.cmd("botright copen")
       end
     end,
@@ -224,7 +224,7 @@ function M.open_input_buffer()
     vim.api.nvim_set_current_win(input_wins[1])
   end
 
-  vim.notify("Edit input buffer and press <F5> to run", vim.log.levels.INFO)
+  require("fidget").notify("Edit input buffer and press <F5> to run", vim.log.levels.INFO)
 end
 
 --- 入力バッファの内容でcargo runを実行する
@@ -238,7 +238,7 @@ function M.run_with_input_buffer()
   local input = table.concat(input_lines, "\n")
 
   if input == "" then
-    vim.notify("Input buffer is empty", vim.log.levels.WARN)
+    require("fidget").notify("Input buffer is empty", vim.log.levels.WARN)
     return
   end
 
@@ -282,7 +282,7 @@ function M.run_with_input_buffer()
   vim.fn.chansend(job_id, input)
   vim.fn.chanclose(job_id, 'stdin')
 
-  vim.notify("Running cargo with input buffer...", vim.log.levels.INFO)
+  require("fidget").notify("Running cargo with input buffer...", vim.log.levels.INFO)
 end
 
 --- cargo runをクリップボードの内容を入力として実行する
@@ -335,7 +335,7 @@ function M.run_with_clipboard()
   vim.fn.chansend(job_id, input)
   vim.fn.chanclose(job_id, 'stdin')
 
-  vim.notify("Running cargo with clipboard input...", vim.log.levels.INFO)
+  require("fidget").notify("Running cargo with clipboard input...", vim.log.levels.INFO)
 end
 
 return M
