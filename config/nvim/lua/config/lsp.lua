@@ -1,9 +1,17 @@
 -- 定数
 local FORMAT_TIMEOUT_MS = 1000
 
+-- nvim-cmp の capabilities を取得
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
 vim.lsp.enable({
   "lua_ls",
   "rust_analyzer",
+})
+
+-- LSP サーバーに capabilities を設定
+vim.lsp.config('*', {
+  capabilities = capabilities,
 })
 
 -- 言語サーバーがアタッチされた時に呼ばれる
