@@ -15,7 +15,10 @@ map('n', '<leader>fh', function()
 end, { desc = 'Telescope help tags' })
 
 -- <leader>w: save
-map("n", "<leader>w", ":w<CR>", { desc = "Save file" })
+map("n", "<leader>w", function()
+  vim.cmd("write")
+  require("fidget").notify("ファイルを保存しました", vim.log.levels.INFO)
+end, { desc = "Save file" })
 
 -- <leader>sv: reload init.lua
 map("n", "<leader>sv", function()
@@ -25,7 +28,7 @@ map("n", "<leader>sv", function()
     end
   end
   dofile(vim.fn.stdpath("config") .. "/init.lua")
-  vim.notify("Reloaded init.lua and related modules", vim.log.levels.INFO)
+  require("fidget").notify("init.luaと関連モジュールを再読み込みしました", vim.log.levels.INFO)
 end, { desc = "Reload init.lua" })
 
 -- <leader>ev: open .config/nvim
