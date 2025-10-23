@@ -4,6 +4,8 @@ local opt = vim.opt
 opt.number = true
 opt.relativenumber = false
 
+opt.wrap = false
+
 -- 検索
 opt.hlsearch = false
 opt.ignorecase = true
@@ -11,8 +13,8 @@ opt.smartcase = true
 
 -- インデント
 opt.expandtab = true
-opt.shiftwidth = 2
-opt.tabstop = 2
+opt.shiftwidth = 4
+opt.tabstop = 4
 opt.smartindent = true
 
 -- 折りたたみ
@@ -35,3 +37,7 @@ opt.updatetime = 250
 opt.timeoutlen = 300
 opt.splitright = true
 opt.splitbelow = true
+
+vim.diagnostic.config({
+  virtual_text = true
+})

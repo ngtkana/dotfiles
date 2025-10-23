@@ -1,6 +1,6 @@
 local map = vim.keymap.set
 
--- <leader>f{f,g,b,h}: telescope
+-- <leader>f{f,g,b,h,d}: telescope
 map('n', '<leader>ff', function()
   require('telescope.builtin').find_files()
 end, { desc = 'Files' })
@@ -17,8 +17,11 @@ map('n', '<leader>fd', function()
   require('telescope.builtin').diagnostics()
 end, { desc = 'Diagnostics' })
 
+--- ga: code action
+map('n', 'ga', vim.lsp.buf.code_action, { desc = 'Code action' })
+
 -- <leader>w: save
-map("n", "<leader>ww", function()
+map("n", "<leader>w", function()
   vim.cmd("write")
   require("fidget").notify("ファイルを保存しました", vim.log.levels.INFO)
 end, { desc = "Save file" })
@@ -43,6 +46,21 @@ end, { desc = "Open config folder" })
 map("n", "<leader>fa", function()
   require("config.utils.procon-bundler").select_and_bundle()
 end, { desc = "Find AC library" })
+
+-- Lspsaga keymaps
+map("n", "K", "<cmd>Lspsaga hover_doc<cr>", { desc = "Hover doc" })
+map("n", "gpd", "<cmd>Lspsaga peek_definition<cr>", { desc = "Peek definition" })
+map("n", "gpt", "<cmd>Lspsaga peek_type_definition<cr>", { desc = "Peek type definition" })
+map("n", "ga", "<cmd>Lspsaga code_action<cr>", { desc = "Code action" })
+map("n", "gra", "<cmd>Lspsaga code_action<cr>", { desc = "Code action" })
+map("n", "gd", "<cmd>Lspsaga goto_definition<cr>", { desc = "Goto definition" })
+map("n", "grd", "<cmd>Lspsaga goto_definition<cr>", { desc = "Goto definition" })
+map("n", "grt", "<cmd>Lspsaga goto_type_definition<cr>", { desc = "Goto type definition" })
+map("n", "grr", "<cmd>Lspsaga finder<cr>", { desc = "References" })
+map("n", "gri", "<cmd>Lspsaga finder imp<cr>", { desc = "Implimentations" })
+map("n", "grc", "<cmd>Lspsaga show_cursor_diagnostics<cr>", { desc = "Cursor diagnostics" })
+map("n", "]d", "<cmd>Lspsaga diagnostic_jump_next<cr>", { desc = "Next diagnostics" })
+map("n", "[d", "<cmd>Lspsaga diagnostic_jump_prev<cr>", { desc = "Next diagnostics" })
 
 -- Cargo 関連のキーマップ
 local cargo = require("config.utils.cargo")

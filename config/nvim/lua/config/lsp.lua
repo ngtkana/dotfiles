@@ -14,6 +14,18 @@ vim.lsp.config('*', {
   capabilities = capabilities,
 })
 
+-- rust-analyzer で cargo make clippy を使用
+vim.lsp.config('rust_analyzer', {
+  capabilities = capabilities,
+  settings = {
+    ['rust-analyzer'] = {
+      check = {
+        command = "clippy",
+      },
+    },
+  },
+})
+
 -- 言語サーバーがアタッチされた時に呼ばれる
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("my.lsp", {}),
