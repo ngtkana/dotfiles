@@ -8,6 +8,7 @@ if not vim.g.vscode then
   vim.lsp.enable({
     "lua_ls",
     "rust_analyzer",
+    "tinymist",
   })
 
   -- LSP サーバーに capabilities を設定
