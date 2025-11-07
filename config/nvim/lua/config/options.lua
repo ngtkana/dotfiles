@@ -8,7 +8,7 @@ opt.wrap = false
 
 -- 検索
 opt.hlsearch = false
-opt.ignorecase = true
+opt.ignorecase = false
 opt.smartcase = true
 
 -- インデント
