@@ -5,6 +5,7 @@ opt.number = true
 opt.relativenumber = false
 
 opt.wrap = false
+opt.ignorecase = false
 
 -- 検索
 opt.hlsearch = false
