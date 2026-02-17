@@ -38,6 +38,10 @@ opt.timeoutlen = 300
 opt.splitright = true
 opt.splitbelow = true
 
+-- 見た目
+opt.background = "light"
+vim.cmd("colorscheme catppuccin-latte")
+
 vim.diagnostic.config({
   virtual_text = true
 })
