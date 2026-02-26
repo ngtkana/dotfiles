@@ -80,11 +80,8 @@ if command -v makers >/dev/null 2>&1; then
 fi
 
 # =============================================================================
-# 共通設定の読み込み
+# そのほか
 # =============================================================================
 
-# 共通設定ファイルの読み込み
-SCRIPT_DIR="$(dirname "${BASH_SOURCE[0]}")"
-if [ -f "$SCRIPT_DIR/shell_common.sh" ]; then
-    source "$SCRIPT_DIR/shell_common.sh"
-fi
+# starship プロンプト
+eval "$(starship init bash)"
