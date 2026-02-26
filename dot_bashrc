@@ -85,3 +85,7 @@ fi
 
 # starship プロンプト
 eval "$(starship init bash)"
+
+# Rust をインストールしたら書かされるやつ 
+. "$HOME/.cargo/env"
+
